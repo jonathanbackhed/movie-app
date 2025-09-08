@@ -9,7 +9,9 @@ export default function RootLayout() {
     <>
       {/* TODO: Ändra till auto */}
       <StatusBar style="dark" />
-      <Stack />
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
     </>
   );
 }
