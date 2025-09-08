@@ -1,6 +1,7 @@
 import tw from "@/lib/tailwind";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDeviceContext } from "twrnc";
 
 export default function RootLayout() {
@@ -9,9 +10,11 @@ export default function RootLayout() {
     <>
       {/* TODO: Ändra till auto */}
       <StatusBar style="dark" />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+      <SafeAreaProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </SafeAreaProvider>
     </>
   );
 }

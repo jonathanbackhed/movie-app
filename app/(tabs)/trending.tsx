@@ -1,10 +1,11 @@
+import SafeArea from "@/components/SafeArea";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
 export default function Trending() {
   return (
-    <View>
+    <SafeArea styles="flex-1 bg-blue-400">
       <Text>Trending</Text>
-    </View>
+    </SafeArea>
   );
 }

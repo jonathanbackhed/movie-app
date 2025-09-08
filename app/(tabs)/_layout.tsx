@@ -1,13 +1,23 @@
 import HapticTab from "@/components/TabBar/HapticTab";
-import BlurTabBarBackground from "@/components/TabBar/TabBarBackground.ios";
+import BlurTabBarBackground from "@/components/TabBar/TabBarBackground";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
 import React from "react";
+import { Platform } from "react-native";
 
 export default function TabBarLayout() {
   return (
     <Tabs
-      screenOptions={{ headerShown: false, tabBarButton: HapticTab, tabBarBackground: BlurTabBarBackground }}>
+      screenOptions={{
+        headerShown: false,
+        tabBarButton: HapticTab,
+        tabBarBackground: BlurTabBarBackground,
+        tabBarStyle: Platform.select({
+          ios: { position: "absolute" },
+          default: {},
+        }),
+        animation: "fade",
+      }}>
       <Tabs.Screen
         name="index"
         options={{
