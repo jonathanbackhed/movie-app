@@ -16,7 +16,7 @@ interface Props {
 
 export default function PreviewCard({ id, title, description, image, rating, year, adult }: Props) {
   return (
-    <Pressable style={tw`flex-row mb-4`} onPress={() => console.log("Pressed", id)}>
+    <Pressable style={tw`flex-row mb-2`} onPress={() => console.log("Pressed", id)}>
       <Image
         source={BASE_IMAGE_URL + "/w92" + image}
         alt="poster"

@@ -1,16 +1,27 @@
-import SafeArea from "@/components/SafeArea";
 import React, { useState } from "react";
-import { Text, View, ScrollView } from "react-native";
+import { Text, View } from "react-native";
 import { useTrendingAll } from "@/lib/hooks/useTrending";
 import tw from "@/lib/tailwind";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PreviewCard from "@/components/PreviewCard";
+import { FlashList } from "@shopify/flash-list";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Trending() {
   const { data, isLoading, error } = useTrendingAll();
+  const queryClient = useQueryClient();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await queryClient.invalidateQueries({ queryKey: ["trendingAll"] });
+    setIsRefreshing(false);
+  };
+
+  const handleLoadMore = () => {};
 
   if (isLoading) {
     return (
@@ -29,33 +40,40 @@ export default function Trending() {
   }
 
   return (
-    <View style={tw`flex-1`}>
-      <SafeAreaView edges={["top"]} style={tw`mx-2 mb-2`}>
-        <Text style={tw`text-3xl font-bold mb-2`}>Trending</Text>
+    // <View style={tw`flex-1 mx-2`}>
+    <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2`}>
+      <Text style={tw`text-3xl font-bold mb-2`}>Trending</Text>
 
-        <SegmentedControl
-          values={["All", "Movies", "TV Shows"]}
-          selectedIndex={selectedIndex}
-          onChange={(e) => {
-            setSelectedIndex(e.nativeEvent.selectedSegmentIndex);
-          }}
-        />
-      </SafeAreaView>
+      <SegmentedControl
+        values={["All", "Movies", "TV Shows"]}
+        selectedIndex={selectedIndex}
+        onChange={(e) => {
+          setSelectedIndex(e.nativeEvent.selectedSegmentIndex);
+        }}
+        style={tw`mb-2`}
+      />
 
-      <ScrollView style={tw`flex-1 mx-2`}>
-        {data.results.map((movie: any) => (
+      <FlashList
+        contentContainerStyle={{ paddingBottom: 90 }}
+        estimatedItemSize={100}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => console.log("End reached")}
+        refreshing={isRefreshing}
+        onRefresh={() => handleRefresh()}
+        data={data.results}
+        renderItem={({ item }: any) => (
           <PreviewCard
-            key={movie.id}
-            id={movie.id}
-            title={movie.title || movie.name}
-            description={movie.overview}
-            image={movie.poster_path}
-            rating={movie.vote_average}
-            year={movie.release_date}
-            adult={movie.adult}
+            key={item.id}
+            id={item.id}
+            title={item.title || item.name}
+            description={item.overview}
+            image={item.poster_path}
+            rating={item.vote_average}
+            year={item.release_date}
+            adult={item.adult}
           />
-        ))}
-      </ScrollView>
-    </View>
+        )}
+      />
+    </SafeAreaView>
   );
 }
