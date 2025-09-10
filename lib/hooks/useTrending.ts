@@ -1,10 +1,17 @@
 import { getTrendingAll } from "@/lib/api/trending";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function useTrendingAll() {
-  return useQuery({
+  return useInfiniteQuery({
     staleTime: Infinity,
     queryKey: ["trendingAll"],
-    queryFn: () => getTrendingAll("week"),
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) => getTrendingAll("week", pageParam),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total_pages) {
+        return lastPage.page + 1;
+      }
+      return null;
+    },
   });
 }
