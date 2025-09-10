@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { useTrendingAll } from "@/lib/hooks/useTrending";
 import tw from "@/lib/tailwind";
@@ -7,17 +7,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import PreviewCard from "@/components/PreviewCard";
 import { FlashList } from "@shopify/flash-list";
 import { useQueryClient } from "@tanstack/react-query";
+import PageHeader from "@/components/PageHeader";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export default function Trending() {
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useTrendingAll();
   const queryClient = useQueryClient();
+  const { getItem } = useAsyncStorage("blurAdult");
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [shouldBlur, setShouldBlur] = useState<boolean>(false);
 
   const flatData =
     data?.pages?.flatMap((page: any) => page.results).filter((item: any) => item.media_type !== "person") ||
     [];
+
+  const readItemFromStorage = async () => {
+    console.log("READING FROM STORAGE!");
+    const item = await getItem();
+    setShouldBlur(item === "y" ? true : false);
+  };
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -31,6 +41,10 @@ export default function Trending() {
     }
   };
 
+  useEffect(() => {
+    readItemFromStorage();
+  }, []);
+
   if (error) {
     return (
       <SafeAreaView style={tw`flex-1 justify-center items-center`}>
@@ -41,7 +55,7 @@ export default function Trending() {
 
   return (
     <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2`}>
-      <Text style={tw`text-3xl font-bold mb-2`}>Trending</Text>
+      <PageHeader title="Trending" />
       <SegmentedControl
         values={["All", "Movies", "TV Shows"]}
         selectedIndex={selectedIndex}
@@ -74,6 +88,7 @@ export default function Trending() {
               rating={item.vote_average}
               year={item.release_date}
               adult={item.adult}
+              shouldBlur={shouldBlur}
             />
           )}
           ListFooterComponent={
