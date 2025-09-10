@@ -4,7 +4,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 export default function BlurTabBarBackground() {
-  return <BlurView tint="systemChromeMaterial" intensity={5} style={StyleSheet.absoluteFill} />;
+  return <BlurView tint="systemChromeMaterial" intensity={95} style={StyleSheet.absoluteFill} />;
 }
 
 export function useBottomTabOverflow() {
