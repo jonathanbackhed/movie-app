@@ -5,7 +5,7 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
 
-export default function TabBarLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{

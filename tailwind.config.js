@@ -3,8 +3,8 @@ module.exports = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      colors: {
-        oggabogga: "#23c5b5",
+      aspectRatio: {
+        "2/3": "2 / 3",
       },
     },
   },

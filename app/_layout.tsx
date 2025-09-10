@@ -1,13 +1,16 @@
 import tw from "@/lib/tailwind";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDeviceContext } from "twrnc";
 
+const queryClient = new QueryClient();
+
 export default function RootLayout() {
   useDeviceContext(tw);
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       {/* TODO: Ändra till auto */}
       <StatusBar style="dark" />
       <SafeAreaProvider>
@@ -15,6 +18,6 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaProvider>
-    </>
+    </QueryClientProvider>
   );
 }
