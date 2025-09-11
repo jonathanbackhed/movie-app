@@ -24,7 +24,6 @@ export default function Trending() {
     [];
 
   const readItemFromStorage = async () => {
-    console.log("READING FROM STORAGE!");
     const item = await getItem();
     setShouldBlur(item === "y" ? true : false);
   };

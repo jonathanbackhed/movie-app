@@ -18,5 +18,6 @@ export function useSearchAll(query: string) {
     queryKey: ["search", debouncedQuery],
     queryFn: () => getSearchAll(debouncedQuery, 1),
     enabled: !!debouncedQuery && debouncedQuery.length > 2,
+    placeholderData: (previousData) => previousData,
   });
 }

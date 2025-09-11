@@ -1,19 +1,37 @@
 import PageHeader from "@/components/PageHeader";
-import React, { useState, useEffect } from "react";
-import { Text, View, TextInput } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { Text, View, TextInput, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "@/lib/tailwind";
 import { FlashList } from "@shopify/flash-list";
 import PreviewCard from "@/components/PreviewCard";
 import { useSearchAll } from "@/lib/hooks/useSearch";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Search() {
-  const [search, setSearch] = useState<string>("a");
+  const [search, setSearch] = useState<string>("");
   const [shouldBlur, setShouldBlur] = useState<boolean>(false);
+  const textInputRef = useRef<TextInput>(null);
+  const isFocused = useIsFocused();
 
   const { data, isLoading, isError } = useSearchAll(search);
+  const { getItem } = useAsyncStorage("blurAdult");
 
   const dataFiltered = data?.results?.filter((item: any) => item.media_type !== "person") || [];
+
+  const readItemFromStorage = async () => {
+    const item = await getItem();
+    setShouldBlur(item === "y" ? true : false);
+  };
+
+  useEffect(() => {
+    if (isFocused && textInputRef.current && search === "") textInputRef.current?.focus();
+  }, [isFocused]);
+
+  useEffect(() => {
+    readItemFromStorage();
+  }, []);
 
   if (isError) {
     return (
@@ -27,12 +45,17 @@ export default function Search() {
     <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2`}>
       <PageHeader title="Search" />
       <TextInput
+        ref={textInputRef}
         editable
         numberOfLines={1}
         maxLength={50}
         value={search}
         onChangeText={setSearch}
-        style={tw`bg-zinc-200 p-2 rounded-xl`}
+        placeholder="Search for a movie or TV show"
+        clearButtonMode="always"
+        inputMode="text"
+        autoComplete="off"
+        style={tw`bg-zinc-200 p-3 rounded-xl mb-2`}
       />
 
       {isLoading ? (
@@ -44,6 +67,7 @@ export default function Search() {
           contentContainerStyle={{ paddingBottom: 90 }}
           estimatedItemSize={20}
           data={dataFiltered}
+          onScroll={() => Keyboard.dismiss()}
           renderItem={({ item }: any) => (
             <PreviewCard
               key={item.id}
