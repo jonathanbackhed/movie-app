@@ -3,6 +3,7 @@ import React from "react";
 import tw from "@/lib/tailwind";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 
 interface Props {
   id: number;
@@ -11,12 +12,19 @@ interface Props {
   image: string;
   rating: number;
   year: string;
+  type: "movie" | "tv";
   adult: boolean;
 }
 
-export default function PreviewCard({ id, title, description, image, rating, year, adult }: Props) {
+export default function PreviewCard({ id, title, description, image, rating, year, type, adult }: Props) {
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.push(`/media/${id}?type=${type}`);
+  };
+
   return (
-    <Pressable style={tw`flex-row mb-2`} onPress={() => console.log("Pressed", id)}>
+    <Pressable style={tw`flex-row mb-2`} onPress={handlePress}>
       <Image
         source={BASE_IMAGE_URL + "/w92" + image}
         alt="poster"

@@ -94,6 +94,7 @@ export default function Trending() {
               image={item.poster_path}
               rating={item.vote_average}
               year={item.release_date || item.first_air_date}
+              type={item.media_type}
               adult={item.adult}
             />
           )}
