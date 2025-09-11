@@ -9,19 +9,27 @@ import { FlashList } from "@shopify/flash-list";
 import { useQueryClient } from "@tanstack/react-query";
 import PageHeader from "@/components/PageHeader";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Trending() {
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useTrendingAll();
   const queryClient = useQueryClient();
   const { getItem } = useAsyncStorage("blurAdult");
+  const isFocused = useIsFocused();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [shouldBlur, setShouldBlur] = useState<boolean>(false);
 
   const flatData =
-    data?.pages?.flatMap((page: any) => page.results).filter((item: any) => item.media_type !== "person") ||
-    [];
+    data?.pages
+      ?.flatMap((page: any) => page.results)
+      .filter((item: any) => {
+        if (item.media_type === "person") return false;
+        if (shouldBlur && item.adult === true) return false;
+
+        return true;
+      }) || [];
 
   const readItemFromStorage = async () => {
     const item = await getItem();
@@ -41,8 +49,8 @@ export default function Trending() {
   };
 
   useEffect(() => {
-    readItemFromStorage();
-  }, []);
+    if (isFocused) readItemFromStorage();
+  }, [isFocused]);
 
   if (error) {
     return (
@@ -87,7 +95,6 @@ export default function Trending() {
               rating={item.vote_average}
               year={item.release_date}
               adult={item.adult}
-              shouldBlur={shouldBlur}
             />
           )}
           ListFooterComponent={

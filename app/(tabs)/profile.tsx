@@ -5,17 +5,20 @@ import tw from "@/lib/tailwind";
 import PageHeader from "@/components/PageHeader";
 import { Image } from "expo-image";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Profile() {
-  const { setItem } = useAsyncStorage("blurAdult");
+  const { setItem } = useAsyncStorage("hideAdult");
+  const queryClient = useQueryClient();
 
-  const [blurAdult, setBlurAdult] = useState<boolean>(false);
+  const [hideAdult, setHideAdult] = useState<boolean>(false);
 
   useEffect(() => {
-    storeBlurAdultData(blurAdult ? "y" : "n");
-  }, [blurAdult]);
+    writeItemToStorage(hideAdult ? "y" : "n");
+    queryClient.invalidateQueries();
+  }, [hideAdult]);
 
-  const storeBlurAdultData = async (value: string) => await setItem(value);
+  const writeItemToStorage = async (value: string) => await setItem(value);
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={tw`flex-1 mx-2 mb-[60px]`}>
@@ -26,12 +29,12 @@ export default function Profile() {
         <Text style={tw`text-3xl font-bold`}>John Doe</Text>
       </View>
 
-      {/* <Switch onValueChange={() => setIsEnabled((e) => !e)} value={isEnabled} /> */}
-
       <View style={tw`mb-auto`}>
-        <View style={tw`flex-row justify-between items-center`}>
-          <Text style={tw`text-lg`}>Blur content marked as adult:</Text>
-          <Switch onValueChange={() => setBlurAdult((e) => !e)} value={blurAdult} />
+        <View style={tw`bg-zinc-200 mx-6 p-2 rounded-xl`}>
+          <View style={tw`flex-row justify-between p-2`}>
+            <Text style={tw`text-lg`}>Hide content marked as adult</Text>
+            <Switch onValueChange={() => setHideAdult((e) => !e)} value={hideAdult} />
+          </View>
         </View>
       </View>
 

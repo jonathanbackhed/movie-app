@@ -11,27 +11,30 @@ import { useIsFocused } from "@react-navigation/native";
 
 export default function Search() {
   const [search, setSearch] = useState<string>("");
-  const [shouldBlur, setShouldBlur] = useState<boolean>(false);
+  const [hideAdult, setHideAdult] = useState<boolean>(false);
   const textInputRef = useRef<TextInput>(null);
   const isFocused = useIsFocused();
 
   const { data, isLoading, isError } = useSearchAll(search);
-  const { getItem } = useAsyncStorage("blurAdult");
-
-  const dataFiltered = data?.results?.filter((item: any) => item.media_type !== "person") || [];
+  const { getItem } = useAsyncStorage("hideAdult");
 
   const readItemFromStorage = async () => {
     const item = await getItem();
-    setShouldBlur(item === "y" ? true : false);
+    setHideAdult(item === "y" ? true : false);
   };
+
+  const dataFiltered =
+    data?.results?.filter((item: any) => {
+      if (item.media_type === "person") return false;
+      if (hideAdult && item.adult === true) return false;
+
+      return true;
+    }) || [];
 
   useEffect(() => {
     if (isFocused && textInputRef.current && search === "") textInputRef.current?.focus();
+    if (isFocused) readItemFromStorage();
   }, [isFocused]);
-
-  useEffect(() => {
-    readItemFromStorage();
-  }, []);
 
   if (isError) {
     return (
@@ -78,7 +81,6 @@ export default function Search() {
               rating={item.vote_average}
               year={item.release_date}
               adult={item.adult}
-              shouldBlur={shouldBlur}
             />
           )}
         />
