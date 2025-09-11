@@ -79,7 +79,7 @@ export default function Search() {
               description={item.overview}
               image={item.poster_path}
               rating={item.vote_average}
-              year={item.release_date}
+              year={item.release_date || item.first_air_date}
               adult={item.adult}
             />
           )}
