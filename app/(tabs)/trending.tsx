@@ -10,31 +10,25 @@ import { useQueryClient } from "@tanstack/react-query";
 import PageHeader from "@/components/PageHeader";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 export default function Trending() {
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useTrendingAll();
   const queryClient = useQueryClient();
-  const { getItem } = useAsyncStorage("blurAdult");
-  const isFocused = useIsFocused();
+  const { hideAdult } = useSettingsStore();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [shouldBlur, setShouldBlur] = useState<boolean>(false);
 
   const flatData =
     data?.pages
       ?.flatMap((page: any) => page.results)
       .filter((item: any) => {
         if (item.media_type === "person") return false;
-        if (shouldBlur && item.adult === true) return false;
+        if (hideAdult && item.adult === true) return false;
 
         return true;
       }) || [];
-
-  const readItemFromStorage = async () => {
-    const item = await getItem();
-    setShouldBlur(item === "y" ? true : false);
-  };
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -47,10 +41,6 @@ export default function Trending() {
       fetchNextPage();
     }
   };
-
-  useEffect(() => {
-    if (isFocused) readItemFromStorage();
-  }, [isFocused]);
 
   if (error) {
     return (
@@ -79,7 +69,6 @@ export default function Trending() {
       ) : (
         <FlashList
           contentContainerStyle={{ paddingBottom: 90 }}
-          estimatedItemSize={145}
           onEndReachedThreshold={0.8}
           onEndReached={handleLoadMore}
           refreshing={isRefreshing}

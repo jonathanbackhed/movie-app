@@ -1,36 +1,22 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView } from "react-native";
+import React from "react";
 import tw from "@/lib/tailwind";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useIsPreview, useLocalSearchParams, useRouter } from "expo-router";
 import { useMediaDetails } from "@/lib/hooks/useMedia";
-import { useIsFocused } from "@react-navigation/native";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { IGenre } from "@/interfaces/movies/IMovie";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import * as WebBrowser from "expo-web-browser";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
-  const isFocused = useIsFocused();
-  const { getItem } = useAsyncStorage("hideAdult");
   const router = useRouter();
-
-  const [hideAdult, setHideAdult] = useState<boolean>(false);
+  const isPreview = useIsPreview();
+  const { hideAdult } = useSettingsStore();
 
   const { data, isLoading, isError } = useMediaDetails(type, id);
 
-  const readItemFromStorage = async () => {
-    const item = await getItem();
-    setHideAdult(item === "y" ? true : false);
-  };
-
-  if (data?.adult && hideAdult) router.back();
-
-  useEffect(() => {
-    if (isFocused) readItemFromStorage();
-  }, [isFocused]);
+  if (data?.adult && hideAdult && !isPreview) router.back();
 
   return (
     <ScrollView style={tw`flex-1 bg-blue-400`}>
@@ -44,7 +30,7 @@ export default function MediaDetail() {
           blurRadius={30}
         />
         <Image
-          source={BASE_IMAGE_URL + "/w154" + data?.poster_path}
+          source={BASE_IMAGE_URL + "/w342" + data?.poster_path}
           alt="poster"
           contentFit="contain"
           cachePolicy="none"
@@ -62,9 +48,9 @@ export default function MediaDetail() {
           </Text>
           <Text style={tw`mr-2 font-bold`}>{data?.vote_average?.toFixed(1) || "N/A"}</Text>
         </View>
-        <Pressable onPress={() => WebBrowser.openBrowserAsync(`https://www.imdb.com/title/${data?.imdb_id}`)}>
+        {/* <Pressable onPress={() => WebBrowser.openBrowserAsync(`https://www.imdb.com/title/${data?.imdb_id}`)}>
           <FontAwesome name="imdb" size={48} color="#f3ce13" />
-        </Pressable>
+        </Pressable> */}
       </View>
 
       <ScrollView horizontal>

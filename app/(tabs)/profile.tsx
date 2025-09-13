@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Text, View, Switch } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "@/lib/tailwind";
 import PageHeader from "@/components/PageHeader";
 import { Image } from "expo-image";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import { useQueryClient } from "@tanstack/react-query";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 export default function Profile() {
-  const { setItem } = useAsyncStorage("hideAdult");
-  const queryClient = useQueryClient();
+  const { hideAdult, setHideAdult } = useSettingsStore();
 
-  const [hideAdult, setHideAdult] = useState<boolean>(false);
-
-  useEffect(() => {
-    writeItemToStorage(hideAdult ? "y" : "n");
-    queryClient.invalidateQueries();
-  }, [hideAdult]);
-
-  const writeItemToStorage = async (value: string) => await setItem(value);
+  const handleToggleAdult = (newValue: boolean) => {
+    setHideAdult(newValue);
+  };
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={tw`flex-1 mx-2 mb-[60px]`}>
@@ -33,7 +26,7 @@ export default function Profile() {
         <View style={tw`bg-zinc-200 mx-6 p-2 rounded-xl`}>
           <View style={tw`flex-row justify-between p-2`}>
             <Text style={tw`text-lg`}>Hide content marked as adult</Text>
-            <Switch onValueChange={() => setHideAdult((e) => !e)} value={hideAdult} />
+            <Switch onValueChange={handleToggleAdult} value={hideAdult} />
           </View>
         </View>
       </View>

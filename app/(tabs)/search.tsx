@@ -1,27 +1,20 @@
 import PageHeader from "@/components/PageHeader";
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, TextInput, Keyboard } from "react-native";
+import { Text, TextInput, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "@/lib/tailwind";
 import { FlashList } from "@shopify/flash-list";
 import PreviewCard from "@/components/PreviewCard";
 import { useSearchAll } from "@/lib/hooks/useSearch";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 export default function Search() {
   const [search, setSearch] = useState<string>("");
-  const [hideAdult, setHideAdult] = useState<boolean>(false);
   const textInputRef = useRef<TextInput>(null);
   const isFocused = useIsFocused();
-
+  const { hideAdult } = useSettingsStore();
   const { data, isLoading, isError } = useSearchAll(search);
-  const { getItem } = useAsyncStorage("hideAdult");
-
-  const readItemFromStorage = async () => {
-    const item = await getItem();
-    setHideAdult(item === "y" ? true : false);
-  };
 
   const dataFiltered =
     data?.results?.filter((item: any) => {
@@ -33,7 +26,6 @@ export default function Search() {
 
   useEffect(() => {
     if (isFocused && textInputRef.current && search === "") textInputRef.current?.focus();
-    if (isFocused) readItemFromStorage();
   }, [isFocused]);
 
   if (isError) {
@@ -68,7 +60,6 @@ export default function Search() {
       ) : (
         <FlashList
           contentContainerStyle={{ paddingBottom: 90 }}
-          estimatedItemSize={20}
           data={dataFiltered}
           onScroll={() => Keyboard.dismiss()}
           renderItem={({ item }: any) => (
