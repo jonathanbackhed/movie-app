@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Text } from "react-native";
 import { useTrendingAll } from "@/lib/hooks/useTrending";
 import tw from "@/lib/tailwind";
@@ -8,8 +8,6 @@ import PreviewCard from "@/components/PreviewCard";
 import { FlashList } from "@shopify/flash-list";
 import { useQueryClient } from "@tanstack/react-query";
 import PageHeader from "@/components/PageHeader";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import { useIsFocused } from "@react-navigation/native";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 export default function Trending() {
@@ -63,8 +61,8 @@ export default function Trending() {
       />
 
       {isLoading ? (
-        <SafeAreaView>
-          <Text style={tw`text-center my-2 text-xl`}>Loading...</Text>
+        <SafeAreaView style={tw`flex-1 items-center`}>
+          <Text style={tw`text-xl`}>Loading...</Text>
         </SafeAreaView>
       ) : (
         <FlashList

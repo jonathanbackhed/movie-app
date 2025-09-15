@@ -23,7 +23,7 @@ export default function Profile() {
       </View>
 
       <View style={tw`mb-auto`}>
-        <View style={tw`bg-zinc-200 mx-6 p-2 rounded-xl`}>
+        <View style={tw`bg-zinc-200 mx-2 p-2 rounded-xl`}>
           <View style={tw`flex-row justify-between p-2`}>
             <Text style={tw`text-lg`}>Hide content marked as adult</Text>
             <Switch onValueChange={handleToggleAdult} value={hideAdult} />
