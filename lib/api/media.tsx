@@ -12,7 +12,7 @@ export async function getMovieCredits(id: string) {
 
 // https://api.themoviedb.org/3/movie/{movie_id}/images
 export async function getMovieImages(id: string) {
-  return apiFetch(`/movie/${id}/images`);
+  return apiFetch(`/movie/${id}/images`, "&language=en");
 }
 
 // https://api.themoviedb.org/3/movie/{movie_id}/recommendations
@@ -47,7 +47,7 @@ export async function getSeriesCredits(id: string) {
 
 // https://api.themoviedb.org/3/tv/{series_id}/images
 export async function getSeriesImages(id: string) {
-  return apiFetch(`/tv/${id}/images`);
+  return apiFetch(`/tv/${id}/images`, "&language=en");
 }
 
 // https://api.themoviedb.org/3/tv/{series_id}/recommendations

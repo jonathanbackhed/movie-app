@@ -13,6 +13,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import Credits from "@/components/media/Credits";
 import ErrorScreen from "@/components/screens/ErrorScreen";
+import Images from "@/components/media/Images";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -114,7 +115,10 @@ export default function MediaDetail() {
         </View>
       </Modal>
 
-      <Credits credits={combinedCredits} />
+      <Credits data={combinedCredits} />
+
+      <Images title="Backdrops" data={images?.data?.backdrops || []} />
+      <Images title="Alternate posters" data={images?.data?.posters || []} isPoster />
     </ScrollView>
   );
 }
