@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   useDeviceContext(tw);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* TODO: Ändra till auto */}
@@ -16,7 +17,17 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="media/[id]" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="media/[id]"
+            options={{
+              headerShown: true,
+              headerTransparent: true,
+              title: "",
+              headerBackButtonDisplayMode: "minimal",
+              headerBackButtonMenuEnabled: true,
+              headerBackTitle: "Back",
+            }}
+          />
         </Stack>
       </SafeAreaProvider>
     </QueryClientProvider>
