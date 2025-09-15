@@ -1,20 +1,33 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import tw from "@/lib/tailwind";
 import { BackdropSize, PosterSize } from "@/constants/enums";
+import { Link } from "expo-router";
 
 interface Props {
-  file_path: string;
+  id?: number;
+  path: string;
   isPoster?: boolean;
+  type?: "movie" | "tv";
 }
 
-export default function ImagePreviewCard({ file_path, isPoster }: Props) {
-  return (
+export default function ImagePreviewCard({ id, path, isPoster, type }: Props) {
+  return id ? (
+    <Link href={`/media/${id}?type=${type}`} style={tw`w-[92px] aspect-2/3 mx-2`}>
+      <Image
+        source={BASE_IMAGE_URL + PosterSize.w154 + path}
+        alt="image"
+        style={tw`w-full h-full rounded-xl`}
+        cachePolicy="none"
+        contentFit="contain"
+      />
+    </Link>
+  ) : (
     <View style={tw`${isPoster ? "w-[92px] aspect-2/3" : "w-[300px] aspect-video"} mx-2`}>
       <Image
-        source={BASE_IMAGE_URL + (isPoster ? PosterSize.w154 : BackdropSize.w780) + file_path}
+        source={BASE_IMAGE_URL + (isPoster ? PosterSize.w154 : BackdropSize.w780) + path}
         alt="image"
         style={tw`w-full h-full rounded-xl`}
         cachePolicy="none"

@@ -5,15 +5,13 @@ import tw from "@/lib/tailwind";
 import ImagePreviewCard from "./ImagePreviewCard";
 
 interface Props {
-  title: string;
   data: [];
-  isPoster?: boolean;
 }
 
-export default function Images({ title, data, isPoster = false }: Props) {
+export default function Recommended({ data }: Props) {
   return (
     <View>
-      {title && <Text style={tw`text-2xl font-bold mb-2 ml-2`}>{title}</Text>}
+      <Text style={tw`text-2xl font-bold mb-2 ml-2`}>Recommended</Text>
       <FlashList
         style={tw`mb-2`}
         contentContainerStyle={{ marginBottom: 8 }}
@@ -21,7 +19,13 @@ export default function Images({ title, data, isPoster = false }: Props) {
         showsHorizontalScrollIndicator={false}
         data={data}
         renderItem={({ item }: { item: any }) => (
-          <ImagePreviewCard key={item.id} path={item.file_path} isPoster={isPoster} />
+          <ImagePreviewCard
+            key={item?.id}
+            id={item?.id}
+            path={item?.poster_path}
+            isPoster={true}
+            type={item?.media_type}
+          />
         )}
       />
     </View>
