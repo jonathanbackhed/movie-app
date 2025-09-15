@@ -9,6 +9,8 @@ import { FlashList } from "@shopify/flash-list";
 import { useQueryClient } from "@tanstack/react-query";
 import PageHeader from "@/components/PageHeader";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
+import LoadingScreen from "@/components/screens/LoadingScreen";
+import ErrorScreen from "@/components/screens/ErrorScreen";
 
 export default function Trending() {
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useTrendingAll();
@@ -40,14 +42,6 @@ export default function Trending() {
     }
   };
 
-  if (error) {
-    return (
-      <SafeAreaView style={tw`flex-1 justify-center items-center`}>
-        <Text style={tw`text-lg`}>Failed to load trending</Text>
-      </SafeAreaView>
-    );
-  }
-
   return (
     <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2`}>
       <PageHeader title="Trending" />
@@ -61,9 +55,9 @@ export default function Trending() {
       />
 
       {isLoading ? (
-        <SafeAreaView style={tw`flex-1 items-center`}>
-          <Text style={tw`text-xl`}>Loading...</Text>
-        </SafeAreaView>
+        <LoadingScreen message="Loading..." />
+      ) : error ? (
+        <ErrorScreen message="Failed to load trending" />
       ) : (
         <FlashList
           contentContainerStyle={{ paddingBottom: 90 }}

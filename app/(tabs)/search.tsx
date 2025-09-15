@@ -8,6 +8,8 @@ import PreviewCard from "@/components/PreviewCard";
 import { useSearchAll } from "@/lib/hooks/useSearch";
 import { useIsFocused } from "@react-navigation/native";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
+import LoadingScreen from "@/components/screens/LoadingScreen";
+import ErrorScreen from "@/components/screens/ErrorScreen";
 
 export default function Search() {
   const [search, setSearch] = useState<string>("");
@@ -28,14 +30,6 @@ export default function Search() {
     if (isFocused && textInputRef.current && search === "") textInputRef.current?.focus();
   }, [isFocused]);
 
-  if (isError) {
-    return (
-      <SafeAreaView style={tw`flex-1 justify-center items-center`}>
-        <Text style={tw`text-lg`}>Failed to load trending</Text>
-      </SafeAreaView>
-    );
-  }
-
   return (
     <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2`}>
       <PageHeader title="Search" />
@@ -54,9 +48,9 @@ export default function Search() {
       />
 
       {isLoading ? (
-        <SafeAreaView>
-          <Text style={tw`text-center my-2 text-xl`}>Loading...</Text>
-        </SafeAreaView>
+        <LoadingScreen message="Loading..." />
+      ) : isError ? (
+        <ErrorScreen message="Failed to load search results" />
       ) : (
         <FlashList
           contentContainerStyle={{ paddingBottom: 90 }}

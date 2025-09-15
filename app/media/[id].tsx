@@ -12,6 +12,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import Credits from "@/components/media/Credits";
+import ErrorScreen from "@/components/screens/ErrorScreen";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -28,11 +29,7 @@ export default function MediaDetail() {
   if (details?.data?.adult && hideAdult && !isPreview) router.back();
 
   if (details?.isError) {
-    return (
-      <SafeAreaView style={tw`flex-1 justify-center items-center`}>
-        <Text style={tw`text-xl`}>Failed to load media</Text>
-      </SafeAreaView>
-    );
+    return <ErrorScreen message={`Failed to load ${type === "movie" ? "movie" : "show"} details`} />;
   }
 
   return (
