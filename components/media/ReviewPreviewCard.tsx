@@ -48,14 +48,14 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
           )}
           <Text style={tw`font-bold flex-1`}>{name}</Text>
           <View style={tw`flex items-end`}>
-            {/* <Text style={tw`font-bold`}>{date.split("T")[0]}</Text> */}
             <Text style={tw`font-bold`}>
               {rating}
               <AntDesign name="star" size={12} color="#ffdf20" />
             </Text>
-            <Text style={tw`text-xs`}>{updated_at.split("T")[0]}</Text>
+            <Text style={tw`text-xs`}>{date.split("T")[0]}</Text>
           </View>
         </View>
+        <Text style={tw`text-xs`}>Updated: {updated_at.split("T")[0]}</Text>
       </Pressable>
       <Modal
         animationType="slide"
@@ -65,16 +65,35 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
         onRequestClose={() => setIsModalOpen(false)}>
         <View style={tw`flex-1`}>
           <View style={tw`flex-row justify-between p-6 pb-0 mb-2`}>
-            <View>
-              <Text style={tw`text-3xl font-bold`}>Overview</Text>
-              <View style={tw`flex-row`}>
-                <Text style={tw`font-bold mr-2`}>{date.split("T")[0]}</Text>
-                {updated_at && <Text style={tw`text-xs`}>Updated: {updated_at.split("T")[0]}</Text>}
-              </View>
-            </View>
+            <Text style={tw`text-3xl font-bold`}>Overview</Text>
             <Button title="Close" onPress={() => setIsModalOpen(false)} />
           </View>
           <ScrollView style={tw`px-6`}>
+            <View style={tw`flex-row items-center mb-1`}>
+              {path ? (
+                <Image
+                  source={BASE_IMAGE_URL + ProfileSize.w45 + path}
+                  alt="image"
+                  style={tw`w-[30px] h-[30px] rounded-full mr-1`}
+                  cachePolicy="none"
+                  contentFit="contain"
+                />
+              ) : (
+                <GlassView
+                  style={tw`w-[30px] h-[30px] rounded-full mr-1 bg-zinc-300`}
+                  glassEffectStyle="regular"
+                />
+              )}
+              <Text style={tw`font-bold flex-1`}>{name}</Text>
+              <View style={tw`flex items-end`}>
+                <Text style={tw`font-bold`}>
+                  {rating}
+                  <AntDesign name="star" size={12} color="#ffdf20" />
+                </Text>
+                <Text style={tw`text-xs`}>{date.split("T")[0]}</Text>
+              </View>
+            </View>
+            <Text style={tw`font-bold mb-4`}>Updated: {updated_at.split("T")[0]}</Text>
             <Text style={tw`mb-10`}>{content}</Text>
           </ScrollView>
         </View>
