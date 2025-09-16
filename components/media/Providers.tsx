@@ -24,7 +24,7 @@ export default function Providers({ data }: Props) {
             alt="profile image"
             contentFit="cover"
             cachePolicy="none"
-            style={tw`w-[50px] h-[50px] rounded-full`}
+            style={tw`w-[35px] h-[35px] rounded-full`}
           />
         </View>
       )}

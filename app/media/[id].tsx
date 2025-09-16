@@ -44,7 +44,7 @@ export default function MediaDetail() {
 
   return (
     <ScrollView style={tw`flex-1`} contentContainerStyle={{ paddingBottom: 20 }}>
-      <View style={tw`relative h-80 w-screen`}>
+      <View style={tw`relative h-80 w-screen mb-2`}>
         <Image
           source={BASE_IMAGE_URL + "/w780" + details?.data?.backdrop_path}
           alt="backdrop"
@@ -92,7 +92,7 @@ export default function MediaDetail() {
           <FontAwesome name="imdb" size={48} color="#f3ce13" />
         </Pressable> */}
       </View>
-      <ScrollView horizontal style={tw`mb-2`}>
+      <ScrollView horizontal style={tw`mb-4`}>
         <View style={tw`flex-row mx-2`}>
           {details?.data?.genres?.map((genre: IGenre) => (
             <Text key={genre.id} style={tw`text-sm font-bold mr-2 bg-zinc-300 rounded-xl px-2 py-1`}>
@@ -130,7 +130,7 @@ export default function MediaDetail() {
 
       <Reviews data={reviews?.data?.results || []} />
 
-      <Images title="Backdrops" data={images?.data?.backdrops || []} />
+      <Images title="Images" data={images?.data?.backdrops || []} />
       {/* <Images title="Alternate posters" data={images?.data?.posters || []} isPoster /> */}
 
       <Recommended data={recommendations?.data?.results || []} />
