@@ -49,12 +49,12 @@ export function useFullMediaDetails(type: "movie" | "tv", id: string) {
         queryFn: () => (type === "movie" ? getMovieReviews(id) : getSeriesReviews(id)),
         enabled: !!type && !!id,
       },
-      // {
-      //   staleTime: STALE_TIME,
-      //   queryKey: ["mediaProviders", type, id],
-      //   queryFn: () => (type === "movie" ? getMovieProviders(id) : getSeriesProviders(id)),
-      //   enabled: !!type && !!id,
-      // },
+      {
+        staleTime: STALE_TIME,
+        queryKey: ["mediaProviders", type, id],
+        queryFn: () => (type === "movie" ? getMovieProviders(id) : getSeriesProviders(id)),
+        enabled: !!type && !!id,
+      },
     ],
   });
 }

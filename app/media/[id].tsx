@@ -16,6 +16,7 @@ import ErrorScreen from "@/components/screens/ErrorScreen";
 import Images from "@/components/media/Images";
 import Recommended from "@/components/media/Recommended";
 import Reviews from "@/components/media/Reviews";
+import Providers from "@/components/media/Providers";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -25,9 +26,15 @@ export default function MediaDetail() {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const [details, credits, images, recommendations, reviews] = useFullMediaDetails(type, id);
+  const [details, credits, images, recommendations, reviews, providers] = useFullMediaDetails(type, id);
 
   const combinedCredits = [...(credits?.data?.cast || []), ...(credits?.data?.crew || [])];
+
+  const combinedProviders = [
+    ...(providers?.data?.results?.US?.flatrate || []),
+    // ...(providers?.data?.results?.US?.rent || []),
+    // ...(providers?.data?.results?.US?.buy || []),
+  ];
 
   if (details?.data?.adult && hideAdult && !isPreview) router.back();
 
@@ -116,6 +123,8 @@ export default function MediaDetail() {
           <Text>{details?.data?.overview}</Text>
         </View>
       </Modal>
+
+      <Providers data={combinedProviders} />
 
       <Credits data={combinedCredits} />
 
