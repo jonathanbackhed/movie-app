@@ -20,11 +20,6 @@ export async function getMovieRecommendations(id: string) {
   return apiFetch(`/movie/${id}/recommendations`);
 }
 
-// https://api.themoviedb.org/3/movie/{movie_id}/similar
-export async function getMovieSimilar(id: string) {
-  return apiFetch(`/movie/${id}/similar`);
-}
-
 // https://api.themoviedb.org/3/movie/{movie_id}/reviews
 export async function getMovieReviews(id: string) {
   return apiFetch(`/movie/${id}/reviews`);
@@ -53,11 +48,6 @@ export async function getSeriesImages(id: string) {
 // https://api.themoviedb.org/3/tv/{series_id}/recommendations
 export async function getSeriesRecommendations(id: string) {
   return apiFetch(`/tv/${id}/recommendations`);
-}
-
-// https://api.themoviedb.org/3/tv/{series_id}/similar
-export async function getSeriesSimilar(id: string) {
-  return apiFetch(`/tv/${id}/similar`);
 }
 
 // https://api.themoviedb.org/3/tv/{series_id}/reviews

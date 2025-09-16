@@ -15,6 +15,7 @@ import Credits from "@/components/media/Credits";
 import ErrorScreen from "@/components/screens/ErrorScreen";
 import Images from "@/components/media/Images";
 import Recommended from "@/components/media/Recommended";
+import Reviews from "@/components/media/Reviews";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -24,7 +25,7 @@ export default function MediaDetail() {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const [details, credits, images, recommendations] = useFullMediaDetails(type, id);
+  const [details, credits, images, recommendations, reviews] = useFullMediaDetails(type, id);
 
   const combinedCredits = [...(credits?.data?.cast || []), ...(credits?.data?.crew || [])];
 
@@ -69,11 +70,11 @@ export default function MediaDetail() {
                 )}` ||
                 "N/A"}
             </Text>
-            <Text style={tw`font-bold`}>{details?.data?.vote_average?.toFixed(1) || "N/A"}</Text>
-            {/* <Text style={tw`mr-2 text-zinc-500 text-xs`}>/10</Text> */}
-            <Text style={tw`mr-2`}>
-              <AntDesign name="star" size={12} color="black" />
+            <Text style={tw`font-bold mr-2`}>
+              {details?.data?.vote_average?.toFixed(1) || "N/A"}
+              <AntDesign name="star" size={12} color="#ffdf20" />
             </Text>
+            {/* <Text style={tw`mr-2 text-zinc-500 text-xs`}>/10</Text> */}
             <Text style={tw`mr-2 font-bold`}>
               {details?.data?.runtime &&
                 `${Math.floor(details?.data.runtime / 60)}h ${Math.floor(details?.data.runtime % 60)}m`}
@@ -118,8 +119,10 @@ export default function MediaDetail() {
 
       <Credits data={combinedCredits} />
 
+      <Reviews data={reviews?.data?.results || []} />
+
       <Images title="Backdrops" data={images?.data?.backdrops || []} />
-      <Images title="Alternate posters" data={images?.data?.posters || []} isPoster />
+      {/* <Images title="Alternate posters" data={images?.data?.posters || []} isPoster /> */}
 
       <Recommended data={recommendations?.data?.results || []} />
     </ScrollView>
