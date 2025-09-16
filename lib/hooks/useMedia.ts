@@ -1,4 +1,4 @@
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import {
   getMovieDetails,
   getMovieCredits,
@@ -12,6 +12,7 @@ import {
   getSeriesRecommendations,
   getSeriesReviews,
   getSeriesProviders,
+  getSeriesSeasonDetails,
 } from "../api/media";
 
 const STALE_TIME = 1000 * 60 * 5; // 5 minuter
@@ -56,5 +57,14 @@ export function useFullMediaDetails(type: "movie" | "tv", id: string) {
         enabled: !!type && !!id,
       },
     ],
+  });
+}
+
+export function useSeasonEpisodes(id: string, seasonNumber: number, enabled: boolean = false) {
+  return useQuery({
+    staleTime: STALE_TIME,
+    queryKey: ["seasonEpisodes", id, seasonNumber],
+    queryFn: () => getSeriesSeasonDetails(id, seasonNumber),
+    enabled: !!id && !!seasonNumber && seasonNumber > 0 && enabled,
   });
 }

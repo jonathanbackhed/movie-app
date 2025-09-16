@@ -59,3 +59,8 @@ export async function getSeriesReviews(id: string) {
 export async function getSeriesProviders(id: string) {
   return apiFetch(`/tv/${id}/watch/providers`);
 }
+
+// https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}
+export async function getSeriesSeasonDetails(id: string, seasonNumber: number) {
+  return apiFetch(`/tv/${id}/season/${seasonNumber}`);
+}

@@ -17,6 +17,7 @@ import Images from "@/components/media/Images";
 import Recommended from "@/components/media/Recommended";
 import Reviews from "@/components/media/Reviews";
 import Providers from "@/components/media/Providers";
+import Seasons from "@/components/media/Seasons";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -27,6 +28,9 @@ export default function MediaDetail() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [details, credits, images, recommendations, reviews, providers] = useFullMediaDetails(type, id);
+
+  const filteredSeasons =
+    details?.data?.seasons?.filter((season: any) => season.name.toLowerCase() !== "specials") || [];
 
   const combinedCredits = [...(credits?.data?.cast || []), ...(credits?.data?.crew || [])];
 
@@ -133,6 +137,8 @@ export default function MediaDetail() {
       </Modal>
 
       <Providers data={combinedProviders} />
+
+      {details?.data?.seasons && <Seasons data={filteredSeasons} seriesId={details?.data?.id} />}
 
       <Credits data={combinedCredits} />
 

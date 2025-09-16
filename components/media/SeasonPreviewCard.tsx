@@ -1,0 +1,143 @@
+import { View, Text, Pressable, Modal, Button, ScrollView } from "react-native";
+import React, { useState } from "react";
+import tw from "@/lib/tailwind";
+import { Image } from "expo-image";
+import { BASE_IMAGE_URL } from "@/constants/settings";
+import { PosterSize } from "@/constants/enums";
+import { GlassView } from "expo-glass-effect";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Entypo from "@expo/vector-icons/Entypo";
+import { useSeasonEpisodes } from "@/lib/hooks/useMedia";
+import LoadingScreen from "../screens/LoadingScreen";
+import ErrorScreen from "../screens/ErrorScreen";
+
+interface Props {
+  seriesId: string;
+  path: string;
+  name: string;
+  rating: number;
+  overview: string;
+  date: string;
+  season_number: number;
+  episode_count: number;
+}
+
+export default function SeasonPreviewCard({
+  seriesId,
+  path,
+  name,
+  rating,
+  overview,
+  date,
+  season_number,
+  episode_count,
+}: Props) {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const { data: episodesData, isLoading, error } = useSeasonEpisodes(seriesId, season_number, isModalOpen);
+
+  return (
+    <>
+      <Pressable
+        onPress={() => setIsModalOpen(true)}
+        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-lg p-2 shadow-sm flex-row`}>
+        <Image
+          source={BASE_IMAGE_URL + PosterSize.w154 + path}
+          alt="poster art"
+          style={tw`w-[69px] aspect-2/3 rounded-xl mr-2`}
+          cachePolicy="none"
+          contentFit="contain"
+        />
+        <View style={tw`flex-1`}>
+          <View style={tw`flex-row justify-between`}>
+            <View>
+              <Text style={tw`font-bold`}>{name}</Text>
+              <Text style={tw`text-xs`}>
+                {episode_count > 1 ? `${episode_count} episodes` : `${episode_count} episode`}
+              </Text>
+            </View>
+            <Text style={tw`font-bold`}>
+              {rating}
+              <AntDesign name="star" size={12} color="#ffdf20" />
+            </Text>
+          </View>
+          <View style={tw`flex-1 flex-row items-center`}>
+            <Text style={tw`text-xs flex-1`} numberOfLines={3} ellipsizeMode="tail">
+              {overview}
+            </Text>
+            <Entypo name="chevron-right" size={24} style={tw`w-6`} />
+          </View>
+          <View style={tw``}>
+            <Text style={tw`text-xs`}>{date.split("-")[0]}</Text>
+          </View>
+        </View>
+      </Pressable>
+      <Modal
+        animationType="slide"
+        allowSwipeDismissal
+        visible={isModalOpen}
+        presentationStyle="pageSheet"
+        onRequestClose={() => setIsModalOpen(false)}>
+        <View style={tw`flex-1`}>
+          <View style={tw`flex-row justify-between p-6 pb-0 mb-2`}>
+            <Text style={tw`text-3xl font-bold`}>{name}</Text>
+            <Button title="Close" onPress={() => setIsModalOpen(false)} />
+          </View>
+          <ScrollView style={tw`px-6`}>
+            <View style={tw`flex-row items-center mb-1 justify-between`}>
+              <Image
+                source={BASE_IMAGE_URL + PosterSize.w92 + path}
+                alt="image"
+                style={tw`w-[46px] aspect-2/3 rounded-xl mr-1`}
+                cachePolicy="none"
+                contentFit="contain"
+              />
+              {/* <Text style={tw`font-bold flex-1`}>{name}</Text> */}
+              <View style={tw`flex items-end`}>
+                <Text style={tw`font-bold`}>
+                  {rating}
+                  <AntDesign name="star" size={12} color="#ffdf20" />
+                </Text>
+                <Text style={tw`text-xs`}>{date.split("T")[0]}</Text>
+              </View>
+            </View>
+            {/* <Text style={tw`font-bold mb-4`}>Updated: {date.split("T")[0]}</Text> */}
+            <Text style={tw`mb-2`}>{overview}</Text>
+
+            <View style={tw`mb-10`}>
+              <Text style={tw`text-3xl font-bold`}>Episodes</Text>
+              {isLoading && <LoadingScreen message="Loading episodes..." />}
+
+              {error && <ErrorScreen message="Failed to load episodes" />}
+
+              {episodesData?.episodes?.map((episode: any) => (
+                <View key={episode.id} style={tw`mb-4 p-4 bg-zinc-100 rounded-lg`}>
+                  <View style={tw`flex-row justify-between items-start mb-2`}>
+                    <View style={tw`flex-1`}>
+                      <Text style={tw`font-bold text-lg`}>
+                        {episode.episode_number}. {episode.name}
+                      </Text>
+                      <Text style={tw`text-sm text-gray-600`}>
+                        {episode.air_date && new Date(episode.air_date).toLocaleDateString()}
+                      </Text>
+                    </View>
+                    <Text style={tw`font-bold`}>
+                      {episode.vote_average?.toFixed(1)}
+                      <AntDesign name="star" size={12} color="#ffdf20" />
+                    </Text>
+                  </View>
+                  <Text style={tw`text-sm`} numberOfLines={3}>
+                    {episode.overview || "No overview available"}
+                  </Text>
+                  {episode.runtime && (
+                    <Text style={tw`text-xs text-gray-500 mt-1`}>{episode.runtime} minutes</Text>
+                  )}
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
+    </>
+  );
+}
