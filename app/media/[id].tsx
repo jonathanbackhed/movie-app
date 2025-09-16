@@ -82,10 +82,18 @@ export default function MediaDetail() {
               <AntDesign name="star" size={12} color="#ffdf20" />
             </Text>
             {/* <Text style={tw`mr-2 text-zinc-500 text-xs`}>/10</Text> */}
-            <Text style={tw`mr-2 font-bold`}>
-              {details?.data?.runtime &&
-                `${Math.floor(details?.data.runtime / 60)}h ${Math.floor(details?.data.runtime % 60)}m`}
-            </Text>
+            {details?.data?.runtime ? (
+              <Text style={tw`mr-2 font-bold`}>
+                {details?.data?.runtime &&
+                  `${Math.floor(details?.data.runtime / 60)}h ${Math.floor(details?.data.runtime % 60)}m`}
+              </Text>
+            ) : (
+              <Text style={tw`mr-2 font-bold`}>
+                {details?.data?.number_of_seasons > 1
+                  ? `${details?.data?.number_of_seasons} seasons`
+                  : `${details?.data?.number_of_seasons} season`}
+              </Text>
+            )}
           </View>
         </View>
         {/* <Pressable onPress={() => WebBrowser.openBrowserAsync(`https://www.imdb.com/title/${details?.data?.imdb_id}`)}>
