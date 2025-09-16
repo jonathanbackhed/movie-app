@@ -43,7 +43,7 @@ export default function MediaDetail() {
   }
 
   return (
-    <ScrollView style={tw`flex-1`}>
+    <ScrollView style={tw`flex-1`} contentContainerStyle={{ paddingBottom: 20 }}>
       <View style={tw`relative h-80 w-screen`}>
         <Image
           source={BASE_IMAGE_URL + "/w780" + details?.data?.backdrop_path}
@@ -134,6 +134,8 @@ export default function MediaDetail() {
       {/* <Images title="Alternate posters" data={images?.data?.posters || []} isPoster /> */}
 
       <Recommended data={recommendations?.data?.results || []} />
+
+      <Text style={tw`text-center text-xs`}>Providers provided by JustWatch</Text>
     </ScrollView>
   );
 }
