@@ -19,6 +19,7 @@ import Reviews from "@/components/media/Reviews";
 import Providers from "@/components/media/Providers";
 import Seasons from "@/components/media/Seasons";
 import { formatRuntime } from "@/lib/utils/formatRuntime";
+import { formatDateShowYearOnly } from "@/lib/utils/formatDate";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -75,12 +76,9 @@ export default function MediaDetail() {
           <Text style={tw`text-3xl font-bold`}>{details?.data?.title || details?.data?.name}</Text>
           <View style={tw`flex-row items-center`}>
             <Text style={tw`font-bold mr-2`}>
-              {details?.data?.release_date?.slice(0, 4) ||
-                `${details?.data?.first_air_date?.slice(0, 4)} - ${details?.data?.last_air_date?.slice(
-                  0,
-                  4
-                )}` ||
-                "N/A"}
+              {details?.data?.release_date
+                ? formatDateShowYearOnly(details?.data?.release_date)
+                : formatDateShowYearOnly(details?.data?.first_air_date, details?.data?.last_air_date)}
             </Text>
             <Text style={tw`font-bold mr-2`}>
               {details?.data?.vote_average?.toFixed(1) || "N/A"}
