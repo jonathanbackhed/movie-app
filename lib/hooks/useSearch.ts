@@ -14,7 +14,7 @@ export function useSearchAll(query: string) {
   }, [query]);
 
   return useQuery({
-    staleTime: 1000 * 60 * 5, // 5 minuter
+    staleTime: 1000 * 60 * 5, // 5 minutes
     queryKey: ["search", debouncedQuery],
     queryFn: () => getSearchAll(debouncedQuery, 1),
     enabled: !!debouncedQuery && debouncedQuery.length > 2,

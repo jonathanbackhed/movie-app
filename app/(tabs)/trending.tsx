@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Text } from "react-native";
-import { useTrendingAll } from "@/lib/hooks/useTrending";
+import { useTrending } from "@/lib/hooks/useTrending";
 import tw from "@/lib/tailwind";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,12 +13,18 @@ import LoadingScreen from "@/components/screens/LoadingScreen";
 import ErrorScreen from "@/components/screens/ErrorScreen";
 
 export default function Trending() {
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useTrendingAll();
-  const queryClient = useQueryClient();
-  const { hideAdult } = useSettingsStore();
-
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const scrollRef = useRef<any>(null);
+
+  const [all, setAll] = useState<number>(0);
+  const [movie, setMovie] = useState<number>(0);
+  const [tv, setTv] = useState<number>(0);
+
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useTrending(selectedIndex);
+  const queryClient = useQueryClient();
+  const { hideAdult } = useSettingsStore();
 
   const flatData =
     data?.pages
@@ -32,7 +38,7 @@ export default function Trending() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await queryClient.removeQueries({ queryKey: ["trendingAll"] });
+    await queryClient.removeQueries({ queryKey: ["trending"] });
     setIsRefreshing(false);
   };
 
@@ -41,6 +47,30 @@ export default function Trending() {
       fetchNextPage();
     }
   };
+
+  const handleScroll = useCallback(
+    (event: any) => {
+      const { contentOffset } = event.nativeEvent;
+
+      if (selectedIndex === 0) {
+        setAll(contentOffset.y);
+      } else if (selectedIndex === 1) {
+        setMovie(contentOffset.y);
+      } else if (selectedIndex === 2) {
+        setTv(contentOffset.y);
+      }
+    },
+    [selectedIndex]
+  );
+
+  useEffect(() => {
+    if (scrollRef.current && flatData.length > 0) {
+      scrollRef.current.scrollToOffset({
+        offset: selectedIndex === 0 ? all : selectedIndex === 1 ? movie : tv,
+        animated: true,
+      });
+    }
+  }, [flatData, selectedIndex]);
 
   return (
     <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2`}>
@@ -60,6 +90,8 @@ export default function Trending() {
         <ErrorScreen message="Failed to load trending" />
       ) : (
         <FlashList
+          ref={scrollRef}
+          onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 90 }}
           onEndReachedThreshold={0.8}
           onEndReached={handleLoadMore}

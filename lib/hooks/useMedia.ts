@@ -15,7 +15,7 @@ import {
   getSeriesSeasonDetails,
 } from "../api/media";
 
-const STALE_TIME = 1000 * 60 * 5; // 5 minuter
+const STALE_TIME = 1000 * 60 * 5; // 5 minutes
 
 export function useFullMediaDetails(type: "movie" | "tv", id: string) {
   return useQueries({
