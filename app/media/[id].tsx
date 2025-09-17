@@ -18,6 +18,7 @@ import Recommended from "@/components/media/Recommended";
 import Reviews from "@/components/media/Reviews";
 import Providers from "@/components/media/Providers";
 import Seasons from "@/components/media/Seasons";
+import { formatRuntime } from "@/lib/utils/formatRuntime";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -84,13 +85,10 @@ export default function MediaDetail() {
             <Text style={tw`font-bold mr-2`}>
               {details?.data?.vote_average?.toFixed(1) || "N/A"}
               <AntDesign name="star" size={12} color="#ffdf20" />
+              {/* <Text style={tw`mr-2 text-zinc-500 text-xs`}>/10</Text> */}
             </Text>
-            {/* <Text style={tw`mr-2 text-zinc-500 text-xs`}>/10</Text> */}
             {details?.data?.runtime ? (
-              <Text style={tw`mr-2 font-bold`}>
-                {details?.data?.runtime &&
-                  `${Math.floor(details?.data.runtime / 60)}h ${Math.floor(details?.data.runtime % 60)}m`}
-              </Text>
+              <Text style={tw`mr-2 font-bold`}>{formatRuntime(details?.data?.runtime)}</Text>
             ) : (
               <Text style={tw`mr-2 font-bold`}>
                 {details?.data?.number_of_seasons > 1

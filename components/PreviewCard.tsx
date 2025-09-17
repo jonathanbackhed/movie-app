@@ -5,6 +5,7 @@ import { BASE_IMAGE_URL } from "@/constants/settings";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface Props {
   id: number;
@@ -48,7 +49,10 @@ export default function PreviewCard({ id, title, description, image, rating, yea
             </Text>
             <View style={tw`flex-row flex-none mt-2`}>
               <Text style={tw`mr-2 font-bold text-xs`}>{year ? year.slice(0, 4) : "N/A"}</Text>
-              <Text style={tw`mr-2 font-bold text-xs`}>{rating.toFixed(1)}</Text>
+              <Text style={tw`mr-2 font-bold text-xs`}>
+                {rating.toFixed(1)}
+                <AntDesign name="star" size={12} color="#ffdf20" />
+              </Text>
             </View>
           </View>
         </View>

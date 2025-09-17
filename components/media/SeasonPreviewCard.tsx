@@ -10,6 +10,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { useSeasonEpisodes } from "@/lib/hooks/useMedia";
 import LoadingScreen from "../screens/LoadingScreen";
 import ErrorScreen from "../screens/ErrorScreen";
+import { formatRuntime } from "@/lib/utils/formatRuntime";
 
 interface Props {
   seriesId: string;
@@ -95,42 +96,42 @@ export default function SeasonPreviewCard({
               {/* <Text style={tw`font-bold flex-1`}>{name}</Text> */}
               <View style={tw`flex items-end`}>
                 <Text style={tw`font-bold`}>
-                  {rating}
+                  {rating?.toFixed(1)}
                   <AntDesign name="star" size={12} color="#ffdf20" />
                 </Text>
                 <Text style={tw`text-xs`}>{date.split("T")[0]}</Text>
               </View>
             </View>
-            {/* <Text style={tw`font-bold mb-4`}>Updated: {date.split("T")[0]}</Text> */}
             <Text style={tw`mb-2`}>{overview}</Text>
 
             <View style={tw`mb-10`}>
-              <Text style={tw`text-3xl font-bold`}>Episodes</Text>
+              <Text style={tw`text-3xl font-bold mb-2`}>Episodes</Text>
+
               {isLoading && <LoadingScreen message="Loading episodes..." />}
 
               {error && <ErrorScreen message="Failed to load episodes" />}
 
               {episodesData?.episodes?.map((episode: any) => (
-                <View key={episode.id} style={tw`mb-4 p-4 bg-zinc-100 rounded-lg`}>
+                <View key={episode?.id} style={tw`mb-2 p-2 bg-zinc-100 rounded-lg`}>
                   <View style={tw`flex-row justify-between items-start mb-2`}>
                     <View style={tw`flex-1`}>
                       <Text style={tw`font-bold text-lg`}>
-                        {episode.episode_number}. {episode.name}
+                        {episode?.episode_number}. {episode?.name}
                       </Text>
                       <Text style={tw`text-sm text-gray-600`}>
-                        {episode.air_date && new Date(episode.air_date).toLocaleDateString()}
+                        {episode?.air_date && new Date(episode?.air_date).toLocaleDateString()}
                       </Text>
                     </View>
                     <Text style={tw`font-bold`}>
-                      {episode.vote_average?.toFixed(1)}
+                      {episode?.vote_average?.toFixed(1)}
                       <AntDesign name="star" size={12} color="#ffdf20" />
                     </Text>
                   </View>
                   <Text style={tw`text-sm`} numberOfLines={3}>
-                    {episode.overview || "No overview available"}
+                    {episode?.overview || "No overview available"}
                   </Text>
-                  {episode.runtime && (
-                    <Text style={tw`text-xs text-gray-500 mt-1`}>{episode.runtime} minutes</Text>
+                  {episode?.runtime && (
+                    <Text style={tw`text-xs text-gray-500 mt-1`}>{formatRuntime(episode?.runtime)}</Text>
                   )}
                 </View>
               ))}
