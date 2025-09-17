@@ -6,6 +6,7 @@ import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import * as Sharing from "expo-sharing";
 
 interface Props {
   id: number;
@@ -25,8 +26,10 @@ export default function PreviewCard({ id, title, description, image, rating, yea
     setHideAdult(true);
   };
 
-  const handleShare = () => {
-    console.log("share");
+  const handleShare = async () => {
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync("https://www.themoviedb.org/");
+    }
   };
 
   return (
