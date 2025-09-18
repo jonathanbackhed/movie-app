@@ -7,5 +7,5 @@ interface Props {
 }
 
 export default function PageHeader({ title }: Props) {
-  return <Text style={tw`text-3xl font-bold mb-2`}>{title}</Text>;
+  return <Text style={tw`text-3xl font-bold mb-2 dark:text-white`}>{title}</Text>;
 }

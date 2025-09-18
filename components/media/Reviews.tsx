@@ -11,7 +11,7 @@ interface Props {
 export default function Reviews({ data }: Props) {
   return (
     <View>
-      <Text style={tw`text-2xl font-bold mb-2 ml-2`}>Reviews</Text>
+      <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Reviews</Text>
       <FlashList
         style={tw`mb-2`}
         contentContainerStyle={{ marginBottom: 8 }}

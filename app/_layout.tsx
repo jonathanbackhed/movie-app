@@ -12,10 +12,9 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* TODO: Ändra till auto */}
-      <StatusBar style="dark" />
+      <StatusBar />
       <SafeAreaProvider>
-        <Stack>
+        <Stack key={tw.memoBuster}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
             name="media/[id]"

@@ -12,7 +12,7 @@ interface Props {
 export default function Seasons({ data, seriesId }: Props) {
   return (
     <View>
-      <Text style={tw`text-2xl font-bold mb-2 ml-2`}>Seasons</Text>
+      <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Seasons</Text>
       <FlashList
         style={tw`mb-2`}
         contentContainerStyle={{ marginBottom: 8 }}

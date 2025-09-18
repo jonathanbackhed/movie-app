@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { memo, useCallback } from "react";
 import tw from "@/lib/tailwind";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { Image } from "expo-image";
@@ -19,7 +19,16 @@ interface Props {
   adult: boolean;
 }
 
-export default function PreviewCard({ id, title, description, image, rating, year, type, adult }: Props) {
+const PreviewCard = memo(function PreviewCard({
+  id,
+  title,
+  description,
+  image,
+  rating,
+  year,
+  type,
+  adult,
+}: Props) {
   const { setHideAdult } = useSettingsStore();
 
   const handleHideAdult = () => {
@@ -44,15 +53,20 @@ export default function PreviewCard({ id, title, description, image, rating, yea
             style={tw`w-[92px] h-[138px] aspect-2/3 rounded-xl`}
           />
           <View style={tw`p-1 pl-2 flex-1`}>
-            <Text numberOfLines={1} ellipsizeMode="tail" style={tw`text-xl font-extrabold flex-none`}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={tw`text-xl font-extrabold flex-none dark:text-white`}>
               {title}
             </Text>
-            <Text numberOfLines={3} ellipsizeMode="tail" style={tw`flex-1`}>
+            <Text numberOfLines={3} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
               {description}
             </Text>
             <View style={tw`flex-row flex-none mt-2`}>
-              <Text style={tw`mr-2 font-bold text-xs`}>{year ? year.slice(0, 4) : "N/A"}</Text>
-              <Text style={tw`mr-2 font-bold text-xs`}>
+              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
+                {year ? year.slice(0, 4) : "N/A"}
+              </Text>
+              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
                 {rating.toFixed(1)}
                 <AntDesign name="star" size={12} color="#ffdf20" />
               </Text>
@@ -73,4 +87,6 @@ export default function PreviewCard({ id, title, description, image, rating, yea
       )}
     </Link>
   );
-}
+});
+
+export default PreviewCard;
