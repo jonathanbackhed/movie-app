@@ -24,12 +24,12 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
     <>
       <Pressable
         onPress={() => setIsModalOpen(true)}
-        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-lg p-2 shadow-sm`}>
+        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-lg p-2 shadow-sm dark:bg-zinc-900`}>
         <View style={tw`flex-1 flex-row items-center mb-1`}>
-          <Text numberOfLines={7} ellipsizeMode="tail" style={tw`flex-1 `}>
+          <Text numberOfLines={7} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
             {content}
           </Text>
-          <Entypo name="chevron-right" size={24} style={tw`w-6`} />
+          <Entypo name="chevron-right" size={24} style={tw`w-6 dark:text-white`} />
         </View>
         <View style={tw`flex-row items-center`}>
           {path ? (
@@ -46,16 +46,16 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
               glassEffectStyle="regular"
             />
           )}
-          <Text style={tw`font-bold flex-1`}>{name}</Text>
+          <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
           <View style={tw`flex items-end`}>
-            <Text style={tw`font-bold`}>
+            <Text style={tw`font-bold dark:text-white`}>
               {rating}
               <AntDesign name="star" size={12} color="#ffdf20" />
             </Text>
-            <Text style={tw`text-xs`}>{date.split("T")[0]}</Text>
+            <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
           </View>
         </View>
-        <Text style={tw`text-xs`}>Updated: {updated_at.split("T")[0]}</Text>
+        <Text style={tw`text-xs dark:text-white`}>Updated: {updated_at.split("T")[0]}</Text>
       </Pressable>
       <Modal
         animationType="slide"
@@ -63,9 +63,9 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
         visible={isModalOpen}
         presentationStyle="pageSheet"
         onRequestClose={() => setIsModalOpen(false)}>
-        <View style={tw`flex-1`}>
+        <View style={tw`flex-1 dark:bg-black`}>
           <View style={tw`flex-row justify-between p-6 pb-0 mb-2`}>
-            <Text style={tw`text-3xl font-bold`}>Overview</Text>
+            <Text style={tw`text-3xl font-bold dark:text-white`}>Overview</Text>
             <Button title="Close" onPress={() => setIsModalOpen(false)} />
           </View>
           <ScrollView style={tw`px-6`}>
@@ -84,17 +84,17 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
                   glassEffectStyle="regular"
                 />
               )}
-              <Text style={tw`font-bold flex-1`}>{name}</Text>
+              <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
               <View style={tw`flex items-end`}>
-                <Text style={tw`font-bold`}>
+                <Text style={tw`font-bold dark:text-white`}>
                   {rating}
                   <AntDesign name="star" size={12} color="#ffdf20" />
                 </Text>
-                <Text style={tw`text-xs`}>{date.split("T")[0]}</Text>
+                <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
               </View>
             </View>
-            <Text style={tw`font-bold mb-4`}>Updated: {updated_at.split("T")[0]}</Text>
-            <Text style={tw`mb-10`}>{content}</Text>
+            <Text style={tw`font-bold mb-4 dark:text-white`}>Updated: {updated_at.split("T")[0]}</Text>
+            <Text style={tw`mb-10 dark:text-white`}>{content}</Text>
           </ScrollView>
         </View>
       </Modal>

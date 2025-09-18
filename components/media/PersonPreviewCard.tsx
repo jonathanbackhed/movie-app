@@ -27,8 +27,8 @@ export default function PersonPreviewCard({ id, name, role, profile_path }: Prop
         />
       )}
       {/* <View style={tw`w-[70px] h-[70px] rounded-full bg-zinc-300`}></View> */}
-      <Text style={tw`text-sm font-bold`}>{name}</Text>
-      <Text style={tw`text-xs`}>{role}</Text>
+      <Text style={tw`text-sm font-bold dark:text-white`}>{name}</Text>
+      <Text style={tw`text-xs dark:text-white`}>{role}</Text>
     </View>
   );
 }

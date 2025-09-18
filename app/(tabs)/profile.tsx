@@ -14,29 +14,31 @@ export default function Profile() {
   };
 
   return (
-    <SafeAreaView edges={["top", "bottom"]} style={tw`flex-1 mx-2 mb-[60px]`}>
-      <PageHeader title="Profile" />
+    <View style={tw`flex-1 dark:bg-black`}>
+      <SafeAreaView edges={["top", "bottom"]} style={tw`flex-1 mx-2 mb-[60px]`}>
+        <PageHeader title="Profile" />
 
-      <View style={tw`items-center justify-center mb-2`}>
-        <View style={tw`my-4 bg-zinc-700 h-40 w-40 rounded-full`}></View>
-        <Text style={tw`text-3xl font-bold`}>John Doe</Text>
-      </View>
+        <View style={tw`items-center justify-center mb-2`}>
+          <View style={tw`my-4 bg-zinc-700 dark:bg-zinc-500 h-40 w-40 rounded-full`}></View>
+          <Text style={tw`text-3xl font-bold dark:text-white`}>John Doe</Text>
+        </View>
 
-      <View style={tw`mb-auto`}>
-        <View style={tw`bg-zinc-200 mx-2 p-2 rounded-xl`}>
-          <View style={tw`flex-row justify-between p-2`}>
-            <Text style={tw`text-lg`}>Hide content marked as adult</Text>
-            <Switch onValueChange={handleToggleAdult} value={hideAdult} />
+        <View style={tw`mb-auto`}>
+          <View style={tw`bg-zinc-200 dark:bg-zinc-800 mx-2 p-2 rounded-xl`}>
+            <View style={tw`flex-row justify-between p-2`}>
+              <Text style={tw`text-lg dark:text-white`}>Hide content marked as adult</Text>
+              <Switch onValueChange={handleToggleAdult} value={hideAdult} />
+            </View>
           </View>
         </View>
-      </View>
 
-      <Image
-        source="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
-        alt="tmdb logo"
-        contentFit="contain"
-        style={tw`h-4`}
-      />
-    </SafeAreaView>
+        <Image
+          source="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
+          alt="tmdb logo"
+          contentFit="contain"
+          style={tw`h-4`}
+        />
+      </SafeAreaView>
+    </View>
   );
 }

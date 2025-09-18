@@ -41,7 +41,7 @@ export default function SeasonPreviewCard({
     <>
       <Pressable
         onPress={() => setIsModalOpen(true)}
-        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-lg p-2 shadow-sm flex-row`}>
+        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-lg p-2 shadow-sm flex-row dark:bg-zinc-900`}>
         <Image
           source={BASE_IMAGE_URL + PosterSize.w154 + path}
           alt="poster art"
@@ -52,24 +52,24 @@ export default function SeasonPreviewCard({
         <View style={tw`flex-1`}>
           <View style={tw`flex-row justify-between`}>
             <View>
-              <Text style={tw`font-bold`}>{name}</Text>
-              <Text style={tw`text-xs`}>
+              <Text style={tw`font-bold dark:text-white`}>{name}</Text>
+              <Text style={tw`text-xs dark:text-white`}>
                 {episode_count > 1 ? `${episode_count} episodes` : `${episode_count} episode`}
               </Text>
             </View>
-            <Text style={tw`font-bold`}>
+            <Text style={tw`font-bold dark:text-white`}>
               {rating}
               <AntDesign name="star" size={12} color="#ffdf20" />
             </Text>
           </View>
           <View style={tw`flex-1 flex-row items-center`}>
-            <Text style={tw`text-xs flex-1`} numberOfLines={3} ellipsizeMode="tail">
+            <Text style={tw`text-xs flex-1 dark:text-white`} numberOfLines={3} ellipsizeMode="tail">
               {overview}
             </Text>
-            <Entypo name="chevron-right" size={24} style={tw`w-6`} />
+            <Entypo name="chevron-right" size={24} style={tw`w-6 dark:text-white`} />
           </View>
-          <View style={tw``}>
-            <Text style={tw`text-xs`}>{date.split("-")[0]}</Text>
+          <View>
+            <Text style={tw`text-xs dark:text-white`}>{date.split("-")[0]}</Text>
           </View>
         </View>
       </Pressable>
@@ -79,9 +79,9 @@ export default function SeasonPreviewCard({
         visible={isModalOpen}
         presentationStyle="pageSheet"
         onRequestClose={() => setIsModalOpen(false)}>
-        <View style={tw`flex-1`}>
+        <View style={tw`flex-1 dark:bg-black`}>
           <View style={tw`flex-row justify-between p-6 pb-0 mb-2`}>
-            <Text style={tw`text-3xl font-bold`}>{name}</Text>
+            <Text style={tw`text-3xl font-bold dark:text-white`}>{name}</Text>
             <Button title="Close" onPress={() => setIsModalOpen(false)} />
           </View>
           <ScrollView style={tw`px-6`}>
@@ -95,43 +95,45 @@ export default function SeasonPreviewCard({
               />
               {/* <Text style={tw`font-bold flex-1`}>{name}</Text> */}
               <View style={tw`flex items-end`}>
-                <Text style={tw`font-bold`}>
+                <Text style={tw`font-bold dark:text-white`}>
                   {rating?.toFixed(1)}
                   <AntDesign name="star" size={12} color="#ffdf20" />
                 </Text>
-                <Text style={tw`text-xs`}>{date.split("T")[0]}</Text>
+                <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
               </View>
             </View>
-            <Text style={tw`mb-2`}>{overview}</Text>
+            <Text style={tw`mb-2 dark:text-white`}>{overview}</Text>
 
             <View style={tw`mb-10`}>
-              <Text style={tw`text-3xl font-bold mb-2`}>Episodes</Text>
+              <Text style={tw`text-3xl font-bold mb-2 dark:text-white`}>Episodes</Text>
 
               {isLoading && <LoadingScreen message="Loading episodes..." />}
 
               {error && <ErrorScreen message="Failed to load episodes" />}
 
               {episodesData?.episodes?.map((episode: any) => (
-                <View key={episode?.id} style={tw`mb-2 p-2 bg-zinc-100 rounded-lg`}>
+                <View key={episode?.id} style={tw`mb-2 p-2 bg-zinc-100 rounded-lg dark:bg-zinc-900`}>
                   <View style={tw`flex-row justify-between items-start mb-2`}>
                     <View style={tw`flex-1`}>
-                      <Text style={tw`font-bold text-lg`}>
+                      <Text style={tw`font-bold text-lg dark:text-white`}>
                         {episode?.episode_number}. {episode?.name}
                       </Text>
-                      <Text style={tw`text-sm text-gray-600`}>
+                      <Text style={tw`text-sm text-gray-600 dark:text-white`}>
                         {episode?.air_date && new Date(episode?.air_date).toLocaleDateString()}
                       </Text>
                     </View>
-                    <Text style={tw`font-bold`}>
+                    <Text style={tw`font-bold dark:text-white`}>
                       {episode?.vote_average?.toFixed(1)}
                       <AntDesign name="star" size={12} color="#ffdf20" />
                     </Text>
                   </View>
-                  <Text style={tw`text-sm`} numberOfLines={3}>
+                  <Text style={tw`text-sm dark:text-white`} numberOfLines={3}>
                     {episode?.overview || "No overview available"}
                   </Text>
                   {episode?.runtime && (
-                    <Text style={tw`text-xs text-gray-500 mt-1`}>{formatRuntime(episode?.runtime)}</Text>
+                    <Text style={tw`text-xs text-gray-500 mt-1 dark:text-white`}>
+                      {formatRuntime(episode?.runtime)}
+                    </Text>
                   )}
                 </View>
               ))}

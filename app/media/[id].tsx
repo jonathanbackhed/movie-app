@@ -49,7 +49,7 @@ export default function MediaDetail() {
   }
 
   return (
-    <ScrollView style={tw`flex-1`} contentContainerStyle={{ paddingBottom: 20 }}>
+    <ScrollView style={tw`flex-1 dark:bg-black`} contentContainerStyle={{ paddingBottom: 20 }}>
       <View style={tw`relative h-80 w-screen mb-2`}>
         <Image
           source={BASE_IMAGE_URL + "/w780" + details?.data?.backdrop_path}
@@ -73,22 +73,24 @@ export default function MediaDetail() {
       </View>
       <View style={tw`mx-2 mb-2 flex-row justify-between items-center`}>
         <View>
-          <Text style={tw`text-3xl font-bold`}>{details?.data?.title || details?.data?.name}</Text>
+          <Text style={tw`text-3xl font-bold dark:text-white`}>
+            {details?.data?.title || details?.data?.name}
+          </Text>
           <View style={tw`flex-row items-center`}>
-            <Text style={tw`font-bold mr-2`}>
+            <Text style={tw`font-bold mr-2 dark:text-white`}>
               {details?.data?.release_date
                 ? formatDateShowYearOnly(details?.data?.release_date)
                 : formatDateShowYearOnly(details?.data?.first_air_date, details?.data?.last_air_date)}
             </Text>
-            <Text style={tw`font-bold mr-2`}>
+            <Text style={tw`font-bold mr-2 dark:text-white`}>
               {details?.data?.vote_average?.toFixed(1) || "N/A"}
               <AntDesign name="star" size={12} color="#ffdf20" />
               {/* <Text style={tw`mr-2 text-zinc-500 text-xs`}>/10</Text> */}
             </Text>
             {details?.data?.runtime ? (
-              <Text style={tw`mr-2 font-bold`}>{formatRuntime(details?.data?.runtime)}</Text>
+              <Text style={tw`mr-2 font-bold dark:text-white`}>{formatRuntime(details?.data?.runtime)}</Text>
             ) : (
-              <Text style={tw`mr-2 font-bold`}>
+              <Text style={tw`mr-2 font-bold dark:text-white`}>
                 {details?.data?.number_of_seasons > 1
                   ? `${details?.data?.number_of_seasons} seasons`
                   : `${details?.data?.number_of_seasons} season`}
@@ -103,7 +105,9 @@ export default function MediaDetail() {
       <ScrollView horizontal style={tw`mb-4`}>
         <View style={tw`flex-row mx-2`}>
           {details?.data?.genres?.map((genre: IGenre) => (
-            <Text key={genre.id} style={tw`text-sm font-bold mr-2 bg-zinc-300 rounded-xl px-2 py-1`}>
+            <Text
+              key={genre.id}
+              style={tw`text-sm font-bold mr-2 bg-zinc-300 dark:bg-zinc-800 dark:text-white rounded-xl px-2 py-1`}>
               {genre.name}
             </Text>
           ))}
@@ -112,10 +116,10 @@ export default function MediaDetail() {
       <Pressable
         onPress={() => setIsModalOpen(true)}
         style={tw`flex-row justify-between items-center mx-2 mb-2`}>
-        <Text numberOfLines={3} ellipsizeMode="tail" style={tw`flex-1`}>
+        <Text numberOfLines={3} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
           {details?.data?.overview}
         </Text>
-        <Entypo name="chevron-right" size={24} style={tw`w-6`} />
+        <Entypo name="chevron-right" size={24} style={tw`w-6 dark:text-white`} />
       </Pressable>
       <Modal
         animationType="slide"
@@ -123,12 +127,12 @@ export default function MediaDetail() {
         visible={isModalOpen}
         presentationStyle="pageSheet"
         onRequestClose={() => setIsModalOpen(false)}>
-        <View style={tw`flex-1 p-6`}>
+        <View style={tw`flex-1 p-6 dark:bg-black`}>
           <View style={tw`flex-row justify-between`}>
-            <Text style={tw`text-3xl font-bold mb-2`}>Overview</Text>
+            <Text style={tw`text-3xl font-bold mb-2 dark:text-white`}>Overview</Text>
             <Button title="Close" onPress={() => setIsModalOpen(false)} />
           </View>
-          <Text>{details?.data?.overview}</Text>
+          <Text style={tw`dark:text-white`}>{details?.data?.overview}</Text>
         </View>
       </Modal>
 
@@ -145,7 +149,7 @@ export default function MediaDetail() {
 
       <Recommended data={recommendations?.data?.results || []} />
 
-      <Text style={tw`text-center text-xs`}>Providers provided by JustWatch</Text>
+      <Text style={tw`text-center text-xs dark:text-white`}>Providers provided by JustWatch</Text>
     </ScrollView>
   );
 }

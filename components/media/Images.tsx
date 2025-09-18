@@ -13,7 +13,7 @@ interface Props {
 export default function Images({ title, data, isPoster = false }: Props) {
   return (
     <View>
-      {title && <Text style={tw`text-2xl font-bold mb-2 ml-2`}>{title}</Text>}
+      {title && <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>{title}</Text>}
       <FlashList
         style={tw`mb-2`}
         contentContainerStyle={{ marginBottom: 8 }}
