@@ -65,7 +65,7 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
         onRequestClose={() => setIsModalOpen(false)}>
         <View style={tw`flex-1 dark:bg-black`}>
           <View style={tw`flex-row justify-between p-6 pb-0 mb-2`}>
-            <Text style={tw`text-3xl font-bold dark:text-white`}>Overview</Text>
+            <Text style={tw`text-3xl font-bold dark:text-white`}>Review</Text>
             <Button title="Close" onPress={() => setIsModalOpen(false)} />
           </View>
           <ScrollView style={tw`px-6`}>
