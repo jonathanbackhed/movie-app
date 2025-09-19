@@ -9,8 +9,8 @@ interface Props {
 
 export default function ErrorScreen({ message = "Failed to load data" }: Props) {
   return (
-    <SafeAreaView style={tw`flex-1 justify-center items-center`}>
-      <Text style={tw`text-xl`}>{message}</Text>
+    <SafeAreaView style={tw`flex-1 justify-center items-center dark:bg-black`}>
+      <Text style={tw`text-xl dark:text-white`}>{message}</Text>
     </SafeAreaView>
   );
 }

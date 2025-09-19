@@ -10,8 +10,8 @@ interface Props {
 
 export default function LoadingScreen({ message = "Loading...", center }: Props) {
   return (
-    <SafeAreaView style={tw`flex-1 items-center ${center ? "justify-center" : ""}`}>
-      <Text style={tw`text-xl`}>{message}</Text>
+    <SafeAreaView style={tw`flex-1 items-center dark:bg-black ${center ? "justify-center" : ""}`}>
+      <Text style={tw`text-xl dark:text-white`}>{message}</Text>
     </SafeAreaView>
   );
 }
