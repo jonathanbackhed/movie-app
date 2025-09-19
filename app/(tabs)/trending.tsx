@@ -92,7 +92,7 @@ export default function Trending() {
 
   return (
     <View style={tw`flex-1 dark:bg-black`}>
-      <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2`}>
+      <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2 dark:bg-black`}>
         <PageHeader title="Trending" />
         <SegmentedControl
           values={["All", "Movies", "TV Shows"]}
