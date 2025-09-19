@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React, { memo, useCallback } from "react";
+import React, { memo } from "react";
 import tw from "@/lib/tailwind";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { Image } from "expo-image";

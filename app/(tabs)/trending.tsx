@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
+import React, { useCallback, useRef, useState, useMemo } from "react";
 import { Text, View } from "react-native";
 import { useTrending } from "@/lib/hooks/useTrending";
 import tw from "@/lib/tailwind";
@@ -17,9 +17,7 @@ export default function Trending() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const scrollRef = useRef<any>(null);
 
-  const [all, setAll] = useState<number>(0);
-  const [movie, setMovie] = useState<number>(0);
-  const [tv, setTv] = useState<number>(0);
+  const [scrollPositions, setScrollPositions] = useState<number[]>([0, 0, 0]);
 
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useTrending(selectedIndex);
@@ -50,20 +48,30 @@ export default function Trending() {
     }
   };
 
-  // const handleScroll = useCallback(
-  //   (event: any) => {
-  //     const { contentOffset } = event.nativeEvent;
+  const handleScroll = useCallback(
+    (e: any) => {
+      const { contentOffset } = e.nativeEvent;
+      setScrollPositions((prev) => {
+        const updated = [...prev];
+        updated[selectedIndex] = contentOffset.y;
+        return updated;
+      });
+    },
+    [selectedIndex]
+  );
 
-  //     if (selectedIndex === 0) {
-  //       setAll(contentOffset.y);
-  //     } else if (selectedIndex === 1) {
-  //       setMovie(contentOffset.y);
-  //     } else if (selectedIndex === 2) {
-  //       setTv(contentOffset.y);
-  //     }
-  //   },
-  //   [selectedIndex, all, movie, tv]
-  // );
+  const handleSegmentedControlChange = useCallback(
+    (e: any) => {
+      setSelectedIndex(e.nativeEvent.selectedSegmentIndex);
+      if (scrollRef.current && flatData.length > 0) {
+        scrollRef.current?.scrollToOffset({
+          offset: scrollPositions[e.nativeEvent.selectedSegmentIndex],
+          animated: false,
+        });
+      }
+    },
+    [flatData, scrollPositions]
+  );
 
   const renderItem = useCallback(
     ({ item }: any) => (
@@ -81,14 +89,7 @@ export default function Trending() {
     []
   );
 
-  // useEffect(() => {
-  //   if (scrollRef.current && flatData.length > 0) {
-  //     scrollRef.current.scrollToOffset({
-  //       offset: selectedIndex === 0 ? all : selectedIndex === 1 ? movie : tv,
-  //       animated: true,
-  //     });
-  //   }
-  // }, [flatData.length, selectedIndex, all, movie, tv]);
+  console.log("RERENDERRRR");
 
   return (
     <View style={tw`flex-1 dark:bg-black`}>
@@ -98,7 +99,7 @@ export default function Trending() {
           values={["All", "Movies", "TV Shows"]}
           selectedIndex={selectedIndex}
           onChange={(e) => {
-            setSelectedIndex(e.nativeEvent.selectedSegmentIndex);
+            handleSegmentedControlChange(e);
           }}
           style={tw`mb-2`}
         />
@@ -110,7 +111,7 @@ export default function Trending() {
         ) : (
           <FlashList
             ref={scrollRef}
-            // onScroll={handleScroll}
+            onScroll={handleScroll}
             contentContainerStyle={{ paddingBottom: 90 }}
             onEndReachedThreshold={0.8}
             onEndReached={handleLoadMore}
