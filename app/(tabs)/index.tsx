@@ -35,7 +35,7 @@ export default function Index() {
   }, [topRatedTv, hideAdult]);
 
   return (
-    <ScrollView style={tw`flex-1 dark:bg-black`} contentContainerStyle={{ paddingBottom: 20 }}>
+    <ScrollView style={tw`flex-1 bg-gray-100 dark:bg-black`} contentContainerStyle={{ paddingBottom: 20 }}>
       <View style={tw`mx-2`}>
         <PageHeader title="Home" />
       </View>

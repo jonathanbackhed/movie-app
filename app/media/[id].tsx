@@ -49,7 +49,7 @@ export default function MediaDetail() {
   }
 
   return (
-    <ScrollView style={tw`flex-1 dark:bg-black`} contentContainerStyle={{ paddingBottom: 20 }}>
+    <ScrollView style={tw`flex-1 bg-gray-100 dark:bg-black`} contentContainerStyle={{ paddingBottom: 20 }}>
       <View style={tw`relative h-80 w-screen mb-2`}>
         <Image
           source={BASE_IMAGE_URL + "/w780" + details?.data?.backdrop_path}

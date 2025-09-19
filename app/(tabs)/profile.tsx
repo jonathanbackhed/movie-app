@@ -14,7 +14,7 @@ export default function Profile() {
   };
 
   return (
-    <View style={tw`flex-1 dark:bg-black`}>
+    <View style={tw`flex-1 bg-gray-100 dark:bg-black`}>
       <SafeAreaView edges={["top", "bottom"]} style={tw`flex-1 mx-2 mb-[60px]`}>
         <PageHeader title="Profile" />
 
