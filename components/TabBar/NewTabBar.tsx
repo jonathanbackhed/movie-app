@@ -12,9 +12,9 @@ export default function NewTabBar() {
         <Label>Trending</Label>
         <Icon sf="flame.fill" drawable="trending_up" />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="search">
+      <NativeTabs.Trigger name="search" role="search">
         <Label>Search</Label>
-        <Icon sf="magnifyingglass" drawable="search" />
+        {/* <Icon sf="magnifyingglass" drawable="search" /> */}
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="profile">
         <Label>Profile</Label>
