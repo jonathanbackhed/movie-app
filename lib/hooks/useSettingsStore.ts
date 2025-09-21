@@ -5,6 +5,14 @@ import { create } from "zustand";
 interface SettingsState {
   hideAdult: boolean;
   setHideAdult: (hideAdult: boolean) => void;
+  darkMode: boolean;
+  setDarkMode: (darkMode: boolean) => void;
+  followDevice: boolean;
+  setFollowDevice: (followDevice: boolean) => void;
+  duskMode: boolean;
+  setDuskMode: (duskMode: boolean) => void;
+  useOldTabBar: boolean;
+  setUseOldTabBar: (useOldTabBar: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -12,6 +20,14 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       hideAdult: false,
       setHideAdult: (hideAdult: boolean) => set({ hideAdult }),
+      darkMode: false,
+      setDarkMode: (darkMode: boolean) => set({ darkMode }),
+      followDevice: true,
+      setFollowDevice: (followDevice: boolean) => set({ followDevice }),
+      duskMode: false,
+      setDuskMode: (duskMode: boolean) => set({ duskMode }),
+      useOldTabBar: false,
+      setUseOldTabBar: (useOldTabBar: boolean) => set({ useOldTabBar }),
     }),
     {
       name: "settings-store",
@@ -19,25 +35,3 @@ export const useSettingsStore = create<SettingsState>()(
     }
   )
 );
-
-// export function useSettingsStore(key: string) {
-//   const { getItem, setItem } = useAsyncStorage(key);
-//   const [value, setValue] = useState<string>("");
-//   console.log("USESTORAGE RENDERED", value);
-
-//   const readItemFromStorage = async () => {
-//     const item = await getItem();
-//     setValue(item ?? "");
-//   };
-
-//   const writeItemToStorage = async (newValue: string) => {
-//     await setItem(newValue);
-//     setValue(newValue); // Update local state immediately
-//   };
-
-//   useEffect(() => {
-//     readItemFromStorage();
-//   }, []); // Only run once on mount
-
-//   return { value, writeItemToStorage };
-// }

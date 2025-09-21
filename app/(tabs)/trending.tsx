@@ -11,6 +11,7 @@ import PageHeader from "@/components/PageHeader";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import LoadingScreen from "@/components/screens/LoadingScreen";
 import ErrorScreen from "@/components/screens/ErrorScreen";
+import CustomSafeAreaView from "@/components/views/CustomSafeAreaView";
 
 export default function Trending() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -90,40 +91,38 @@ export default function Trending() {
   );
 
   return (
-    <View style={tw`flex-1 bg-gray-100 dark:bg-black`}>
-      <SafeAreaView edges={["top"]} style={tw`flex-1 mx-2 bg-gray-100 dark:bg-black`}>
-        <PageHeader title="Trending" />
-        <SegmentedControl
-          values={["All", "Movies", "TV Shows"]}
-          selectedIndex={selectedIndex}
-          onChange={(e) => {
-            handleSegmentedControlChange(e);
-          }}
-          style={tw`mb-2`}
-        />
+    <CustomSafeAreaView>
+      <PageHeader title="Trending" />
+      <SegmentedControl
+        values={["All", "Movies", "TV Shows"]}
+        selectedIndex={selectedIndex}
+        onChange={(e) => {
+          handleSegmentedControlChange(e);
+        }}
+        style={tw`mb-2`}
+      />
 
-        {isLoading ? (
-          <LoadingScreen message="Loading..." />
-        ) : error ? (
-          <ErrorScreen message="Failed to load trending" />
-        ) : (
-          <FlashList
-            ref={scrollRef}
-            onScroll={handleScroll}
-            contentContainerStyle={{ paddingBottom: 90 }}
-            onEndReachedThreshold={0.8}
-            onEndReached={handleLoadMore}
-            refreshing={isRefreshing}
-            onRefresh={handleRefresh}
-            data={flatData}
-            renderItem={renderItem}
-            removeClippedSubviews={true}
-            ListFooterComponent={
-              isFetchingNextPage ? <Text style={tw`text-center my-2`}>Loading more...</Text> : null
-            }
-          />
-        )}
-      </SafeAreaView>
-    </View>
+      {isLoading ? (
+        <LoadingScreen message="Loading..." />
+      ) : error ? (
+        <ErrorScreen message="Failed to load trending" />
+      ) : (
+        <FlashList
+          ref={scrollRef}
+          onScroll={handleScroll}
+          contentContainerStyle={{ paddingBottom: 90 }}
+          onEndReachedThreshold={0.8}
+          onEndReached={handleLoadMore}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          data={flatData}
+          renderItem={renderItem}
+          removeClippedSubviews={true}
+          ListFooterComponent={
+            isFetchingNextPage ? <Text style={tw`text-center my-2`}>Loading more...</Text> : null
+          }
+        />
+      )}
+    </CustomSafeAreaView>
   );
 }

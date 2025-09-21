@@ -1,16 +1,17 @@
-import { View, Text, Pressable, Modal, Button, ScrollView } from "react-native";
+import { View, Text, Pressable, ScrollView } from "react-native";
 import React, { useState } from "react";
 import tw from "@/lib/tailwind";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { PosterSize } from "@/constants/enums";
-import { GlassView } from "expo-glass-effect";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useSeasonEpisodes } from "@/lib/hooks/useMedia";
 import LoadingScreen from "../screens/LoadingScreen";
 import ErrorScreen from "../screens/ErrorScreen";
 import { formatRuntime } from "@/lib/utils/formatRuntime";
+import GeneralModal from "../GeneralModal";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 interface Props {
   seriesId: string;
@@ -34,6 +35,7 @@ export default function SeasonPreviewCard({
   episode_count,
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { duskMode } = useSettingsStore();
 
   const { data: episodesData, isLoading, error } = useSeasonEpisodes(seriesId, season_number, isModalOpen);
 
@@ -41,7 +43,9 @@ export default function SeasonPreviewCard({
     <>
       <Pressable
         onPress={() => setIsModalOpen(true)}
-        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-lg p-2 shadow-sm flex-row dark:bg-zinc-900`}>
+        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-xl p-2 shadow-sm flex-row ${
+          duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
+        }`}>
         <Image
           source={BASE_IMAGE_URL + PosterSize.w154 + path}
           alt="poster art"
@@ -73,74 +77,66 @@ export default function SeasonPreviewCard({
           </View>
         </View>
       </Pressable>
-      <Modal
-        animationType="slide"
-        allowSwipeDismissal
-        visible={isModalOpen}
-        presentationStyle="pageSheet"
-        onRequestClose={() => setIsModalOpen(false)}>
-        <View style={tw`flex-1 dark:bg-black`}>
-          <View style={tw`flex-row justify-between p-6 pb-0 mb-2`}>
-            <Text style={tw`text-3xl font-bold dark:text-white`}>{name}</Text>
-            <Button title="Close" onPress={() => setIsModalOpen(false)} />
-          </View>
-          <ScrollView style={tw`px-6`}>
-            <View style={tw`flex-row items-center mb-1 justify-between`}>
-              <Image
-                source={BASE_IMAGE_URL + PosterSize.w92 + path}
-                alt="image"
-                style={tw`w-[46px] aspect-2/3 rounded-xl mr-1`}
-                cachePolicy="none"
-                contentFit="contain"
-              />
-              {/* <Text style={tw`font-bold flex-1`}>{name}</Text> */}
-              <View style={tw`flex items-end`}>
-                <Text style={tw`font-bold dark:text-white`}>
-                  {rating?.toFixed(1)}
-                  <AntDesign name="star" size={12} color="#ffdf20" />
-                </Text>
-                <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
-              </View>
+      <GeneralModal visible={isModalOpen} onRequestClose={() => setIsModalOpen(false)} title={name}>
+        <ScrollView>
+          <View style={tw`flex-row items-center mb-1 justify-between`}>
+            <Image
+              source={BASE_IMAGE_URL + PosterSize.w92 + path}
+              alt="image"
+              style={tw`w-[46px] aspect-2/3 rounded-xl mr-1`}
+              cachePolicy="none"
+              contentFit="contain"
+            />
+            <View style={tw`flex items-end`}>
+              <Text style={tw`font-bold dark:text-white`}>
+                {rating?.toFixed(1)}
+                <AntDesign name="star" size={12} color="#ffdf20" />
+              </Text>
+              <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
             </View>
-            <Text style={tw`mb-2 dark:text-white`}>{overview}</Text>
+          </View>
+          <Text style={tw`mb-2 dark:text-white`}>{overview}</Text>
 
-            <View style={tw`mb-10`}>
-              <Text style={tw`text-3xl font-bold mb-2 dark:text-white`}>Episodes</Text>
+          <View style={tw`mb-10`}>
+            <Text style={tw`text-3xl font-bold mb-2 dark:text-white`}>Episodes</Text>
 
-              {isLoading && <LoadingScreen message="Loading episodes..." />}
+            {isLoading && <LoadingScreen message="Loading episodes..." />}
 
-              {error && <ErrorScreen message="Failed to load episodes" />}
+            {error && <ErrorScreen message="Failed to load episodes" />}
 
-              {episodesData?.episodes?.map((episode: any) => (
-                <View key={episode?.id} style={tw`mb-2 p-2 bg-zinc-100 rounded-lg dark:bg-zinc-900`}>
-                  <View style={tw`flex-row justify-between items-start mb-2`}>
-                    <View style={tw`flex-1`}>
-                      <Text style={tw`font-bold text-lg dark:text-white`}>
-                        {episode?.episode_number}. {episode?.name}
-                      </Text>
-                      <Text style={tw`text-sm text-gray-600 dark:text-white`}>
-                        {episode?.air_date && new Date(episode?.air_date).toLocaleDateString()}
-                      </Text>
-                    </View>
-                    <Text style={tw`font-bold dark:text-white`}>
-                      {episode?.vote_average?.toFixed(1)}
-                      <AntDesign name="star" size={12} color="#ffdf20" />
+            {episodesData?.episodes?.map((episode: any) => (
+              <View
+                key={episode?.id}
+                style={tw`mb-2 p-2 bg-zinc-100 rounded-xl ${
+                  duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
+                }`}>
+                <View style={tw`flex-row justify-between items-start mb-2`}>
+                  <View style={tw`flex-1`}>
+                    <Text style={tw`font-bold text-lg dark:text-white`}>
+                      {episode?.episode_number}. {episode?.name}
+                    </Text>
+                    <Text style={tw`text-sm text-gray-600 dark:text-white`}>
+                      {episode?.air_date && new Date(episode?.air_date).toLocaleDateString()}
                     </Text>
                   </View>
-                  <Text style={tw`text-sm dark:text-white`} numberOfLines={3}>
-                    {episode?.overview || "No overview available"}
+                  <Text style={tw`font-bold dark:text-white`}>
+                    {episode?.vote_average?.toFixed(1)}
+                    <AntDesign name="star" size={12} color="#ffdf20" />
                   </Text>
-                  {episode?.runtime && (
-                    <Text style={tw`text-xs text-gray-500 mt-1 dark:text-white`}>
-                      {formatRuntime(episode?.runtime)}
-                    </Text>
-                  )}
                 </View>
-              ))}
-            </View>
-          </ScrollView>
-        </View>
-      </Modal>
+                <Text style={tw`text-sm dark:text-white`} numberOfLines={3}>
+                  {episode?.overview || "No overview available"}
+                </Text>
+                {episode?.runtime && (
+                  <Text style={tw`text-xs text-gray-500 mt-1 dark:text-white`}>
+                    {formatRuntime(episode?.runtime)}
+                  </Text>
+                )}
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      </GeneralModal>
     </>
   );
 }

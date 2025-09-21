@@ -20,6 +20,8 @@ import Providers from "@/components/media/Providers";
 import Seasons from "@/components/media/Seasons";
 import { formatRuntime } from "@/lib/utils/formatRuntime";
 import { formatDateShowYearOnly } from "@/lib/utils/formatDate";
+import CustomScrollView from "@/components/views/CustomScrollView";
+import GeneralModal from "@/components/GeneralModal";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -49,7 +51,7 @@ export default function MediaDetail() {
   }
 
   return (
-    <ScrollView style={tw`flex-1 bg-gray-100 dark:bg-black`} contentContainerStyle={{ paddingBottom: 20 }}>
+    <CustomScrollView>
       <View style={tw`relative h-80 w-screen mb-2`}>
         <Image
           source={BASE_IMAGE_URL + "/w780" + details?.data?.backdrop_path}
@@ -121,20 +123,9 @@ export default function MediaDetail() {
         </Text>
         <Entypo name="chevron-right" size={24} style={tw`w-6 dark:text-white`} />
       </Pressable>
-      <Modal
-        animationType="slide"
-        allowSwipeDismissal
-        visible={isModalOpen}
-        presentationStyle="pageSheet"
-        onRequestClose={() => setIsModalOpen(false)}>
-        <View style={tw`flex-1 p-6 dark:bg-black`}>
-          <View style={tw`flex-row justify-between`}>
-            <Text style={tw`text-3xl font-bold mb-2 dark:text-white`}>Overview</Text>
-            <Button title="Close" onPress={() => setIsModalOpen(false)} />
-          </View>
-          <Text style={tw`dark:text-white`}>{details?.data?.overview}</Text>
-        </View>
-      </Modal>
+      <GeneralModal visible={isModalOpen} onRequestClose={() => setIsModalOpen(false)} title="Overview">
+        <Text style={tw`dark:text-white`}>{details?.data?.overview}</Text>
+      </GeneralModal>
 
       <Providers data={combinedProviders} />
 
@@ -150,6 +141,6 @@ export default function MediaDetail() {
       <Recommended data={recommendations?.data?.results || []} />
 
       <Text style={tw`text-center text-xs dark:text-white`}>Providers provided by JustWatch</Text>
-    </ScrollView>
+    </CustomScrollView>
   );
 }

@@ -6,9 +6,14 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
+import { isLiquidGlassAvailable } from "expo-glass-effect";
 
 export default function TabsLayout() {
-  if (Platform.OS === "ios" && Platform.Version >= "26") {
+  const { useOldTabBar } = useSettingsStore();
+  // const canUseLiquidGlass = Platform.OS === "ios" && Platform.Version >= "26";
+
+  if (!useOldTabBar && isLiquidGlassAvailable()) {
     return <NewTabBar />;
   }
 
@@ -19,7 +24,7 @@ export default function TabsLayout() {
         tabBarButton: HapticTab,
         tabBarBackground: BlurTabBarBackground,
         tabBarStyle: Platform.select({
-          ios: { position: "absolute" },
+          ios: { position: "absolute", borderTopColor: "transparent" },
           default: {},
         }),
         animation: "fade",

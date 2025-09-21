@@ -1,13 +1,13 @@
 import tw from "@/lib/tailwind";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { useHomeData } from "@/lib/hooks/useHome";
 import PageHeader from "@/components/PageHeader";
 import { FlashList } from "@shopify/flash-list";
 import { useMemo } from "react";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import MediaBigPreview from "@/components/MediaBigPreview";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { filterAdult } from "@/lib/utils/filterData";
+import CustomScrollView from "@/components/views/CustomScrollView";
 
 export default function Index() {
   const { hideAdult } = useSettingsStore();
@@ -35,14 +35,13 @@ export default function Index() {
   }, [topRatedTv, hideAdult]);
 
   return (
-    <ScrollView style={tw`flex-1 bg-gray-100 dark:bg-black`} contentContainerStyle={{ paddingBottom: 20 }}>
+    <CustomScrollView>
       <View style={tw`mx-2`}>
         <PageHeader title="Home" />
       </View>
-      <View style={tw`mb-2`}>
+      <View style={tw`mb-4`}>
         <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>In theaters</Text>
         <FlashList
-          contentContainerStyle={{ marginBottom: 8 }}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={filteredNowPlayingMovies}
@@ -61,10 +60,9 @@ export default function Index() {
         />
       </View>
 
-      <View style={tw`mb-2`}>
+      <View style={tw`mb-4`}>
         <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Upcoming movies</Text>
         <FlashList
-          contentContainerStyle={{ marginBottom: 8 }}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={filteredUpcomingMovies}
@@ -83,10 +81,9 @@ export default function Index() {
         />
       </View>
 
-      <View style={tw`mb-2`}>
+      <View style={tw`mb-4`}>
         <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Upcoming TV</Text>
         <FlashList
-          contentContainerStyle={{ marginBottom: 8 }}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={filteredUpcomingTv}
@@ -105,10 +102,9 @@ export default function Index() {
         />
       </View>
 
-      <View style={tw`mb-2`}>
+      <View style={tw`mb-4`}>
         <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Top rated movies</Text>
         <FlashList
-          contentContainerStyle={{ marginBottom: 8 }}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={filteredtopRatedMovies}
@@ -127,10 +123,9 @@ export default function Index() {
         />
       </View>
 
-      <View style={tw`mb-2`}>
+      <View style={tw`mb-4`}>
         <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Top rated TV</Text>
         <FlashList
-          contentContainerStyle={{ marginBottom: 8 }}
           horizontal
           showsHorizontalScrollIndicator={false}
           data={filteredTopRatedTv}
@@ -148,6 +143,6 @@ export default function Index() {
           )}
         />
       </View>
-    </ScrollView>
+    </CustomScrollView>
   );
 }

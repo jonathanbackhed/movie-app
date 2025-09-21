@@ -7,6 +7,8 @@ import { ProfileSize } from "@/constants/enums";
 import Entypo from "@expo/vector-icons/Entypo";
 import { GlassView } from "expo-glass-effect";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import GeneralModal from "../GeneralModal";
+import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 
 interface Props {
   path: string;
@@ -19,12 +21,15 @@ interface Props {
 
 export default function ReviewPreviewCard({ path, name, rating, content, date, updated_at }: Props) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { duskMode } = useSettingsStore();
 
   return (
     <>
       <Pressable
         onPress={() => setIsModalOpen(true)}
-        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-lg p-2 shadow-sm dark:bg-zinc-900`}>
+        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-xl p-2 shadow-sm ${
+          duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
+        }`}>
         <View style={tw`flex-1 flex-row items-center mb-1`}>
           <Text numberOfLines={7} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
             {content}
@@ -57,47 +62,36 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
         </View>
         <Text style={tw`text-xs dark:text-white`}>Updated: {updated_at.split("T")[0]}</Text>
       </Pressable>
-      <Modal
-        animationType="slide"
-        allowSwipeDismissal
-        visible={isModalOpen}
-        presentationStyle="pageSheet"
-        onRequestClose={() => setIsModalOpen(false)}>
-        <View style={tw`flex-1 dark:bg-black`}>
-          <View style={tw`flex-row justify-between p-6 pb-0 mb-2`}>
-            <Text style={tw`text-3xl font-bold dark:text-white`}>Review</Text>
-            <Button title="Close" onPress={() => setIsModalOpen(false)} />
-          </View>
-          <ScrollView style={tw`px-6`}>
-            <View style={tw`flex-row items-center mb-1`}>
-              {path ? (
-                <Image
-                  source={BASE_IMAGE_URL + ProfileSize.w45 + path}
-                  alt="image"
-                  style={tw`w-[30px] h-[30px] rounded-full mr-1`}
-                  cachePolicy="none"
-                  contentFit="contain"
-                />
-              ) : (
-                <GlassView
-                  style={tw`w-[30px] h-[30px] rounded-full mr-1 bg-zinc-300`}
-                  glassEffectStyle="regular"
-                />
-              )}
-              <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
-              <View style={tw`flex items-end`}>
-                <Text style={tw`font-bold dark:text-white`}>
-                  {rating}
-                  <AntDesign name="star" size={12} color="#ffdf20" />
-                </Text>
-                <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
-              </View>
+      <GeneralModal visible={isModalOpen} onRequestClose={() => setIsModalOpen(false)} title="Review">
+        <ScrollView>
+          <View style={tw`flex-row items-center mb-1`}>
+            {path ? (
+              <Image
+                source={BASE_IMAGE_URL + ProfileSize.w45 + path}
+                alt="image"
+                style={tw`w-[30px] h-[30px] rounded-full mr-1`}
+                cachePolicy="none"
+                contentFit="contain"
+              />
+            ) : (
+              <GlassView
+                style={tw`w-[30px] h-[30px] rounded-full mr-1 bg-zinc-300`}
+                glassEffectStyle="regular"
+              />
+            )}
+            <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
+            <View style={tw`flex items-end`}>
+              <Text style={tw`font-bold dark:text-white`}>
+                {rating}
+                <AntDesign name="star" size={12} color="#ffdf20" />
+              </Text>
+              <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
             </View>
-            <Text style={tw`font-bold mb-4 dark:text-white`}>Updated: {updated_at.split("T")[0]}</Text>
-            <Text style={tw`mb-10 dark:text-white`}>{content}</Text>
-          </ScrollView>
-        </View>
-      </Modal>
+          </View>
+          <Text style={tw`font-bold mb-4 dark:text-white`}>Updated: {updated_at.split("T")[0]}</Text>
+          <Text style={tw`mb-10 dark:text-white`}>{content}</Text>
+        </ScrollView>
+      </GeneralModal>
     </>
   );
 }
