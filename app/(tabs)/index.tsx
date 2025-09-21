@@ -8,6 +8,7 @@ import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import MediaBigPreview from "@/components/MediaBigPreview";
 import { filterAdult } from "@/lib/utils/filterData";
 import CustomScrollView from "@/components/views/CustomScrollView";
+import HorizontalMediaList from "@/components/HorizontalMediaList";
 
 export default function Index() {
   const { hideAdult } = useSettingsStore();
@@ -39,110 +40,11 @@ export default function Index() {
       <View style={tw`mx-2`}>
         <PageHeader title="Home" />
       </View>
-      <View style={tw`mb-4`}>
-        <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>In theaters</Text>
-        <FlashList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={filteredNowPlayingMovies}
-          renderItem={({ item }: { item: any }) => (
-            <MediaBigPreview
-              key={item.id}
-              id={item.id}
-              poster_path={item?.poster_path}
-              backdrop_path={item?.backdrop_path}
-              title={item?.title}
-              type="movie"
-              rating={item?.vote_average}
-              date={item?.release_date || item?.first_air_date}
-            />
-          )}
-        />
-      </View>
-
-      <View style={tw`mb-4`}>
-        <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Upcoming movies</Text>
-        <FlashList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={filteredUpcomingMovies}
-          renderItem={({ item }: { item: any }) => (
-            <MediaBigPreview
-              key={item.id}
-              id={item.id}
-              poster_path={item?.poster_path}
-              backdrop_path={item?.backdrop_path}
-              title={item?.title}
-              type="movie"
-              rating={item?.vote_average}
-              date={item?.release_date}
-            />
-          )}
-        />
-      </View>
-
-      <View style={tw`mb-4`}>
-        <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Upcoming TV</Text>
-        <FlashList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={filteredUpcomingTv}
-          renderItem={({ item }: { item: any }) => (
-            <MediaBigPreview
-              key={item.id}
-              id={item.id}
-              poster_path={item?.poster_path}
-              backdrop_path={item?.backdrop_path}
-              title={item?.name}
-              type="tv"
-              rating={item?.vote_average}
-              date={item?.first_air_date}
-            />
-          )}
-        />
-      </View>
-
-      <View style={tw`mb-4`}>
-        <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Top rated movies</Text>
-        <FlashList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={filteredtopRatedMovies}
-          renderItem={({ item }: { item: any }) => (
-            <MediaBigPreview
-              key={item.id}
-              id={item.id}
-              poster_path={item?.poster_path}
-              backdrop_path={item?.backdrop_path}
-              title={item?.title}
-              type="movie"
-              rating={item?.vote_average}
-              date={item?.release_date}
-            />
-          )}
-        />
-      </View>
-
-      <View style={tw`mb-4`}>
-        <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Top rated TV</Text>
-        <FlashList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={filteredTopRatedTv}
-          renderItem={({ item }: { item: any }) => (
-            <MediaBigPreview
-              key={item.id}
-              id={item.id}
-              poster_path={item?.poster_path}
-              backdrop_path={item?.backdrop_path}
-              title={item?.name}
-              type="tv"
-              rating={item?.vote_average}
-              date={item?.first_air_date}
-            />
-          )}
-        />
-      </View>
+      <HorizontalMediaList title="In theaters" data={filteredNowPlayingMovies} type="movie" />
+      <HorizontalMediaList title="Upcoming movies" data={filteredUpcomingMovies} type="movie" />
+      <HorizontalMediaList title="Upcoming TV" data={filteredUpcomingTv} type="tv" />
+      <HorizontalMediaList title="Top rated movies" data={filteredtopRatedMovies} type="movie" />
+      <HorizontalMediaList title="Top rated TV" data={filteredTopRatedTv} type="tv" />
     </CustomScrollView>
   );
 }
