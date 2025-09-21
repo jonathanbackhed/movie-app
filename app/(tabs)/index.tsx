@@ -15,25 +15,26 @@ export default function Index() {
 
   const [nowPlayingMovies, upcomingMovies, upcomingTv, topRatedMovies, topRatedTv] = useHomeData();
 
-  const filteredNowPlayingMovies = useMemo(() => {
-    return filterAdult(nowPlayingMovies?.data?.results, hideAdult);
-  }, [nowPlayingMovies, hideAdult]);
+  const filteredData = useMemo(
+    () => ({
+      filteredNowPlayingMovies: filterAdult(nowPlayingMovies?.data?.results, hideAdult),
+      filteredUpcomingMovies: filterAdult(upcomingMovies?.data?.results, hideAdult),
+      filteredUpcomingTv: filterAdult(upcomingTv?.data?.results, hideAdult),
+    }),
+    [hideAdult, nowPlayingMovies, upcomingMovies, upcomingTv]
+  );
 
-  const filteredUpcomingMovies = useMemo(() => {
-    return filterAdult(upcomingMovies?.data?.results, hideAdult);
-  }, [upcomingMovies, hideAdult]);
+  const { filteredNowPlayingMovies, filteredUpcomingMovies, filteredUpcomingTv } = filteredData;
 
-  const filteredUpcomingTv = useMemo(() => {
-    return filterAdult(upcomingTv?.data?.results, hideAdult);
-  }, [upcomingTv, hideAdult]);
+  const filteredInfiniteData = useMemo(
+    () => ({
+      filteredtopRatedMovies: filterAdult(topRatedMovies?.data?.results, hideAdult),
+      filteredTopRatedTv: filterAdult(topRatedTv?.data?.results, hideAdult),
+    }),
+    [hideAdult, topRatedMovies, topRatedTv]
+  );
 
-  const filteredtopRatedMovies = useMemo(() => {
-    return filterAdult(topRatedMovies?.data?.results, hideAdult);
-  }, [topRatedMovies, hideAdult]);
-
-  const filteredTopRatedTv = useMemo(() => {
-    return filterAdult(topRatedTv?.data?.results, hideAdult);
-  }, [topRatedTv, hideAdult]);
+  const { filteredtopRatedMovies, filteredTopRatedTv } = filteredInfiniteData;
 
   return (
     <CustomScrollView>
