@@ -32,9 +32,11 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
           duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
         }`}>
         <View style={tw`flex-1 flex-row items-center mb-1`}>
-          <Text numberOfLines={7} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
-            {content}
-          </Text>
+          <View style={tw`flex-1 items-start`}>
+            <Text numberOfLines={7} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
+              {content}
+            </Text>
+          </View>
           <Entypo name="chevron-right" size={24} style={tw`w-6 dark:text-white`} />
         </View>
         <View style={tw`flex-row items-center`}>
