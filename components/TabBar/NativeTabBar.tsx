@@ -1,7 +1,7 @@
 import React from "react";
 import { NativeTabs, Icon, Label, Badge } from "expo-router/unstable-native-tabs";
 
-export default function NewTabBar() {
+export default function NativeTabBar() {
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="index">

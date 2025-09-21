@@ -1,5 +1,5 @@
 import HapticTab from "@/components/TabBar/HapticTab";
-import NewTabBar from "@/components/TabBar/NewTabBar";
+import NativeTabBar from "@/components/TabBar/NativeTabBar";
 import BlurTabBarBackground from "@/components/TabBar/TabBarBackground";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 // import { NativeTabs, Icon, Label, Badge } from "expo-router/unstable-native-tabs";
@@ -9,7 +9,7 @@ import { Platform } from "react-native";
 
 export default function TabsLayout() {
   if (Platform.OS === "ios" && Platform.Version >= "26") {
-    return <NewTabBar />;
+    return <NativeTabBar />;
   }
 
   return (
