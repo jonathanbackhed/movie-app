@@ -12,6 +12,7 @@ import ErrorScreen from "../screens/ErrorScreen";
 import { formatRuntime } from "@/lib/utils/formatRuntime";
 import GeneralModal from "../GeneralModal";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
+import Rating from "../Rating";
 
 interface Props {
   seriesId: string;
@@ -61,10 +62,7 @@ export default function SeasonPreviewCard({
                 {episode_count > 1 ? `${episode_count} episodes` : `${episode_count} episode`}
               </Text>
             </View>
-            <Text style={tw`font-bold dark:text-white`}>
-              {rating}
-              <AntDesign name="star" size={12} color="#ffdf20" />
-            </Text>
+            <Rating rating={rating} />
           </View>
           <View style={tw`flex-1 flex-row items-center`}>
             <Text style={tw`text-xs flex-1 dark:text-white`} numberOfLines={3} ellipsizeMode="tail">
@@ -88,10 +86,7 @@ export default function SeasonPreviewCard({
               contentFit="contain"
             />
             <View style={tw`flex items-end`}>
-              <Text style={tw`font-bold dark:text-white`}>
-                {rating?.toFixed(1)}
-                <AntDesign name="star" size={12} color="#ffdf20" />
-              </Text>
+              <Rating rating={rating} />
               <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
             </View>
           </View>
@@ -119,10 +114,7 @@ export default function SeasonPreviewCard({
                       {episode?.air_date && new Date(episode?.air_date).toLocaleDateString()}
                     </Text>
                   </View>
-                  <Text style={tw`font-bold dark:text-white`}>
-                    {episode?.vote_average?.toFixed(1)}
-                    <AntDesign name="star" size={12} color="#ffdf20" />
-                  </Text>
+                  <Rating rating={episode?.vote_average} />
                 </View>
                 <Text style={tw`text-sm dark:text-white`} numberOfLines={3}>
                   {episode?.overview || "No overview available"}

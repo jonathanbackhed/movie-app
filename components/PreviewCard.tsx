@@ -7,6 +7,7 @@ import { Link } from "expo-router";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import * as Sharing from "expo-sharing";
+import Rating from "./Rating";
 
 interface Props {
   id: number;
@@ -66,10 +67,7 @@ const PreviewCard = memo(function PreviewCard({
               <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
                 {year ? year.slice(0, 4) : "N/A"}
               </Text>
-              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
-                {rating.toFixed(1)}
-                <AntDesign name="star" size={12} color="#ffdf20" />
-              </Text>
+              <Rating rating={rating} customStyle="mr-2" />
             </View>
           </View>
         </View>

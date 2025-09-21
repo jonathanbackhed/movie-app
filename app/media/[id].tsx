@@ -22,6 +22,7 @@ import { formatRuntime } from "@/lib/utils/formatRuntime";
 import { formatDateShowYearOnly } from "@/lib/utils/formatDate";
 import CustomScrollView from "@/components/views/CustomScrollView";
 import GeneralModal from "@/components/GeneralModal";
+import Rating from "@/components/Rating";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -84,11 +85,7 @@ export default function MediaDetail() {
                 ? formatDateShowYearOnly(details?.data?.release_date)
                 : formatDateShowYearOnly(details?.data?.first_air_date, details?.data?.last_air_date)}
             </Text>
-            <Text style={tw`font-bold mr-2 dark:text-white`}>
-              {details?.data?.vote_average?.toFixed(1) || "N/A"}
-              <AntDesign name="star" size={12} color="#ffdf20" />
-              {/* <Text style={tw`mr-2 text-zinc-500 text-xs`}>/10</Text> */}
-            </Text>
+            <Rating rating={details?.data?.vote_average} customStyle="mr-2" />
             {details?.data?.runtime ? (
               <Text style={tw`mr-2 font-bold dark:text-white`}>{formatRuntime(details?.data?.runtime)}</Text>
             ) : (

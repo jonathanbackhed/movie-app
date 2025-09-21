@@ -6,6 +6,7 @@ import { BASE_IMAGE_URL } from "@/constants/settings";
 import { BackdropSize, PosterSize } from "@/constants/enums";
 import { Link } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Rating from "./Rating";
 
 interface Props {
   id: string;
@@ -52,14 +53,11 @@ export default function MediaBigPreview({
         <Text style={tw`font-bold flex-1 dark:text-white`} numberOfLines={1} ellipsizeMode="tail">
           {title}
         </Text>
-        <Text style={tw`font-bold dark:text-white`}>
-          {rating.toFixed(1)}
-          <AntDesign name="star" size={12} color="#ffdf20" />
-        </Text>
+        <Rating rating={rating} />
       </View>
       {notReleased && (
         <View style={tw``}>
-          <Text style={tw`text-xs font-bold`}>Release date: {date.split("T")[0]}</Text>
+          <Text style={tw`text-xs font-bold dark:text-white`}>Release date: {date.split("T")[0]}</Text>
         </View>
       )}
     </Link>

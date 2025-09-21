@@ -9,6 +9,7 @@ import { GlassView } from "expo-glass-effect";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import GeneralModal from "../GeneralModal";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
+import Rating from "../Rating";
 
 interface Props {
   path: string;
@@ -53,10 +54,7 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
           )}
           <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
           <View style={tw`flex items-end`}>
-            <Text style={tw`font-bold dark:text-white`}>
-              {rating}
-              <AntDesign name="star" size={12} color="#ffdf20" />
-            </Text>
+            <Rating rating={rating} />
             <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
           </View>
         </View>
@@ -81,10 +79,7 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
             )}
             <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
             <View style={tw`flex items-end`}>
-              <Text style={tw`font-bold dark:text-white`}>
-                {rating}
-                <AntDesign name="star" size={12} color="#ffdf20" />
-              </Text>
+              <Rating rating={rating} />
               <Text style={tw`text-xs dark:text-white`}>{date.split("T")[0]}</Text>
             </View>
           </View>
