@@ -1,12 +1,12 @@
 import React from "react";
-import { ICastMember, ICrewMember } from "@/interfaces/movies/ICredits";
+import { CastMember, CrewMember } from "@/interfaces/index";
 import { FlashList } from "@shopify/flash-list";
 import PersonPreviewCard from "./PersonPreviewCard";
 import tw from "@/lib/tailwind";
 import { View, Text } from "react-native";
 
 interface Props {
-  data: ICastMember[] | ICrewMember[];
+  data: CastMember[] | CrewMember[];
 }
 
 export default function Credits({ data }: Props) {
@@ -19,7 +19,7 @@ export default function Credits({ data }: Props) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={data}
-        renderItem={({ item }: { item: ICastMember | ICrewMember }) => (
+        renderItem={({ item }: { item: CastMember | CrewMember }) => (
           <PersonPreviewCard
             key={item.id}
             id={item.id}

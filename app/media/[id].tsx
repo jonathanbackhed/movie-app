@@ -5,7 +5,7 @@ import { useIsPreview, useLocalSearchParams, useRouter } from "expo-router";
 import { useFullMediaDetails } from "@/lib/hooks/useMedia";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
-import { IGenre } from "@/interfaces/movies/IMovie";
+import { Genre } from "@/interfaces/index";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -103,7 +103,7 @@ export default function MediaDetail() {
       </View>
       <ScrollView horizontal style={tw`mb-4`}>
         <View style={tw`flex-row mx-2`}>
-          {details?.data?.genres?.map((genre: IGenre) => (
+          {details?.data?.genres?.map((genre: Genre) => (
             <Text
               key={genre.id}
               style={tw`text-sm font-bold mr-2 bg-zinc-300 dark:bg-zinc-800 dark:text-white rounded-xl px-2 py-1`}>

@@ -1,4 +1,4 @@
-export interface ICastMember {
+export interface CastMember {
   adult: boolean;
   gender?: number;
   id: number;
@@ -13,7 +13,7 @@ export interface ICastMember {
   order?: number;
 }
 
-export interface ICrewMember {
+export interface CrewMember {
   adult: boolean;
   gender: number;
   id: number;
@@ -25,4 +25,10 @@ export interface ICrewMember {
   credit_id: string;
   department: string;
   job: string;
+}
+
+export interface Credits {
+  id: number;
+  cast: CastMember[];
+  crew: CrewMember[];
 }
