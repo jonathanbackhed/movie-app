@@ -1,4 +1,4 @@
-import { Genre, ProductionCompany, ProductionCountry, SpokenLanguage } from "../shared";
+import { Genre, ProductionCompany, ProductionCountry, SpokenLanguage } from "./shared";
 
 export interface Collection {
   id: number;
@@ -7,6 +7,7 @@ export interface Collection {
   backdrop_path: string | null;
 }
 
+// Main Movie interface
 export interface MovieFull {
   adult: boolean;
   backdrop_path: string | null;

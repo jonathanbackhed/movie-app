@@ -1,10 +1,8 @@
-// Export shared interfaces
+export * from "./movie";
+export * from "./series";
+export * from "./credits";
+export * from "./images";
+export * from "./recommendations";
+export * from "./reviews";
+export * from "./providers";
 export * from "./shared";
-
-// Export movie interfaces
-export * from "./movies/credits";
-export * from "./movies/images";
-export * from "./movies/movie";
-export * from "./movies/providers";
-export * from "./movies/recommendations";
-export * from "./movies/reviews";

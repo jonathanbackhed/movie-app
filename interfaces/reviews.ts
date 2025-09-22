@@ -15,7 +15,7 @@ export interface Review {
   url: string;
 }
 
-export interface ReviewsResponse {
+export interface Reviews {
   id: number;
   page: number;
   results: Review[];
