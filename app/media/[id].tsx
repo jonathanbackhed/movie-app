@@ -1,15 +1,13 @@
-import { View, Text, ScrollView, Modal, Button, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useState } from "react";
 import tw from "@/lib/tailwind";
 import { useIsPreview, useLocalSearchParams, useRouter } from "expo-router";
 import { useFullMediaDetails } from "@/lib/hooks/useMedia";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
-import { Genre } from "@/interfaces/index";
+import { CastMember, CrewMember, Genre, Movie, Provider, Season, TVSeries } from "@/interfaces";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import Credits from "@/components/media/Credits";
 import ErrorScreen from "@/components/screens/ErrorScreen";
@@ -34,18 +32,24 @@ export default function MediaDetail() {
 
   const [details, credits, images, recommendations, reviews, providers] = useFullMediaDetails(type, id);
 
-  const filteredSeasons =
-    details?.data?.seasons?.filter((season: any) => season.name.toLowerCase() !== "specials") || [];
+  const media = type === "movie" ? (details?.data as Movie) : (details?.data as TVSeries);
+  const mediaMovie = details?.data as Movie;
+  const mediaSeries = details?.data as TVSeries;
 
-  const combinedCredits = [...(credits?.data?.cast || []), ...(credits?.data?.crew || [])];
+  const filteredSeasons: Season[] =
+    details?.data && "seasons" in details.data && Array.isArray(details.data.seasons)
+      ? details.data.seasons.filter((season: Season) => season.name.toLowerCase() !== "specials")
+      : [];
 
-  const combinedProviders = [
+  const combinedCredits: (CastMember | CrewMember)[] = [...(credits?.data?.cast || []), ...(credits?.data?.crew || [])];
+
+  const combinedProviders: Provider[] = [
     ...(providers?.data?.results?.US?.flatrate || []),
     // ...(providers?.data?.results?.US?.rent || []),
     // ...(providers?.data?.results?.US?.buy || []),
   ];
 
-  if (details?.data?.adult && hideAdult && !isPreview) router.back();
+  if (media?.adult && hideAdult && !isPreview) router.back();
 
   if (details?.isError) {
     return <ErrorScreen message={`Failed to load ${type === "movie" ? "movie" : "show"} details`} />;
@@ -55,18 +59,16 @@ export default function MediaDetail() {
     <CustomScrollView>
       <View style={tw`relative h-80 w-screen mb-2`}>
         <Image
-          source={BASE_IMAGE_URL + "/w780" + details?.data?.backdrop_path}
+          source={BASE_IMAGE_URL + "/w780" + media?.backdrop_path}
           alt="backdrop"
           contentFit="cover"
           cachePolicy="none"
           style={tw`flex-1`}
           blurRadius={30}
         />
-        <SafeAreaView
-          edges={["top"]}
-          style={tw`absolute top-0 left-0 w-full h-full items-center justify-center`}>
+        <SafeAreaView edges={["top"]} style={tw`absolute top-0 left-0 w-full h-full items-center justify-center`}>
           <Image
-            source={BASE_IMAGE_URL + "/w342" + details?.data?.poster_path}
+            source={BASE_IMAGE_URL + "/w342" + media?.poster_path}
             alt="poster"
             contentFit="contain"
             cachePolicy="none"
@@ -77,22 +79,22 @@ export default function MediaDetail() {
       <View style={tw`mx-2 mb-2 flex-row justify-between items-center`}>
         <View>
           <Text style={tw`text-3xl font-bold dark:text-white`}>
-            {details?.data?.title || details?.data?.name}
+            {type === "movie" ? mediaMovie?.title : mediaSeries?.name}
           </Text>
           <View style={tw`flex-row items-center`}>
             <Text style={tw`font-bold mr-2 dark:text-white`}>
-              {details?.data?.release_date
-                ? formatDateShowYearOnly(details?.data?.release_date)
-                : formatDateShowYearOnly(details?.data?.first_air_date, details?.data?.last_air_date)}
+              {type === "movie"
+                ? formatDateShowYearOnly(mediaMovie?.release_date || "")
+                : formatDateShowYearOnly(mediaSeries?.first_air_date, mediaSeries?.last_air_date)}
             </Text>
-            <Rating rating={details?.data?.vote_average} customStyle="mr-2" />
-            {details?.data?.runtime ? (
-              <Text style={tw`mr-2 font-bold dark:text-white`}>{formatRuntime(details?.data?.runtime)}</Text>
+            <Rating rating={media?.vote_average} customStyle="mr-2" />
+            {type === "movie" ? (
+              <Text style={tw`mr-2 font-bold dark:text-white`}>{formatRuntime(mediaMovie?.runtime)}</Text>
             ) : (
               <Text style={tw`mr-2 font-bold dark:text-white`}>
-                {details?.data?.number_of_seasons > 1
-                  ? `${details?.data?.number_of_seasons} seasons`
-                  : `${details?.data?.number_of_seasons} season`}
+                {mediaSeries?.number_of_seasons > 1
+                  ? `${mediaSeries?.number_of_seasons} seasons`
+                  : `${mediaSeries?.number_of_seasons} season`}
               </Text>
             )}
           </View>
@@ -103,30 +105,29 @@ export default function MediaDetail() {
       </View>
       <ScrollView horizontal style={tw`mb-4`}>
         <View style={tw`flex-row mx-2`}>
-          {details?.data?.genres?.map((genre: Genre) => (
+          {media?.genres?.map((genre: Genre) => (
             <Text
               key={genre.id}
-              style={tw`text-sm font-bold mr-2 bg-zinc-300 dark:bg-zinc-800 dark:text-white rounded-xl px-2 py-1`}>
+              style={tw`text-sm font-bold mr-2 bg-zinc-300 dark:bg-zinc-800 dark:text-white rounded-xl px-2 py-1`}
+            >
               {genre.name}
             </Text>
           ))}
         </View>
       </ScrollView>
-      <Pressable
-        onPress={() => setIsModalOpen(true)}
-        style={tw`flex-row justify-between items-center mx-2 mb-2`}>
+      <Pressable onPress={() => setIsModalOpen(true)} style={tw`flex-row justify-between items-center mx-2 mb-2`}>
         <Text numberOfLines={3} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
-          {details?.data?.overview}
+          {media?.overview}
         </Text>
         <Entypo name="chevron-right" size={24} style={tw`w-6 dark:text-white`} />
       </Pressable>
       <GeneralModal visible={isModalOpen} onRequestClose={() => setIsModalOpen(false)} title="Overview">
-        <Text style={tw`dark:text-white`}>{details?.data?.overview}</Text>
+        <Text style={tw`dark:text-white`}>{media?.overview}</Text>
       </GeneralModal>
 
       <Providers data={combinedProviders} />
 
-      {details?.data?.seasons && <Seasons data={filteredSeasons} seriesId={details?.data?.id} />}
+      {type === "tv" && <Seasons data={filteredSeasons} seriesId={mediaSeries?.id} />}
 
       <Credits data={combinedCredits} />
 

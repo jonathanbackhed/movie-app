@@ -8,7 +8,7 @@ export interface Collection {
 }
 
 // Main Movie interface
-export interface MovieFull {
+export interface Movie {
   adult: boolean;
   backdrop_path: string | null;
   belongs_to_collection: Collection | null;
@@ -20,14 +20,14 @@ export interface MovieFull {
   origin_country: string[];
   original_language: string;
   original_title: string;
-  overview: string | null;
+  overview: string;
   popularity: number;
   poster_path: string | null;
   production_companies: ProductionCompany[];
   production_countries: ProductionCountry[];
   release_date: string | null;
   revenue: number | null;
-  runtime: number | null;
+  runtime: number;
   spoken_languages: SpokenLanguage[];
   status: string;
   tagline: string | null;

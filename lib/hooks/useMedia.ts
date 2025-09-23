@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery, UseQueryResult } from "@tanstack/react-query";
 import {
   getMovieDetails,
   getMovieCredits,
@@ -14,10 +14,21 @@ import {
   getSeriesProviders,
   getSeriesSeasonDetails,
 } from "../api/media";
+import { Credits, Images, Movie, Providers, Recommendations, Reviews, SeasonFull, TVSeries } from "@/interfaces";
 
 const STALE_TIME = 1000 * 60 * 5; // 5 minutes
 
-export function useFullMediaDetails(type: "movie" | "tv", id: string) {
+export function useFullMediaDetails(
+  type: "movie" | "tv",
+  id: string
+): [
+  UseQueryResult<Movie | TVSeries>,
+  UseQueryResult<Credits>,
+  UseQueryResult<Images>,
+  UseQueryResult<Recommendations>,
+  UseQueryResult<Reviews>,
+  UseQueryResult<Providers>
+] {
   return useQueries({
     queries: [
       {
@@ -60,7 +71,11 @@ export function useFullMediaDetails(type: "movie" | "tv", id: string) {
   });
 }
 
-export function useSeasonEpisodes(id: string, seasonNumber: number, enabled: boolean = false) {
+export function useSeasonEpisodes(
+  id: number,
+  seasonNumber: number,
+  enabled: boolean = false
+): UseQueryResult<SeasonFull> {
   return useQuery({
     staleTime: STALE_TIME,
     queryKey: ["seasonEpisodes", id, seasonNumber],

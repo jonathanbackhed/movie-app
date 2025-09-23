@@ -10,6 +10,7 @@ import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import LoadingScreen from "@/components/screens/LoadingScreen";
 import ErrorScreen from "@/components/screens/ErrorScreen";
 import CustomSafeAreaView from "@/components/views/CustomSafeAreaView";
+import { MediaShort } from "@/interfaces";
 
 export default function Search() {
   const [search, setSearch] = useState<string>("");
@@ -18,8 +19,8 @@ export default function Search() {
   const { hideAdult } = useSettingsStore();
   const { data, isLoading, isError } = useSearchAll(search);
 
-  const dataFiltered =
-    data?.results?.filter((item: any) => {
+  const dataFiltered: MediaShort[] =
+    data?.results?.filter((item: MediaShort) => {
       if (item.media_type === "person") return false;
       if (hideAdult && item.adult === true) return false;
 
@@ -56,16 +57,16 @@ export default function Search() {
           contentContainerStyle={{ paddingBottom: 90 }}
           data={dataFiltered}
           onScroll={() => Keyboard.dismiss()}
-          renderItem={({ item }: any) => (
+          renderItem={({ item }: { item: MediaShort }) => (
             <PreviewCard
               key={item.id}
               id={item.id}
-              title={item.title || item.name}
+              title={"title" in item ? item.title : item.name}
               description={item.overview}
-              image={item.poster_path}
+              image={item.poster_path ?? ""}
               rating={item.vote_average}
-              year={item.release_date || item.first_air_date}
-              type={item.media_type}
+              year={"release_date" in item ? item.release_date : item.first_air_date}
+              type={item.media_type as "movie" | "tv"}
               adult={item.adult}
             />
           )}

@@ -1,13 +1,14 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import tw from "@/lib/tailwind";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { LogoSize } from "@/constants/enums";
+import { Provider } from "@/interfaces";
 
 interface Props {
-  data: any[];
+  data: Provider[];
 }
 
 export default function Providers({ data }: Props) {
@@ -17,7 +18,7 @@ export default function Providers({ data }: Props) {
       horizontal
       showsHorizontalScrollIndicator={false}
       data={data}
-      renderItem={({ item }: { item: any }) => (
+      renderItem={({ item }: { item: Provider }) => (
         <View style={tw`px-2 flex items-center`}>
           <Image
             source={BASE_IMAGE_URL + LogoSize.w154 + item?.logo_path}

@@ -55,30 +55,12 @@ export default function Profile() {
       <View style={tw`mb-auto mx-2`}>
         <SectionHeader title="Settings" />
         <SettingsWrapper customStyles="mb-4">
-          <SettingsRow
-            text="Hide content marked as adult"
-            value={hideAdult}
-            onValueChange={handleToggleAdult}
-          />
-          <SettingsRow
-            text="Dark mode"
-            value={darkMode}
-            onValueChange={handleToggleDarkMode}
-            hideBorderIfOff
-          />
+          <SettingsRow text="Hide content marked as adult" value={hideAdult} onValueChange={handleToggleAdult} />
+          <SettingsRow text="Dark mode" value={darkMode} onValueChange={handleToggleDarkMode} hideBorderIfOff />
           {darkMode && (
             <>
-              <SettingsRow
-                text="Follow device"
-                value={followDevice}
-                onValueChange={handleToggleFollowDevice}
-              />
-              <SettingsRow
-                text="Dusk mode"
-                value={duskMode}
-                onValueChange={handleToggleDuskMode}
-                hideBorder
-              />
+              <SettingsRow text="Follow device" value={followDevice} onValueChange={handleToggleFollowDevice} />
+              <SettingsRow text="Dusk mode" value={duskMode} onValueChange={handleToggleDuskMode} hideBorder />
             </>
           )}
         </SettingsWrapper>

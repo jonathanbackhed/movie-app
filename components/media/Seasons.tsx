@@ -3,10 +3,11 @@ import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import tw from "@/lib/tailwind";
 import SeasonPreviewCard from "./SeasonPreviewCard";
+import { Season } from "@/interfaces";
 
 interface Props {
-  data: [];
-  seriesId: string;
+  data: Season[];
+  seriesId: number;
 }
 
 export default function Seasons({ data, seriesId }: Props) {
@@ -14,20 +15,19 @@ export default function Seasons({ data, seriesId }: Props) {
     <View>
       <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Seasons</Text>
       <FlashList
-        style={tw`mb-2`}
-        contentContainerStyle={{ marginBottom: 8 }}
+        style={tw`mb-4`}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={data}
-        renderItem={({ item }: { item: any }) => (
+        renderItem={({ item }: { item: Season }) => (
           <SeasonPreviewCard
             key={item.id}
             seriesId={seriesId}
-            path={item.poster_path}
+            path={item.poster_path || ""}
             name={item.name}
             rating={item.vote_average}
             overview={item.overview}
-            date={item.air_date}
+            date={item.air_date || ""}
             season_number={item.season_number}
             episode_count={item.episode_count}
           />

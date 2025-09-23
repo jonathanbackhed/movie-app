@@ -1,3 +1,4 @@
+import { CastMember, CrewMember } from "./credits";
 import { Genre, ProductionCompany, ProductionCountry, SpokenLanguage } from "./shared";
 
 export interface Network {
@@ -30,6 +31,22 @@ export interface Episode {
   season_number: number;
   show_id: number;
   still_path: string | null;
+}
+
+export interface EpisodeFull extends Episode {
+  crew: CrewMember[];
+  guest_stars: CastMember[];
+}
+export interface SeasonFull {
+  _id: string;
+  air_date: string;
+  episodes: EpisodeFull[];
+  name: string;
+  overview: string;
+  id: number;
+  poster_path: string | null;
+  season_number: number;
+  vote_average: number;
 }
 
 export interface Season {

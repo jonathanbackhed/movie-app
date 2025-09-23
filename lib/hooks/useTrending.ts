@@ -1,10 +1,13 @@
+import { MediaShort, PaginatedResponse } from "@/interfaces";
 import { getTrendingAll, getTrendingMovies, getTrendingTV } from "@/lib/api/trending";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, UseInfiniteQueryResult } from "@tanstack/react-query";
 
 const STALE_TIME = 1000 * 60 * 10; // 10 minutes
 
 // index 0 = all, 1 = movies, 2 = tv, comes from SegmentedControl
-export function useTrending(index: number) {
+export function useTrending(
+  index: number
+): UseInfiniteQueryResult<{ pages: PaginatedResponse<MediaShort>[]; pageparams: unknown[] }, Error> {
   return useInfiniteQuery({
     staleTime: STALE_TIME,
     queryKey: ["trending", index],

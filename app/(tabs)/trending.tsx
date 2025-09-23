@@ -1,9 +1,8 @@
 import React, { useCallback, useRef, useState, useMemo } from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import { useTrending } from "@/lib/hooks/useTrending";
 import tw from "@/lib/tailwind";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import { SafeAreaView } from "react-native-safe-area-context";
 import PreviewCard from "@/components/PreviewCard";
 import { FlashList } from "@shopify/flash-list";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,6 +11,7 @@ import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import LoadingScreen from "@/components/screens/LoadingScreen";
 import ErrorScreen from "@/components/screens/ErrorScreen";
 import CustomSafeAreaView from "@/components/views/CustomSafeAreaView";
+import { MediaShort, PaginatedResponse } from "@/interfaces";
 
 export default function Trending() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -20,16 +20,15 @@ export default function Trending() {
 
   const [scrollPositions, setScrollPositions] = useState<number[]>([0, 0, 0]);
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useTrending(selectedIndex);
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useTrending(selectedIndex);
   const queryClient = useQueryClient();
   const { hideAdult } = useSettingsStore();
 
   const flatData = useMemo(() => {
     return (
       data?.pages
-        ?.flatMap((page: any) => page.results)
-        .filter((item: any) => {
+        ?.flatMap((page: PaginatedResponse<MediaShort>) => page.results)
+        .filter((item: MediaShort) => {
           if (item.media_type === "person") return false;
           if (hideAdult && item.adult === true) return false;
           return true;
@@ -75,15 +74,15 @@ export default function Trending() {
   );
 
   const renderItem = useCallback(
-    ({ item }: any) => (
+    ({ item }: { item: MediaShort }) => (
       <PreviewCard
         id={item.id}
-        title={item.title || item.name}
+        title={"title" in item ? item.title : item.name}
         description={item.overview}
-        image={item.poster_path}
+        image={item.poster_path ?? ""}
         rating={item.vote_average}
-        year={item.release_date || item.first_air_date}
-        type={item.media_type}
+        year={"release_date" in item ? item.release_date : item.first_air_date}
+        type={item.media_type as "movie" | "tv"}
         adult={item.adult}
       />
     ),
@@ -115,12 +114,11 @@ export default function Trending() {
           onEndReached={handleLoadMore}
           refreshing={isRefreshing}
           onRefresh={handleRefresh}
+          keyExtractor={(item) => item.id.toString()}
           data={flatData}
           renderItem={renderItem}
           removeClippedSubviews={true}
-          ListFooterComponent={
-            isFetchingNextPage ? <Text style={tw`text-center my-2`}>Loading more...</Text> : null
-          }
+          ListFooterComponent={isFetchingNextPage ? <Text style={tw`text-center my-2`}>Loading more...</Text> : null}
         />
       )}
     </CustomSafeAreaView>

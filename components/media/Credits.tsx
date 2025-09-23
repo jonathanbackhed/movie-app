@@ -6,7 +6,7 @@ import tw from "@/lib/tailwind";
 import { View, Text } from "react-native";
 
 interface Props {
-  data: CastMember[] | CrewMember[];
+  data: (CastMember | CrewMember)[];
 }
 
 export default function Credits({ data }: Props) {
@@ -14,8 +14,7 @@ export default function Credits({ data }: Props) {
     <View>
       <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Credits</Text>
       <FlashList
-        style={tw`mb-2`}
-        contentContainerStyle={{ marginBottom: 8 }}
+        style={tw`mb-4`}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={data}
@@ -25,7 +24,7 @@ export default function Credits({ data }: Props) {
             id={item.id}
             name={item.name}
             role={"character" in item ? item.character : item.job}
-            profile_path={item.profile_path}
+            profile_path={item.profile_path || ""}
           />
         )}
       />

@@ -4,7 +4,6 @@ import tw from "@/lib/tailwind";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { PosterSize } from "@/constants/enums";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useSeasonEpisodes } from "@/lib/hooks/useMedia";
 import LoadingScreen from "../screens/LoadingScreen";
@@ -13,9 +12,10 @@ import { formatRuntime } from "@/lib/utils/formatRuntime";
 import GeneralModal from "../GeneralModal";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import Rating from "../Rating";
+import { EpisodeFull } from "@/interfaces";
 
 interface Props {
-  seriesId: string;
+  seriesId: number;
   path: string;
   name: string;
   rating: number;
@@ -46,7 +46,8 @@ export default function SeasonPreviewCard({
         onPress={() => setIsModalOpen(true)}
         style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-xl p-2 shadow-sm flex-row ${
           duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
-        }`}>
+        }`}
+      >
         <Image
           source={BASE_IMAGE_URL + PosterSize.w154 + path}
           alt="poster art"
@@ -99,12 +100,11 @@ export default function SeasonPreviewCard({
 
             {error && <ErrorScreen message="Failed to load episodes" />}
 
-            {episodesData?.episodes?.map((episode: any) => (
+            {episodesData?.episodes?.map((episode: EpisodeFull) => (
               <View
                 key={episode?.id}
-                style={tw`mb-2 p-2 bg-zinc-100 rounded-xl ${
-                  duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
-                }`}>
+                style={tw`mb-2 p-2 bg-zinc-100 rounded-xl ${duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"}`}
+              >
                 <View style={tw`flex-row justify-between items-start mb-2`}>
                   <View style={tw`flex-1`}>
                     <Text style={tw`font-bold text-lg dark:text-white`}>
@@ -120,9 +120,7 @@ export default function SeasonPreviewCard({
                   {episode?.overview || "No overview available"}
                 </Text>
                 {episode?.runtime && (
-                  <Text style={tw`text-xs text-gray-500 mt-1 dark:text-white`}>
-                    {formatRuntime(episode?.runtime)}
-                  </Text>
+                  <Text style={tw`text-xs text-gray-500 mt-1 dark:text-white`}>{formatRuntime(episode?.runtime)}</Text>
                 )}
               </View>
             ))}

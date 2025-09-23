@@ -5,28 +5,19 @@ import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { BackdropSize, PosterSize } from "@/constants/enums";
 import { Link } from "expo-router";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Rating from "./Rating";
 
 interface Props {
-  id: string;
+  id: number;
   poster_path: string;
-  backdrop_path: string;
+  backdrop_path?: string;
   title: string;
   type: "movie" | "tv";
   rating: number;
   date: string;
 }
 
-export default function MediaBigPreview({
-  id,
-  poster_path,
-  backdrop_path,
-  title,
-  type,
-  rating,
-  date,
-}: Props) {
+export default function MediaBigPreview({ id, poster_path, backdrop_path, title, type, rating, date }: Props) {
   const notReleased = new Date(date) > new Date();
   return (
     <Link href={`/media/${id}?type=${type}`} style={tw`w-[300px] h-auto mx-2`}>

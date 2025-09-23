@@ -1,14 +1,13 @@
 import tw from "@/lib/tailwind";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useHomeData } from "@/lib/hooks/useHome";
 import PageHeader from "@/components/PageHeader";
-import { FlashList } from "@shopify/flash-list";
 import { useMemo } from "react";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
-import MediaBigPreview from "@/components/MediaBigPreview";
 import { filterAdult } from "@/lib/utils/filterData";
 import CustomScrollView from "@/components/views/CustomScrollView";
 import HorizontalMediaList from "@/components/HorizontalMediaList";
+import { MovieShort, SeriesShort } from "@/interfaces";
 
 export default function Index() {
   const { hideAdult } = useSettingsStore();
@@ -17,9 +16,9 @@ export default function Index() {
 
   const filteredData = useMemo(
     () => ({
-      filteredNowPlayingMovies: filterAdult(nowPlayingMovies?.data?.results, hideAdult),
-      filteredUpcomingMovies: filterAdult(upcomingMovies?.data?.results, hideAdult),
-      filteredUpcomingTv: filterAdult(upcomingTv?.data?.results, hideAdult),
+      filteredNowPlayingMovies: filterAdult(nowPlayingMovies?.data?.results || [], hideAdult) as MovieShort[],
+      filteredUpcomingMovies: filterAdult(upcomingMovies?.data?.results || [], hideAdult) as MovieShort[],
+      filteredUpcomingTv: filterAdult(upcomingTv?.data?.results || [], hideAdult) as SeriesShort[],
     }),
     [hideAdult, nowPlayingMovies, upcomingMovies, upcomingTv]
   );
@@ -28,8 +27,8 @@ export default function Index() {
 
   const filteredInfiniteData = useMemo(
     () => ({
-      filteredtopRatedMovies: filterAdult(topRatedMovies?.data?.results, hideAdult),
-      filteredTopRatedTv: filterAdult(topRatedTv?.data?.results, hideAdult),
+      filteredtopRatedMovies: filterAdult(topRatedMovies?.data?.results || [], hideAdult) as MovieShort[],
+      filteredTopRatedTv: filterAdult(topRatedTv?.data?.results || [], hideAdult) as SeriesShort[],
     }),
     [hideAdult, topRatedMovies, topRatedTv]
   );

@@ -1,4 +1,4 @@
-import { View, Text, Modal, Button, Pressable, ScrollView } from "react-native";
+import { View, Text, Pressable, ScrollView } from "react-native";
 import React, { useState } from "react";
 import tw from "@/lib/tailwind";
 import { BASE_IMAGE_URL } from "@/constants/settings";
@@ -6,13 +6,12 @@ import { Image } from "expo-image";
 import { ProfileSize } from "@/constants/enums";
 import Entypo from "@expo/vector-icons/Entypo";
 import { GlassView } from "expo-glass-effect";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import GeneralModal from "../GeneralModal";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import Rating from "../Rating";
 
 interface Props {
-  path: string;
+  path: string | null;
   name: string;
   rating: number;
   content: string;
@@ -30,7 +29,8 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
         onPress={() => setIsModalOpen(true)}
         style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-xl p-2 shadow-sm ${
           duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
-        }`}>
+        }`}
+      >
         <View style={tw`flex-1 flex-row items-center mb-1`}>
           <View style={tw`flex-1 items-start`}>
             <Text numberOfLines={7} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
@@ -49,10 +49,7 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
               contentFit="contain"
             />
           ) : (
-            <GlassView
-              style={tw`w-[30px] h-[30px] rounded-full mr-1 bg-zinc-300`}
-              glassEffectStyle="regular"
-            />
+            <GlassView style={tw`w-[30px] h-[30px] rounded-full mr-1 bg-zinc-300`} glassEffectStyle="regular" />
           )}
           <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
           <View style={tw`flex items-end`}>
@@ -74,10 +71,7 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
                 contentFit="contain"
               />
             ) : (
-              <GlassView
-                style={tw`w-[30px] h-[30px] rounded-full mr-1 bg-zinc-300`}
-                glassEffectStyle="regular"
-              />
+              <GlassView style={tw`w-[30px] h-[30px] rounded-full mr-1 bg-zinc-300`} glassEffectStyle="regular" />
             )}
             <Text style={tw`font-bold flex-1 dark:text-white`}>{name}</Text>
             <View style={tw`flex items-end`}>

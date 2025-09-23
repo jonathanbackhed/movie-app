@@ -61,6 +61,6 @@ export async function getSeriesProviders(id: string) {
 }
 
 // https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}
-export async function getSeriesSeasonDetails(id: string, seasonNumber: number) {
+export async function getSeriesSeasonDetails(id: number, seasonNumber: number) {
   return apiFetch(`/tv/${id}/season/${seasonNumber}`);
 }

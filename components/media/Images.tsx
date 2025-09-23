@@ -3,10 +3,11 @@ import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import tw from "@/lib/tailwind";
 import ImagePreviewCard from "./ImagePreviewCard";
+import { Image } from "@/interfaces";
 
 interface Props {
   title: string;
-  data: [];
+  data: Image[];
   isPoster?: boolean;
 }
 
@@ -15,13 +16,12 @@ export default function Images({ title, data, isPoster = false }: Props) {
     <View>
       {title && <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>{title}</Text>}
       <FlashList
-        style={tw`mb-2`}
-        contentContainerStyle={{ marginBottom: 8 }}
+        style={tw`mb-4`}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={data}
-        renderItem={({ item }: { item: any }) => (
-          <ImagePreviewCard key={item.id} path={item.file_path} isPoster={isPoster} />
+        renderItem={({ item, index }: { item: Image; index: number }) => (
+          <ImagePreviewCard key={index} path={item.file_path} isPoster={isPoster} />
         )}
       />
     </View>

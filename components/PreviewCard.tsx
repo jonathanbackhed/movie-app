@@ -5,7 +5,6 @@ import { BASE_IMAGE_URL } from "@/constants/settings";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import * as Sharing from "expo-sharing";
 import Rating from "./Rating";
 
@@ -20,16 +19,7 @@ interface Props {
   adult: boolean;
 }
 
-const PreviewCard = memo(function PreviewCard({
-  id,
-  title,
-  description,
-  image,
-  rating,
-  year,
-  type,
-  adult,
-}: Props) {
+const PreviewCard = memo(function PreviewCard({ id, title, description, image, rating, year, type, adult }: Props) {
   const { setHideAdult } = useSettingsStore();
 
   const handleHideAdult = () => {
@@ -54,19 +44,14 @@ const PreviewCard = memo(function PreviewCard({
             style={tw`w-[92px] h-[138px] aspect-2/3 rounded-xl`}
           />
           <View style={tw`p-1 pl-2 flex-1`}>
-            <Text
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              style={tw`text-xl font-extrabold flex-none dark:text-white`}>
+            <Text numberOfLines={1} ellipsizeMode="tail" style={tw`text-xl font-extrabold flex-none dark:text-white`}>
               {title}
             </Text>
             <Text numberOfLines={3} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
               {description}
             </Text>
             <View style={tw`flex-row flex-none mt-2`}>
-              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
-                {year ? year.slice(0, 4) : "N/A"}
-              </Text>
+              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>{year ? year.slice(0, 4) : "N/A"}</Text>
               <Rating rating={rating} customStyle="mr-2" />
             </View>
           </View>
