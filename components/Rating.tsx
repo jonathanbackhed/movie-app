@@ -4,16 +4,17 @@ import tw from "@/lib/tailwind";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface Props {
-  rating: number;
+  rating?: number;
   customStyle?: string;
   outOfTen?: boolean;
 }
 
 export default function Rating({ rating, customStyle, outOfTen }: Props) {
-  const hasDecimals = rating % 1 !== 0;
+  if (!rating || rating === -1) return null;
+  const roundedRating = Math.round(rating * 10) / 10;
   return (
     <Text style={tw.style(`font-bold text-xs dark:text-white`, customStyle)}>
-      {!rating || rating === -1 ? "N/A" : hasDecimals ? rating?.toFixed(1) : rating}
+      {roundedRating}
       {outOfTen ? (
         <Text style={tw.style(`text-zinc-500 text-[.5rem] dark:text-neutral-300`, customStyle)}>/10</Text>
       ) : (
