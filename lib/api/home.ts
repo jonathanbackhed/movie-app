@@ -35,5 +35,8 @@ export async function getUpcomingTV() {
   date.setMonth(date.getMonth() + 3);
   const to = date.toLocaleDateString("sv-SE");
 
-  return apiFetch(`/discover/tv`, `&sort_by=popularity.desc&with_type=4|2|0|3&air_date.gte=${from}&watch_region=US`);
+  return apiFetch(
+    `/discover/tv`,
+    `&sort_by=popularity.desc&with_type=4|2|0|3&first_air_date.gte=${from}&first_air_date.lte=${to}&watch_region=US&with_watch_monetization_types=flatrate|ads`
+  );
 }
