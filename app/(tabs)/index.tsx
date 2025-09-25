@@ -4,7 +4,7 @@ import { useHomeData } from "@/lib/hooks/useHome";
 import PageHeader from "@/components/PageHeader";
 import { useMemo } from "react";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
-import { filterAdult } from "@/lib/utils/filterData";
+import { filterAdult } from "@/lib/utils/dataUtils";
 import CustomScrollView from "@/components/views/CustomScrollView";
 import HorizontalMediaList from "@/components/HorizontalMediaList";
 import { MovieShort, SeriesShort } from "@/interfaces";

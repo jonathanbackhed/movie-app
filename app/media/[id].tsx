@@ -16,8 +16,8 @@ import Recommended from "@/components/media/Recommended";
 import Reviews from "@/components/media/Reviews";
 import Providers from "@/components/media/Providers";
 import Seasons from "@/components/media/Seasons";
-import { formatRuntime } from "@/lib/utils/formatRuntime";
-import { formatDateShowYearOnly } from "@/lib/utils/formatDate";
+import { formatRuntime } from "@/lib/utils/timeUtils";
+import { formatDateShowYearOnly } from "@/lib/utils/dateUtils";
 import CustomScrollView from "@/components/views/CustomScrollView";
 import GeneralModal from "@/components/GeneralModal";
 import Rating from "@/components/Rating";
@@ -108,8 +108,7 @@ export default function MediaDetail() {
           {media?.genres?.map((genre: Genre) => (
             <Text
               key={genre.id}
-              style={tw`text-sm font-bold mr-2 bg-zinc-300 dark:bg-zinc-800 dark:text-white rounded-xl px-2 py-1`}
-            >
+              style={tw`text-sm font-bold mr-2 bg-zinc-300 dark:bg-zinc-800 dark:text-white rounded-xl px-2 py-1`}>
               {genre.name}
             </Text>
           ))}

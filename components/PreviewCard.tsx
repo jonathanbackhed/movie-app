@@ -7,6 +7,7 @@ import { Link } from "expo-router";
 import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import * as Sharing from "expo-sharing";
 import Rating from "./Rating";
+import { formatDateShowYearOnly, isUnreleased } from "@/lib/utils/dateUtils";
 
 interface Props {
   id: number;
@@ -32,6 +33,8 @@ const PreviewCard = memo(function PreviewCard({ id, title, description, image, r
     }
   };
 
+  const unreleased = isUnreleased(year);
+
   return (
     <Link href={`/media/${id}?type=${type}`} style={tw`flex-row mb-2`}>
       <Link.Trigger>
@@ -50,9 +53,17 @@ const PreviewCard = memo(function PreviewCard({ id, title, description, image, r
             <Text numberOfLines={3} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
               {description}
             </Text>
-            <View style={tw`flex-row flex-none mt-2`}>
-              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>{year ? year.slice(0, 4) : "N/A"}</Text>
-              <Rating rating={rating} customStyle="mr-2" />
+            <View style={tw`mt-2`}>
+              <View style={tw`flex-row flex-none`}>
+                {unreleased ? (
+                  <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>Releasing {year}</Text>
+                ) : (
+                  <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
+                    {year ? formatDateShowYearOnly(year) : "N/A"}
+                  </Text>
+                )}
+                <Rating rating={rating} customStyle="mr-2" />
+              </View>
             </View>
           </View>
         </View>
