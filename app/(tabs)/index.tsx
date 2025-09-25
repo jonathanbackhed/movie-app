@@ -12,18 +12,18 @@ import { MovieShort, SeriesShort } from "@/interfaces";
 export default function Index() {
   const { hideAdult } = useSettingsStore();
 
-  const [nowPlayingMovies, upcomingMovies, upcomingTv, topRatedMovies, topRatedTv] = useHomeData();
+  const [nowPlayingMovies, upcomingTheaterMovies, upcomingTv, topRatedMovies, topRatedTv] = useHomeData();
 
   const filteredData = useMemo(
     () => ({
       filteredNowPlayingMovies: filterAdult(nowPlayingMovies?.data?.results || [], hideAdult) as MovieShort[],
-      filteredUpcomingMovies: filterAdult(upcomingMovies?.data?.results || [], hideAdult) as MovieShort[],
+      filteredUpcomingTheaterMovies: filterAdult(upcomingTheaterMovies?.data?.results || [], hideAdult) as MovieShort[],
       filteredUpcomingTv: filterAdult(upcomingTv?.data?.results || [], hideAdult) as SeriesShort[],
     }),
-    [hideAdult, nowPlayingMovies, upcomingMovies, upcomingTv]
+    [hideAdult, nowPlayingMovies, upcomingTheaterMovies, upcomingTv]
   );
 
-  const { filteredNowPlayingMovies, filteredUpcomingMovies, filteredUpcomingTv } = filteredData;
+  const { filteredNowPlayingMovies, filteredUpcomingTheaterMovies, filteredUpcomingTv } = filteredData;
 
   const filteredInfiniteData = useMemo(
     () => ({
@@ -41,7 +41,7 @@ export default function Index() {
         <PageHeader title="Home" />
       </View>
       <HorizontalMediaList title="In theaters" data={filteredNowPlayingMovies} type="movie" />
-      <HorizontalMediaList title="Upcoming movies" data={filteredUpcomingMovies} type="movie" />
+      <HorizontalMediaList title="Upcoming theatrical movies" data={filteredUpcomingTheaterMovies} type="movie" />
       <HorizontalMediaList title="Upcoming TV" data={filteredUpcomingTv} type="tv" />
       <HorizontalMediaList title="Top rated movies" data={filteredtopRatedMovies} type="movie" />
       <HorizontalMediaList title="Top rated TV" data={filteredTopRatedTv} type="tv" />

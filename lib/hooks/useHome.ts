@@ -1,5 +1,11 @@
 import { useQueries, UseQueryResult } from "@tanstack/react-query";
-import { getNowPlayingMovies, getTopRatedMovies, getUpcomingMovies, getUpcomingTV, getTopRatedTV } from "../api/home";
+import {
+  getNowPlayingMovies,
+  getTopRatedMovies,
+  getUpcomingTheaterMovies,
+  getUpcomingTV,
+  getTopRatedTV,
+} from "../api/home";
 import { MovieShort, PaginatedResponse, SeriesShort } from "@/interfaces";
 
 const STALE_TIME = 1000 * 60 * 10; // 10 minutes
@@ -20,8 +26,8 @@ export function useHomeData(): [
       },
       {
         staleTime: STALE_TIME,
-        queryKey: ["homeUpcomingMovies"],
-        queryFn: () => getUpcomingMovies(),
+        queryKey: ["homeUpcomingTheaterMovies"],
+        queryFn: () => getUpcomingTheaterMovies(),
       },
       {
         staleTime: STALE_TIME,

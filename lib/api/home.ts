@@ -10,15 +10,16 @@ export async function getTopRatedMovies() {
   return apiFetch(`/movie/top_rated`, "&region=US");
 }
 
-export async function getUpcomingMovies() {
+export async function getUpcomingTheaterMovies() {
   let date = new Date();
-  const from = date.toISOString().split("T")[0];
-  date.setMonth(date.getMonth() + 1);
-  const to = date.toISOString().split("T")[0];
+  date.setDate(date.getDate() + 1);
+  const from = date.toLocaleDateString("sv-SE");
+  date.setMonth(date.getMonth() + 3);
+  const to = date.toLocaleDateString("sv-SE");
 
   return apiFetch(
     `/discover/movie`,
-    `&include_adult=true&page=1&sort_by=popularity.desc&with_release_type=1|2|3|6|4&primary_release_date.gte=${from}&primary_release_date.lte=${to}&region=US&primary_release_year=2025`
+    `&sort_by=popularity.desc&region=US&primary_release_date.gte=${from}&primary_release_date.lte=${to}&with_release_type=3`
   );
 }
 
@@ -29,12 +30,10 @@ export async function getTopRatedTV() {
 
 export async function getUpcomingTV() {
   let date = new Date();
-  const from = date.toISOString().split("T")[0];
-  date.setMonth(date.getMonth() + 1);
-  const to = date.toISOString().split("T")[0];
+  date.setDate(date.getDate() + 1);
+  const from = date.toLocaleDateString("sv-SE");
+  date.setMonth(date.getMonth() + 3);
+  const to = date.toLocaleDateString("sv-SE");
 
-  return apiFetch(
-    `/discover/tv`,
-    `&include_adult=true&page=1&sort_by=popularity.desc&with_type=4|2|0|3&air_date.gte=${from}&air_date.lte=${to}&watch_region=US`
-  );
+  return apiFetch(`/discover/tv`, `&sort_by=popularity.desc&with_type=4|2|0|3&air_date.gte=${from}&watch_region=US`);
 }
