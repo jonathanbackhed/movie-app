@@ -8,6 +8,7 @@ import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import * as Sharing from "expo-sharing";
 import Rating from "./Rating";
 import { formatDateShowYearOnly, isUnreleased } from "@/lib/utils/dateUtils";
+import { PosterSize } from "@/constants/enums";
 
 interface Props {
   id: number;
@@ -40,7 +41,7 @@ const PreviewCard = memo(function PreviewCard({ id, title, description, image, r
       <Link.Trigger>
         <View style={tw`flex-row mb-2`}>
           <Image
-            source={BASE_IMAGE_URL + "/w92" + image}
+            source={BASE_IMAGE_URL + PosterSize.w500 + image}
             alt="poster"
             contentFit="contain"
             cachePolicy="none"
