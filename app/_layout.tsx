@@ -23,8 +23,23 @@ export default function RootLayout() {
               headerTransparent: true,
               title: "",
               headerBackButtonDisplayMode: "minimal",
-              headerBackButtonMenuEnabled: true,
+              headerBackButtonMenuEnabled: false,
               headerBackTitle: "Back",
+              fullScreenGestureEnabled: true,
+              fullScreenGestureShadowEnabled: true,
+            }}
+          />
+          <Stack.Screen
+            name="person/[id]"
+            options={{
+              headerShown: true,
+              headerTransparent: true,
+              title: "",
+              headerBackButtonDisplayMode: "minimal",
+              headerBackButtonMenuEnabled: false,
+              headerBackTitle: "Back",
+              fullScreenGestureEnabled: true,
+              fullScreenGestureShadowEnabled: true,
             }}
           />
         </Stack>

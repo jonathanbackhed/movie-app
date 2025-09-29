@@ -11,10 +11,9 @@ interface Props {
 
 export default function Reviews({ data }: Props) {
   return (
-    <View>
+    <View style={tw`mb-4`}>
       <Text style={tw`text-2xl font-bold mb-2 ml-2 dark:text-white`}>Reviews</Text>
       <FlashList
-        style={tw`mb-4`}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={data}

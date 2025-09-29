@@ -18,7 +18,7 @@ export default function ImagePreviewCard({ id, path, isPoster, type }: Props) {
   return id ? (
     <Link href={`/media/${id}?type=${type}`} style={tw`w-[92px] aspect-2/3 mx-2`}>
       <Image
-        source={BASE_IMAGE_URL + PosterSize.w154 + path}
+        source={BASE_IMAGE_URL + PosterSize.w342 + path}
         alt="image"
         style={tw`w-full h-full rounded-xl`}
         cachePolicy="none"
@@ -28,7 +28,7 @@ export default function ImagePreviewCard({ id, path, isPoster, type }: Props) {
   ) : (
     <View style={tw`${isPoster ? "w-[92px] aspect-2/3" : "w-[300px] aspect-video"} mx-2`}>
       <Image
-        source={BASE_IMAGE_URL + (isPoster ? PosterSize.w154 : BackdropSize.w780) + path}
+        source={BASE_IMAGE_URL + (isPoster ? PosterSize.w342 : BackdropSize.w780) + path}
         alt="image"
         style={tw`w-full h-full rounded-xl`}
         cachePolicy="none"

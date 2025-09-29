@@ -31,3 +31,10 @@ export enum LogoSize {
   w500 = "/w500",
   original = "/original",
 }
+
+export enum Gender {
+  NotSpecified = 0,
+  Female = 1,
+  Male = 2,
+  NonBinary = 3,
+}

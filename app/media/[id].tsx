@@ -103,7 +103,7 @@ export default function MediaDetail() {
           <FontAwesome name="imdb" size={48} color="#f3ce13" />
         </Pressable> */}
       </View>
-      <ScrollView horizontal style={tw`mb-4`}>
+      <ScrollView horizontal style={tw`mb-4`} showsHorizontalScrollIndicator={false}>
         <View style={tw`flex-row mx-2`}>
           {media?.genres?.map((genre: Genre) => (
             <Text
