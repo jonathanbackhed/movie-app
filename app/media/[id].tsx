@@ -17,11 +17,12 @@ import Reviews from "@/components/media/Reviews";
 import Providers from "@/components/media/Providers";
 import Seasons from "@/components/media/Seasons";
 import { formatRuntime } from "@/lib/utils/timeUtils";
-import { formatDateShowYearOnly } from "@/lib/utils/dateUtils";
+import { formatDateShowYearOnly, isUnreleased } from "@/lib/utils/dateUtils";
 import CustomScrollView from "@/components/views/CustomScrollView";
 import GeneralModal from "@/components/GeneralModal";
 import Rating from "@/components/Rating";
 import { BackdropSize, PosterSize } from "@/constants/enums";
+import TextBubble from "@/components/TextBubble";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -49,6 +50,8 @@ export default function MediaDetail() {
     // ...(providers?.data?.results?.US?.rent || []),
     // ...(providers?.data?.results?.US?.buy || []),
   ];
+
+  const unreleased = isUnreleased(type === "movie" ? mediaMovie?.release_date : mediaSeries?.first_air_date);
 
   if (media?.adult && hideAdult && !isPreview) router.back();
 
@@ -82,7 +85,7 @@ export default function MediaDetail() {
           <Text style={tw`text-3xl font-bold dark:text-white`}>
             {type === "movie" ? mediaMovie?.title : mediaSeries?.name}
           </Text>
-          <View style={tw`flex-row items-center`}>
+          <View style={tw`flex-row items-center mb-1`}>
             <Text style={tw`font-bold mr-2 dark:text-white`}>
               {type === "movie"
                 ? formatDateShowYearOnly(mediaMovie?.release_date || "")
@@ -99,6 +102,14 @@ export default function MediaDetail() {
               </Text>
             )}
           </View>
+          {unreleased && (
+            <View style={tw`flex-row items-center`}>
+              <TextBubble text="UNRELEASED" color="bg-lime-400" />
+              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
+                Releasing {type === "movie" ? mediaMovie?.release_date : mediaSeries?.first_air_date}
+              </Text>
+            </View>
+          )}
         </View>
         {/* <Pressable onPress={() => WebBrowser.openBrowserAsync(`https://www.imdb.com/title/${details?.data?.imdb_id}`)}>
           <FontAwesome name="imdb" size={48} color="#f3ce13" />

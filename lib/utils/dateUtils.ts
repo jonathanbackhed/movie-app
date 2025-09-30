@@ -11,8 +11,8 @@ export function formatDateShowYearOnly(date: string, date2?: string | null) {
   return date?.slice(0, 4);
 }
 
-export function isUnreleased(date: string): boolean {
-  if (!date) return false;
+export function isUnreleased(date?: string | null): boolean {
+  if (!date || date === "") return false;
 
   const today = new Date();
   const releaseDate = new Date(date);
