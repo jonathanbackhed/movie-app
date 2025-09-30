@@ -15,6 +15,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import Images from "@/components/media/Images";
 import KnownFor from "@/components/person/KnownFor";
 import * as WebBrowser from "expo-web-browser";
+import { PosterSize } from "@/constants/enums";
 
 export default function PersonDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -57,7 +58,7 @@ export default function PersonDetails() {
     <CustomScrollView>
       <View style={tw`relative h-80 w-screen mb-2`}>
         <Image
-          source={BASE_IMAGE_URL + "/w780" + details?.data?.profile_path}
+          source={BASE_IMAGE_URL + PosterSize.w780 + details?.data?.profile_path}
           alt="backdrop"
           contentFit="cover"
           cachePolicy="none"
@@ -67,7 +68,7 @@ export default function PersonDetails() {
         {/* <View style={tw`bg-sky-400 flex-1`}></View> */}
         <SafeAreaView edges={["top"]} style={tw`absolute top-0 left-0 w-full h-full items-center justify-center`}>
           <Image
-            source={BASE_IMAGE_URL + "/w342" + details?.data?.profile_path}
+            source={BASE_IMAGE_URL + PosterSize.w342 + details?.data?.profile_path}
             alt="poster"
             contentFit="contain"
             cachePolicy="none"

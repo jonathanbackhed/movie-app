@@ -21,6 +21,7 @@ import { formatDateShowYearOnly } from "@/lib/utils/dateUtils";
 import CustomScrollView from "@/components/views/CustomScrollView";
 import GeneralModal from "@/components/GeneralModal";
 import Rating from "@/components/Rating";
+import { BackdropSize, PosterSize } from "@/constants/enums";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -59,7 +60,7 @@ export default function MediaDetail() {
     <CustomScrollView>
       <View style={tw`relative h-80 w-screen mb-2`}>
         <Image
-          source={BASE_IMAGE_URL + "/w780" + media?.backdrop_path}
+          source={BASE_IMAGE_URL + BackdropSize.w780 + media?.backdrop_path}
           alt="backdrop"
           contentFit="cover"
           cachePolicy="none"
@@ -68,7 +69,7 @@ export default function MediaDetail() {
         />
         <SafeAreaView edges={["top"]} style={tw`absolute top-0 left-0 w-full h-full items-center justify-center`}>
           <Image
-            source={BASE_IMAGE_URL + "/w342" + media?.poster_path}
+            source={BASE_IMAGE_URL + PosterSize.w342 + media?.poster_path}
             alt="poster"
             contentFit="contain"
             cachePolicy="none"
