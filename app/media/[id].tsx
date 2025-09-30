@@ -118,11 +118,7 @@ export default function MediaDetail() {
       <ScrollView horizontal style={tw`mb-4`} showsHorizontalScrollIndicator={false}>
         <View style={tw`flex-row mx-2`}>
           {media?.genres?.map((genre: Genre) => (
-            <Text
-              key={genre.id}
-              style={tw`text-sm font-bold mr-2 bg-zinc-300 dark:bg-zinc-800 dark:text-white rounded-xl px-2 py-1`}>
-              {genre.name}
-            </Text>
+            <TextBubble key={genre.id} text={genre.name} textSize="sm" />
           ))}
         </View>
       </ScrollView>

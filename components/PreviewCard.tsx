@@ -10,6 +10,7 @@ import Rating from "./Rating";
 import { formatDateShowYearOnly, isUnreleased } from "@/lib/utils/dateUtils";
 import { PosterSize } from "@/constants/enums";
 import { MediaShort } from "@/interfaces";
+import TextBubble from "./TextBubble";
 
 interface Props {
   id: number;
@@ -75,11 +76,11 @@ const PreviewCard = memo(function PreviewCard({
                   {knownFor &&
                     knownFor.length > 0 &&
                     knownFor.map((item) => (
-                      <View key={item.id} style={tw`mr-1 mb-0.5 bg-zinc-300 dark:bg-zinc-800 rounded-xl px-2 py-1`}>
-                        <Text style={tw`font-bold text-xs dark:text-white`}>
-                          {"name" in item ? item.name : item.title}
-                        </Text>
-                      </View>
+                      <TextBubble
+                        key={item.id}
+                        text={"name" in item ? item.name : item.title}
+                        customStyle="mr-1 mb-0.5"
+                      />
                     ))}
                 </View>
                 <Rating rating={rating} customStyle="mr-2" />
