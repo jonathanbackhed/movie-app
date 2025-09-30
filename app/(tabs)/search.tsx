@@ -10,7 +10,7 @@ import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import LoadingScreen from "@/components/screens/LoadingScreen";
 import ErrorScreen from "@/components/screens/ErrorScreen";
 import CustomSafeAreaView from "@/components/views/CustomSafeAreaView";
-import { MediaShort } from "@/interfaces";
+import { CombinedShort } from "@/interfaces";
 
 export default function Search() {
   const [search, setSearch] = useState<string>("");
@@ -19,9 +19,9 @@ export default function Search() {
   const { hideAdult } = useSettingsStore();
   const { data, isLoading, isError } = useSearchAll(search);
 
-  const dataFiltered: MediaShort[] =
-    data?.results?.filter((item: MediaShort) => {
-      if (item.media_type === "person") return false;
+  const dataFiltered: CombinedShort[] =
+    data?.results?.filter((item: CombinedShort) => {
+      // if (item.media_type === "person") return false;
       if (hideAdult && item.adult === true) return false;
 
       return true;
@@ -57,17 +57,19 @@ export default function Search() {
           contentContainerStyle={{ paddingBottom: 90 }}
           data={dataFiltered}
           onScroll={() => Keyboard.dismiss()}
-          renderItem={({ item }: { item: MediaShort }) => (
+          renderItem={({ item }: { item: CombinedShort }) => (
             <PreviewCard
               key={item.id}
               id={item.id}
               title={"title" in item ? item.title : item.name}
-              description={item.overview}
-              image={item.poster_path ?? ""}
-              rating={item.vote_average}
-              year={"release_date" in item ? item.release_date : item.first_air_date}
-              type={item.media_type as "movie" | "tv"}
+              subTitle={"known_for_department" in item ? item.known_for_department : ""}
+              description={"overview" in item ? item.overview : ""}
+              image={("poster_path" in item ? item.poster_path : item.profile_path) ?? ""}
+              rating={"vote_average" in item ? item.vote_average : -1}
+              year={"release_date" in item ? item.release_date : "first_air_date" in item ? item.first_air_date : ""}
+              type={item.media_type as "movie" | "tv" | "person"}
               adult={item.adult}
+              knownFor={"known_for" in item ? item.known_for : []}
             />
           )}
         />

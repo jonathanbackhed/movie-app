@@ -9,19 +9,33 @@ import * as Sharing from "expo-sharing";
 import Rating from "./Rating";
 import { formatDateShowYearOnly, isUnreleased } from "@/lib/utils/dateUtils";
 import { PosterSize } from "@/constants/enums";
+import { MediaShort } from "@/interfaces";
 
 interface Props {
   id: number;
   title: string;
+  subTitle?: string;
   description: string;
   image: string;
   rating: number;
   year: string;
-  type: "movie" | "tv";
+  type: "movie" | "tv" | "person";
   adult: boolean;
+  knownFor?: MediaShort[];
 }
 
-const PreviewCard = memo(function PreviewCard({ id, title, description, image, rating, year, type, adult }: Props) {
+const PreviewCard = memo(function PreviewCard({
+  id,
+  title,
+  description,
+  image,
+  rating,
+  year,
+  type,
+  adult,
+  subTitle,
+  knownFor,
+}: Props) {
   const { setHideAdult } = useSettingsStore();
 
   const handleHideAdult = () => {
@@ -36,7 +50,57 @@ const PreviewCard = memo(function PreviewCard({ id, title, description, image, r
 
   const unreleased = isUnreleased(year);
 
-  return (
+  return type === "person" ? (
+    <Link href={`/person/${id}`} style={tw`flex-row mb-2`}>
+      <Link.Trigger>
+        <View style={tw`flex-row mb-2`}>
+          <Image
+            source={BASE_IMAGE_URL + PosterSize.w500 + image}
+            alt="poster"
+            contentFit="contain"
+            cachePolicy="none"
+            style={tw`w-[92px] h-[138px] aspect-2/3 rounded-xl`}
+          />
+          <View style={tw`p-1 pl-2 flex-1`}>
+            <Text numberOfLines={1} ellipsizeMode="tail" style={tw`text-xl font-extrabold flex-none dark:text-white`}>
+              {title}
+            </Text>
+            <Text numberOfLines={1} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
+              {subTitle}
+            </Text>
+            <View style={tw`mt-2`}>
+              <View style={tw``}>
+                <Text style={tw`font-bold text-xs`}>Known for:</Text>
+                <View style={tw`flex-row flex-wrap`}>
+                  {knownFor &&
+                    knownFor.length > 0 &&
+                    knownFor.map((item) => (
+                      <View key={item.id} style={tw`mr-1 mb-0.5 bg-zinc-300 dark:bg-zinc-800 rounded-xl px-2 py-1`}>
+                        <Text style={tw`font-bold text-xs dark:text-white`}>
+                          {"name" in item ? item.name : item.title}
+                        </Text>
+                      </View>
+                    ))}
+                </View>
+                <Rating rating={rating} customStyle="mr-2" />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Link.Trigger>
+      <Link.Preview />
+      {adult ? (
+        <Link.Menu>
+          <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
+          <Link.MenuAction title="Hide adult content" icon="minus.circle" onPress={handleHideAdult} />
+        </Link.Menu>
+      ) : (
+        <Link.Menu>
+          <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
+        </Link.Menu>
+      )}
+    </Link>
+  ) : (
     <Link href={`/media/${id}?type=${type}`} style={tw`flex-row mb-2`}>
       <Link.Trigger>
         <View style={tw`flex-row mb-2`}>

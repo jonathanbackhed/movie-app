@@ -1,3 +1,5 @@
+import { PersonShort } from "./person";
+
 export interface Genre {
   id: number;
   name: string;
@@ -50,6 +52,8 @@ export interface SeriesShort extends BaseShortMedia {
 }
 
 export type MediaShort = MovieShort | SeriesShort;
+
+export type CombinedShort = MovieShort | SeriesShort | PersonShort;
 
 export interface PaginatedResponse<T> {
   page: number;

@@ -1,9 +1,9 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getSearchAll } from "../api/search";
-import { MediaShort, PaginatedResponse } from "@/interfaces";
+import { CombinedShort, PaginatedResponse } from "@/interfaces";
 
-export function useSearchAll(query: string): UseQueryResult<PaginatedResponse<MediaShort>> {
+export function useSearchAll(query: string): UseQueryResult<PaginatedResponse<CombinedShort>> {
   const [debouncedQuery, setDebouncedQuery] = useState(query);
 
   useEffect(() => {
