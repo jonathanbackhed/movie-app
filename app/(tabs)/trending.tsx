@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState, useMemo } from "react";
-import { Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import { useTrending } from "@/lib/hooks/useTrending";
 import tw from "@/lib/tailwind";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -18,7 +18,7 @@ import ClickablePoster from "@/components/ClickablePoster";
 export default function Trending() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  const [layout, setLayout] = useState<"list" | "masonry">("masonry");
+  const [layout, setLayout] = useState<"list" | "masonry">("list");
   const scrollRef = useRef<any>(null);
 
   const [scrollPositions, setScrollPositions] = useState<number[]>([0, 0, 0]);
@@ -49,6 +49,11 @@ export default function Trending() {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
+  };
+
+  const handleLayoutToggle = () => {
+    if (layout === "list") setLayout("masonry");
+    else setLayout("list");
   };
 
   const handleScroll = useCallback(
@@ -102,11 +107,13 @@ export default function Trending() {
   return (
     <CustomSafeAreaView>
       <PageHeader title="Trending">
-        {/* Need mac for expo ui */}
-        {/* <Pressable onPress={() => {}}>
+        {/* <Pressable onPress={handleLayoutToggle}>
           <Feather name="layout" size={24} color="black" />
-          <Feather name="grid" size={24} color="black" />
-          <Feather name="list" size={24} color="black" />
+          {layout === "list" ? (
+            <Feather name="grid" size={24} color="black" />
+          ) : (
+            <Feather name="list" size={24} color="black" />
+          )}
         </Pressable> */}
       </PageHeader>
       <SegmentedControl
@@ -141,6 +148,8 @@ export default function Trending() {
         <FlashList
           masonry
           numColumns={3}
+          ref={scrollRef}
+          onScroll={handleScroll}
           contentContainerStyle={{ paddingBottom: 90 }}
           onEndReachedThreshold={0.6}
           onEndReached={handleLoadMore}
