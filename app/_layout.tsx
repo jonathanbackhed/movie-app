@@ -4,15 +4,21 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDeviceContext } from "twrnc";
+import { useTheme } from "@/lib/hooks/useTheme";
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  useDeviceContext(tw);
+  useDeviceContext(tw, {
+    observeDeviceColorSchemeChanges: false,
+    initialColorScheme: "dark",
+  });
+
+  useTheme();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <StatusBar />
+      <StatusBar style="auto" />
       <SafeAreaProvider>
         <Stack key={tw.memoBuster}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
