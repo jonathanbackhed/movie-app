@@ -59,8 +59,19 @@ export default function Profile() {
           <SettingsRow text="Dark mode" value={darkMode} onValueChange={handleToggleDarkMode} hideBorderIfOff />
           {darkMode && (
             <>
-              <SettingsRow text="Follow device" value={followDevice} onValueChange={handleToggleFollowDevice} />
-              <SettingsRow text="Dusk mode" value={duskMode} onValueChange={handleToggleDuskMode} hideBorder />
+              <SettingsRow
+                subSetting
+                text="Follow device"
+                value={followDevice}
+                onValueChange={handleToggleFollowDevice}
+              />
+              <SettingsRow
+                subSetting
+                text="Dusk mode"
+                value={duskMode}
+                onValueChange={handleToggleDuskMode}
+                hideBorder
+              />
             </>
           )}
         </SettingsWrapper>

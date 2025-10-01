@@ -8,6 +8,7 @@ interface Props {
   onValueChange: (value: boolean) => void;
   hideBorder?: boolean;
   hideBorderIfOff?: boolean;
+  subSetting?: boolean;
 }
 
 export default function SettingsRow({
@@ -16,6 +17,7 @@ export default function SettingsRow({
   onValueChange,
   hideBorder = false,
   hideBorderIfOff = false,
+  subSetting = false,
 }: Props) {
   if (hideBorderIfOff && !value) {
     hideBorder = true;
@@ -25,6 +27,7 @@ export default function SettingsRow({
     <View
       style={tw.style(`flex-row justify-between p-3`, {
         "border-b border-zinc-300 dark:border-zinc-700": !hideBorder,
+        "ml-4": subSetting,
       })}>
       <Text style={tw`text-lg dark:text-white`}>{text}</Text>
       <Switch onValueChange={onValueChange} value={value} />
