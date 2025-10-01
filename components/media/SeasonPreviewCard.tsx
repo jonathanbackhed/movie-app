@@ -44,7 +44,7 @@ export default function SeasonPreviewCard({
     <>
       <Pressable
         onPress={() => setIsModalOpen(true)}
-        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-xl p-2 shadow-sm flex-row ${
+        style={tw`w-[300px] h-auto mx-2 bg-white rounded-xl p-2 shadow-sm flex-row ${
           duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
         }`}>
         <Image
@@ -102,7 +102,7 @@ export default function SeasonPreviewCard({
             {episodesData?.episodes?.map((episode: EpisodeFull) => (
               <View
                 key={episode?.id}
-                style={tw`mb-2 p-2 bg-zinc-100 rounded-xl ${duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"}`}>
+                style={tw`mb-2 p-2 bg-white rounded-xl ${duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"}`}>
                 <View style={tw`flex-row justify-between items-start mb-2`}>
                   <View style={tw`flex-1`}>
                     <Text style={tw`font-bold text-lg dark:text-white`}>

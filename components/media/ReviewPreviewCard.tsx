@@ -27,10 +27,9 @@ export default function ReviewPreviewCard({ path, name, rating, content, date, u
     <>
       <Pressable
         onPress={() => setIsModalOpen(true)}
-        style={tw`w-[300px] h-auto mx-2 bg-zinc-50 rounded-xl p-2 shadow-sm ${
+        style={tw`w-[300px] h-auto mx-2 bg-white rounded-xl p-2 shadow-sm ${
           duskMode ? "dark:bg-zinc-800" : "dark:bg-zinc-900"
-        }`}
-      >
+        }`}>
         <View style={tw`flex-1 flex-row items-center mb-1`}>
           <View style={tw`flex-1 items-start`}>
             <Text numberOfLines={7} ellipsizeMode="tail" style={tw`flex-1 dark:text-white`}>
