@@ -2,22 +2,20 @@
 
 This project is mainly for exploring liquid glass in React Native but also to have something to show for.
 
-> [!WARNING]
-> Only tested on iOS 26, no idea how it looks/works on older versions/android
+> [!IMPORTANT]
+> Only tested on iOS 26 via Expo Go, no idea how it looks/works on older versions/android
 
 ## Get started
 
 1. Clone repository.
 
-2. Install [Bun](https://bun.com/) if you havent already.
+2. Install [Bun](https://bun.com/) if you haven't already.
 
 3. Go to [TMDB](https://www.themoviedb.org/) > sign in > settings > api and grab your api key.
 
 4. Create a .env file in the root and add the following:
 
    ```
-   EXPO_PUBLIC_API_URL=https://api.themoviedb.org/3
-   EXPO_PUBLIC_IMAGE_URL=https://image.tmdb.org/t/p
    EXPO_PUBLIC_API_KEY=<<YOUR_KEY_HERE>>
    ```
 
@@ -41,9 +39,9 @@ This project is mainly for exploring liquid glass in React Native but also to ha
 
 ## 🤓 Shortcomings
 
-API abuse isn't prevented
+API abuse isn't prevented and api key would be bundeled with the app
 
-> If you were to publish this you would probably want a backend that handles the fetching from TMDB to minimize the risk of API abuse. Either implement full auth or at least anonymous user accounts to be able to rate limit/suspend.
+> If you were to publish this you would probably want a backend that handles the fetching from TMDB to minimize the risk of API abuse and to not leak your api key. You would either implement full auth or at least anonymous user accounts to be able to rate limit/suspend.
 
 ## ⚠️ Known issues
 
