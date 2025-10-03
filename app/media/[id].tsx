@@ -1,12 +1,11 @@
 import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useState } from "react";
 import tw from "@/lib/tailwind";
-import { useIsPreview, useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useFullMediaDetails } from "@/lib/hooks/useMedia";
 import { Image } from "expo-image";
 import { BASE_IMAGE_URL } from "@/constants/settings";
 import { CastMember, CrewMember, Genre, Movie, Provider, Season, TVSeries } from "@/interfaces";
-import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Entypo from "@expo/vector-icons/Entypo";
 import Credits from "@/components/media/Credits";
@@ -26,9 +25,6 @@ import TextBubble from "@/components/TextBubble";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
-  const router = useRouter();
-  const isPreview = useIsPreview();
-  const { hideAdult } = useSettingsStore();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -52,8 +48,6 @@ export default function MediaDetail() {
   ];
 
   const unreleased = isUnreleased(type === "movie" ? mediaMovie?.release_date : mediaSeries?.first_air_date);
-
-  if (media?.adult && hideAdult && !isPreview) router.back();
 
   if (details?.isError) {
     return <ErrorScreen message={`Failed to load ${type === "movie" ? "movie" : "show"} details`} />;
