@@ -2,18 +2,15 @@ import HapticTab from "@/components/TabBar/HapticTab";
 import NewTabBar from "@/components/TabBar/NewTabBar";
 import BlurTabBarBackground from "@/components/TabBar/TabBarBackground";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-// import { NativeTabs, Icon, Label, Badge } from "expo-router/unstable-native-tabs";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
-import { useSettingsStore } from "@/lib/hooks/useSettingsStore";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 
 export default function TabsLayout() {
-  const { useOldTabBar } = useSettingsStore();
   // const canUseLiquidGlass = Platform.OS === "ios" && Platform.Version >= "26";
 
-  if (!useOldTabBar && isLiquidGlassAvailable()) {
+  if (isLiquidGlassAvailable()) {
     return <NewTabBar />;
   }
 
@@ -55,8 +52,6 @@ export default function TabsLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ size, color }) => <FontAwesome5 name="user-alt" size={size} color={color} />,
-          //   tabBarBadge: 3,
-          //   tabBarBadgeStyle: { backgroundColor: "black", color: "white" },
         }}
       />
     </Tabs>

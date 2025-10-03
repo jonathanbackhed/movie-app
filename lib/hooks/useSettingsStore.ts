@@ -11,8 +11,6 @@ interface SettingsState {
   setFollowDevice: (followDevice: boolean) => void;
   duskMode: boolean;
   setDuskMode: (duskMode: boolean) => void;
-  useOldTabBar: boolean;
-  setUseOldTabBar: (useOldTabBar: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -26,8 +24,6 @@ export const useSettingsStore = create<SettingsState>()(
       setFollowDevice: (followDevice: boolean) => set({ followDevice }),
       duskMode: false,
       setDuskMode: (duskMode: boolean) => set({ duskMode }),
-      useOldTabBar: false,
-      setUseOldTabBar: (useOldTabBar: boolean) => set({ useOldTabBar }),
     }),
     {
       name: "settings-store",
