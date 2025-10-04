@@ -23,6 +23,7 @@ import Rating from "@/components/Rating";
 import { BackdropSize, PosterSize } from "@/constants/enums";
 import TextBubble from "@/components/TextBubble";
 import ToggleWatchlistButton from "@/components/ToggleWatchlistButton";
+import ZoomableImage from "@/components/ZoomableImage";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -66,13 +67,15 @@ export default function MediaDetail() {
           blurRadius={30}
         />
         <SafeAreaView edges={["top"]} style={tw`absolute top-0 left-0 w-full h-full items-center justify-center`}>
-          <Image
-            source={BASE_IMAGE_URL + PosterSize.w342 + media?.poster_path}
-            alt="poster"
-            contentFit="contain"
-            cachePolicy="none"
-            style={[tw`w-[154px] aspect-2/3 rounded-xl`]}
-          />
+          <ZoomableImage poster_path={BASE_IMAGE_URL + PosterSize.original + media?.poster_path}>
+            <Image
+              source={BASE_IMAGE_URL + PosterSize.w342 + media?.poster_path}
+              alt="poster"
+              contentFit="contain"
+              cachePolicy="none"
+              style={[tw`w-[154px] aspect-2/3 rounded-xl`]}
+            />
+          </ZoomableImage>
         </SafeAreaView>
       </View>
       <View style={tw`mx-2 mb-2`}>
@@ -136,6 +139,7 @@ export default function MediaDetail() {
       <Reviews data={reviews?.data?.results || []} />
 
       <Images title="Images" data={images?.data?.backdrops || []} />
+
       {/* <Images title="Alternate posters" data={images?.data?.posters || []} isPoster /> */}
 
       <Recommended data={recommendations?.data?.results || []} />
