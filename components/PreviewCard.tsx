@@ -11,6 +11,7 @@ import { formatDateShowYearOnly, isUnreleased } from "@/lib/utils/dateUtils";
 import { PosterSize } from "@/constants/enums";
 import { MediaShort } from "@/interfaces";
 import TextBubble from "./TextBubble";
+import { useWatchlistStore } from "@/lib/hooks/useWatchlistStore";
 
 interface Props {
   id: number;
@@ -38,6 +39,7 @@ const PreviewCard = memo(function PreviewCard({
   knownFor,
 }: Props) {
   const { setHideAdult } = useSettingsStore();
+  const { add, remove, hasItem } = useWatchlistStore();
 
   const handleHideAdult = () => {
     setHideAdult(true);
@@ -50,6 +52,8 @@ const PreviewCard = memo(function PreviewCard({
   };
 
   const unreleased = isUnreleased(year);
+
+  const itemInWatchlist = hasItem(id);
 
   return type === "person" ? (
     <Link href={`/person/${id}`} style={tw`flex-row mb-2`}>
@@ -70,8 +74,8 @@ const PreviewCard = memo(function PreviewCard({
               {subTitle}
             </Text>
             <View style={tw`mt-2`}>
-              <View style={tw``}>
-                <Text style={tw`font-bold text-xs`}>Known for:</Text>
+              <View>
+                <Text style={tw`font-bold text-xs dark:text-white`}>Known for:</Text>
                 <View style={tw`flex-row flex-wrap`}>
                   {knownFor &&
                     knownFor.length > 0 &&
@@ -90,16 +94,11 @@ const PreviewCard = memo(function PreviewCard({
         </View>
       </Link.Trigger>
       <Link.Preview />
-      {adult ? (
-        <Link.Menu>
-          <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
-          <Link.MenuAction title="Hide adult content" icon="minus.circle" onPress={handleHideAdult} />
-        </Link.Menu>
-      ) : (
-        <Link.Menu>
-          <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
-        </Link.Menu>
-      )}
+
+      <Link.Menu>
+        <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
+        {adult ? <Link.MenuAction title="Hide adult content" icon="minus.circle" onPress={handleHideAdult} /> : <></>}
+      </Link.Menu>
     </Link>
   ) : (
     <Link href={`/media/${id}?type=${type}`} style={tw`flex-row mb-2`}>
@@ -135,16 +134,19 @@ const PreviewCard = memo(function PreviewCard({
         </View>
       </Link.Trigger>
       <Link.Preview />
-      {adult ? (
-        <Link.Menu>
-          <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
-          <Link.MenuAction title="Hide adult content" icon="minus.circle" onPress={handleHideAdult} />
-        </Link.Menu>
-      ) : (
-        <Link.Menu>
-          <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
-        </Link.Menu>
-      )}
+      <Link.Menu>
+        <Link.MenuAction title="Share" icon="square.and.arrow.up" onPress={handleShare} />
+        {adult ? <Link.MenuAction title="Hide adult content" icon="minus.circle" onPress={handleHideAdult} /> : <></>}
+        {itemInWatchlist ? (
+          <Link.MenuAction title="Remove from watchlist" icon="minus.circle" onPress={() => remove(id)} />
+        ) : (
+          <Link.MenuAction
+            title="Add to watchlist"
+            icon="plus.circle"
+            onPress={() => add({ id, poster_path: image, media_type: type })}
+          />
+        )}
+      </Link.Menu>
     </Link>
   );
 });

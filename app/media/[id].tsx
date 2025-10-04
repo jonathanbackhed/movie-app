@@ -22,6 +22,7 @@ import GeneralModal from "@/components/GeneralModal";
 import Rating from "@/components/Rating";
 import { BackdropSize, PosterSize } from "@/constants/enums";
 import TextBubble from "@/components/TextBubble";
+import ToggleWatchlistButton from "@/components/ToggleWatchlistButton";
 
 export default function MediaDetail() {
   const { id, type } = useLocalSearchParams<{ id: string; type: "movie" | "tv" }>();
@@ -74,40 +75,40 @@ export default function MediaDetail() {
           />
         </SafeAreaView>
       </View>
-      <View style={tw`mx-2 mb-2 flex-row justify-between items-center`}>
-        <View>
-          <Text style={tw`text-3xl font-bold dark:text-white`}>
-            {type === "movie" ? mediaMovie?.title : mediaSeries?.name}
-          </Text>
-          <View style={tw`flex-row items-center mb-1`}>
-            <Text style={tw`font-bold mr-2 dark:text-white`}>
-              {type === "movie"
-                ? formatDateShowYearOnly(mediaMovie?.release_date || "")
-                : formatDateShowYearOnly(mediaSeries?.first_air_date, mediaSeries?.last_air_date)}
+      <View style={tw`mx-2 mb-2`}>
+        <View style={tw`flex-row`}>
+          <View style={tw`flex-1`}>
+            <Text numberOfLines={2} style={tw`text-3xl font-bold dark:text-white`}>
+              {type === "movie" ? mediaMovie?.title : mediaSeries?.name}
             </Text>
-            <Rating rating={media?.vote_average} customStyle="mr-2" />
-            {type === "movie" ? (
-              <Text style={tw`mr-2 font-bold dark:text-white`}>{formatRuntime(mediaMovie?.runtime)}</Text>
-            ) : (
-              <Text style={tw`mr-2 font-bold dark:text-white`}>
-                {mediaSeries?.number_of_seasons > 1
-                  ? `${mediaSeries?.number_of_seasons} seasons`
-                  : `${mediaSeries?.number_of_seasons} season`}
-              </Text>
-            )}
           </View>
-          {unreleased && (
-            <View style={tw`flex-row items-center`}>
-              <TextBubble text="UNRELEASED" color="bg-lime-400" />
-              <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
-                Releasing {type === "movie" ? mediaMovie?.release_date : mediaSeries?.first_air_date}
-              </Text>
-            </View>
+          <ToggleWatchlistButton id={media?.id} poster_path={media?.poster_path ?? ""} media_type={type} />
+        </View>
+        <View style={tw`flex-row items-center mb-1`}>
+          <Text style={tw`font-bold mr-2 dark:text-white`}>
+            {type === "movie"
+              ? formatDateShowYearOnly(mediaMovie?.release_date || "")
+              : formatDateShowYearOnly(mediaSeries?.first_air_date, mediaSeries?.last_air_date)}
+          </Text>
+          <Rating rating={media?.vote_average} customStyle="mr-2" />
+          {type === "movie" ? (
+            <Text style={tw`mr-2 font-bold dark:text-white`}>{formatRuntime(mediaMovie?.runtime)}</Text>
+          ) : (
+            <Text style={tw`mr-2 font-bold dark:text-white`}>
+              {mediaSeries?.number_of_seasons > 1
+                ? `${mediaSeries?.number_of_seasons} seasons`
+                : `${mediaSeries?.number_of_seasons} season`}
+            </Text>
           )}
         </View>
-        {/* <Pressable onPress={() => WebBrowser.openBrowserAsync(`https://www.imdb.com/title/${details?.data?.imdb_id}`)}>
-          <FontAwesome name="imdb" size={48} color="#f3ce13" />
-        </Pressable> */}
+        {unreleased && (
+          <View style={tw`flex-row items-center`}>
+            <TextBubble text="UNRELEASED" color="bg-lime-400" />
+            <Text style={tw`mr-2 font-bold text-xs dark:text-white`}>
+              Releasing {type === "movie" ? mediaMovie?.release_date : mediaSeries?.first_air_date}
+            </Text>
+          </View>
+        )}
       </View>
       <ScrollView horizontal style={tw`mb-4`} showsHorizontalScrollIndicator={false}>
         <View style={tw`flex-row mx-2`}>
