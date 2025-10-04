@@ -33,8 +33,6 @@ export default function Profile() {
     setDuskMode(newValue);
   };
 
-  console.log("Watchlist items:", watchlist.length);
-
   return (
     <CustomSafeAreaView customStyles="pb-[90px]">
       <PageHeader title="Profile" />
