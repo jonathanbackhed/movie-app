@@ -16,11 +16,11 @@ interface SettingsState {
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      hideAdult: false,
+      hideAdult: true,
       setHideAdult: (hideAdult: boolean) => set({ hideAdult }),
       darkMode: false,
       setDarkMode: (darkMode: boolean) => set({ darkMode }),
-      followDevice: true,
+      followDevice: false,
       setFollowDevice: (followDevice: boolean) => set({ followDevice }),
       duskMode: false,
       setDuskMode: (duskMode: boolean) => set({ duskMode }),

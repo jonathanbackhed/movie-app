@@ -33,19 +33,21 @@ export default function Profile() {
     setDuskMode(newValue);
   };
 
+  console.log("Watchlist items:", watchlist.length);
+
   return (
     <CustomSafeAreaView customStyles="pb-[90px]">
       <PageHeader title="Profile" />
 
-      {/* <View style={tw`items-center justify-center mb-2`}>
+      {/* <View style={tw`items-center justify-center mb-4`}>
         <View style={tw`my-4 bg-zinc-700 dark:bg-zinc-500 h-40 w-40 rounded-full`}></View>
         <Text style={tw`text-3xl font-bold dark:text-white`}>John Doe</Text>
       </View> */}
 
-      {watchlist.length > 0 && (
-        <View style={tw`mb-2`}>
-          <SectionHeader title="Watchlist" />
-          <SettingsWrapper customStyles="py-2">
+      <View style={tw`mb-2`}>
+        <SectionHeader title="Watchlist" />
+        <SettingsWrapper customStyles="py-2">
+          {watchlist.length > 0 ? (
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {watchlist.map((item: WatchlistItem) => (
                 <View key={item.id} style={tw`relative`}>
@@ -58,9 +60,13 @@ export default function Profile() {
                 </View>
               ))}
             </ScrollView>
-          </SettingsWrapper>
-        </View>
-      )}
+          ) : (
+            <View style={tw`h-[138px] items-center justify-center`}>
+              <Text style={tw`text-zinc-500`}>Your watchlist is empty</Text>
+            </View>
+          )}
+        </SettingsWrapper>
+      </View>
 
       <View style={tw`mb-auto`}>
         <SectionHeader title="Settings" />
