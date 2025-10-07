@@ -19,7 +19,10 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarBackground: BlurTabBarBackground,
+        tabBarBackground: Platform.select({
+          ios: BlurTabBarBackground,
+          default: undefined,
+        }),
         tabBarStyle: Platform.select({
           ios: { position: "absolute", borderTopColor: "transparent" },
           default: {},
