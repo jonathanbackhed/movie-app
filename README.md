@@ -15,7 +15,7 @@ This project is mainly for exploring liquid glass in React Native but also to ha
 
 4. Create a .env file in the root and add the following:
 
-   ```
+   ```bash
    EXPO_PUBLIC_API_KEY=<<YOUR_KEY_HERE>>
    ```
 
@@ -26,16 +26,22 @@ This project is mainly for exploring liquid glass in React Native but also to ha
    ```
 
 6. Run the project
+
    ```bash
    bun run start
    ```
 
-## 🚀 Features (so far)
+7. Open the app with Expo Go
 
+## 🚀 Features
+
+- Home page to see now playing, upcoming, top-lists etc...
 - Trending page to see whats hot 🔥
 - Search page to find what you're looking for 👀
 - Fully fledged details page to see reviews, images, recommendations etc ℹ️
-- Automatic light/dark theme switching
+- Details page for actors/crew to see social media, images and known-for ℹ️
+- Local watchlist
+- Theme settings including light/dark, follow device and dark-ish
 
 ## 🤓 Shortcomings
 
@@ -49,29 +55,52 @@ Switching theme causes full re-render
 
 > Expo router and React Compiler use a lot of memoization which causes issues with the design system I'm using. I'm waiting for NativeWind v5 to see if that solves the problem, otherwise I'm switching to React Native Stylesheets.
 
-## 🖼️ Some images/gifs
+Dates from TMDB are a mess
+
+> The way TMDB handles dates makes it annoying to get what you want so sometimes an already released movie/series will show up in the "Upcoming" section. Easily fixable by fetching all dates for each movie/series and check the actual date.
+
+## 🖼️ Images of the app
 
 <p align="center">
-  <img src="assets/github/IMG_0940.PNG" alt="Screenshot of trending page in light mode" width="45%" />
-  <img src="assets/github/IMG_0948.PNG" alt="Screenshot of trending page in dark mode" width="45%" />
+  <img src="assets/github/home-light.PNG" alt="Screenshot of home page in light mode" width="45%" />
+  <img src="assets/github/home-dark.PNG" alt="Screenshot of home page in dark mode" width="45%" />
 </p>
 
 <p align="center">
-  <img src="assets\github\IMG_0950(1).PNG" alt="Screenshot of search page in light mode" width="45%" />
-  <img src="assets\github\IMG_0949.PNG" alt="Screenshot of search page in dark mode" width="45%" />
+  <img src="assets/github/trending-light.PNG" alt="Screenshot of trending page in light mode" width="45%" />
+  <img src="assets/github/trending-dark.PNG" alt="Screenshot of trending page in dark mode" width="45%" />
 </p>
 
 <p align="center">
-  <img src="assets\github\IMG_0942.PNG" alt="Screenshot of details page in light mode" width="45%" />
-  <img src="assets\github\IMG_0945.PNG" alt="Screenshot of details page in dark mode" width="45%" />
+  <img src="assets\github\preview.PNG" alt="Screenshot of search page in light mode" width="45%" />
 </p>
 
 <p align="center">
-  <img src="assets\github\IMG_0943.PNG" alt="Screenshot of details page in light mode" width="45%" />
-  <img src="assets\github\IMG_0947.PNG" alt="Screenshot of details page in dark mode" width="45%" />
+  <img src="assets\github\search-light.PNG" alt="Screenshot of search page in light mode" width="45%" />
+  <img src="assets\github\search-dark.PNG" alt="Screenshot of search page in dark mode" width="45%" />
 </p>
 
 <p align="center">
-  <img src="assets\github\IMG_0944.PNG" alt="Screenshot of details page in light mode" width="45%" />
-  <img src="assets\github\IMG_0951.PNG" alt="Screenshot of details page in dark mode" width="45%" />
+  <img src="assets\github\media-light.PNG" alt="Screenshot of details page in light mode" width="45%" />
+  <img src="assets\github\media-dark.PNG" alt="Screenshot of details page in dark mode" width="45%" />
+</p>
+
+<p align="center">
+  <img src="assets\github\media-zoomed-poster.PNG" alt="Screenshot of details page zoomed in poster" width="45%" />
+  <img src="assets\github\media-scrolled.PNG" alt="Screenshot of details page scrolled down" width="45%" />
+</p>
+
+<p align="center">
+  <img src="assets\github\media-season.PNG" alt="Screenshot of details page season" width="45%" />
+  <img src="assets\github\media-review.PNG" alt="Screenshot of details page review" width="45%" />
+</p>
+
+<p align="center">
+  <img src="assets\github\person-light.PNG" alt="Screenshot of person page in light mode" width="45%" />
+  <img src="assets\github\person-dark.PNG" alt="Screenshot of person page in dark mode" width="45%" />
+</p>
+
+<p align="center">
+  <img src="assets\github\settings-light.PNG" alt="Screenshot of profile page in light mode" width="45%" />
+  <img src="assets\github\settings-dark.PNG" alt="Screenshot of profile page in dark mode" width="45%" />
 </p>
