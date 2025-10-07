@@ -10,11 +10,12 @@ import { GlassView } from "expo-glass-effect";
 interface Props {
   children: React.ReactNode;
   poster_path: string;
+  isPoster?: boolean;
 }
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function ZoomableImage({ children, poster_path }: Props) {
+export default function ZoomableImage({ children, poster_path, isPoster = false }: Props) {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
@@ -91,7 +92,7 @@ export default function ZoomableImage({ children, poster_path }: Props) {
                       },
                     ],
                     width: SCREEN_WIDTH * 0.9,
-                    aspectRatio: 2 / 3,
+                    aspectRatio: isPoster ? 2 / 3 : 16 / 9,
                   }}>
                   <Image
                     source={poster_path}

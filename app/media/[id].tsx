@@ -67,7 +67,7 @@ export default function MediaDetail() {
           blurRadius={30}
         />
         <SafeAreaView edges={["top"]} style={tw`absolute top-0 left-0 w-full h-full items-center justify-center`}>
-          <ZoomableImage poster_path={BASE_IMAGE_URL + PosterSize.original + media?.poster_path}>
+          <ZoomableImage isPoster poster_path={BASE_IMAGE_URL + PosterSize.original + media?.poster_path}>
             <Image
               source={BASE_IMAGE_URL + PosterSize.w342 + media?.poster_path}
               alt="poster"

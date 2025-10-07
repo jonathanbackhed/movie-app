@@ -16,6 +16,7 @@ import Images from "@/components/media/Images";
 import KnownFor from "@/components/person/KnownFor";
 import * as WebBrowser from "expo-web-browser";
 import { PosterSize } from "@/constants/enums";
+import ZoomableImage from "@/components/ZoomableImage";
 
 export default function PersonDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -65,15 +66,16 @@ export default function PersonDetails() {
           style={tw`flex-1`}
           blurRadius={300}
         />
-        {/* <View style={tw`bg-sky-400 flex-1`}></View> */}
         <SafeAreaView edges={["top"]} style={tw`absolute top-0 left-0 w-full h-full items-center justify-center`}>
-          <Image
-            source={BASE_IMAGE_URL + PosterSize.w342 + details?.data?.profile_path}
-            alt="poster"
-            contentFit="contain"
-            cachePolicy="none"
-            style={[tw`w-[154px] aspect-2/3 rounded-xl`]}
-          />
+          <ZoomableImage isPoster poster_path={BASE_IMAGE_URL + PosterSize.original + details?.data?.profile_path}>
+            <Image
+              source={BASE_IMAGE_URL + PosterSize.w342 + details?.data?.profile_path}
+              alt="poster"
+              contentFit="contain"
+              cachePolicy="none"
+              style={[tw`w-[154px] aspect-2/3 rounded-xl`]}
+            />
+          </ZoomableImage>
         </SafeAreaView>
       </View>
       <View style={tw`mx-2 mb-2 flex-row justify-between items-center`}>
